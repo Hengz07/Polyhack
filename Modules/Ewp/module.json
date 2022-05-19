@@ -1,0 +1,13 @@
+{
+    "name": "Ewp",
+    "alias": "ewp",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Ewp\\Providers\\EwpServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
