@@ -58,7 +58,19 @@ class AppServiceProvider extends ServiceProvider
                     [
                         'text' => __('Dashboard'),
                         'icon' => 'fas fa-fw fa-file',
-                        'route' => 'site.modules.index',
+                        'route' => 'ewp.dahsboard',
+                        'active' => [],
+                    ],
+                    [
+                        'text' => __('Questions'),
+                        'icon' => 'fas fa-fw fa-file',
+                        'route' => 'ewp.setup.questions',
+                        'active' => [],
+                    ],
+                    [
+                        'text' => __('Scale'),
+                        'icon' => 'fas fa-fw fa-file',
+                        'route' => 'setup.scale',
                         'active' => [],
                     ]
                 ]

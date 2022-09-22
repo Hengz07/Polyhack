@@ -11,6 +11,12 @@
 |
 */
 
+
+
 Route::prefix('ewp')->group(function() {
-    Route::get('/', 'EwpController@index');
+    Route::group(['middleware' => 'auth'], function() {
+        foreach (glob(__DIR__. '/*') as $router_files){
+            (basename($router_files =='web.php')) ? : (require_once $router_files);
+        }
+    });
 });
