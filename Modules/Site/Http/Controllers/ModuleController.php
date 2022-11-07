@@ -34,7 +34,7 @@ class ModuleController extends Controller
                 $query->orWhere('code', 'like', '%' . $search . '%');
             }
         })->latest('created_at')->paginate($limit);
-        $modules->setPath('');
+        $modules->setPath('Modules\Site\Entities\Module');
         
         ## store current url 
         session()->put('backUrl', config('app.https') ? str_replace('http', 'https', URL::full()) : URL::full());

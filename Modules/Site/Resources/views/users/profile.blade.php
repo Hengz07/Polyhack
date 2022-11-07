@@ -15,6 +15,7 @@
     </div>
 </div>
 @stop
+
 @section('content')
 <div class="container">
     <div class="row">
@@ -25,7 +26,7 @@
                         <a href="{{ route('site.users.edit_profile') }}" class="{{ config('adminlte.btn_edit') }}">Edit <i class="fa fa-edit"></i></a>
                     </p>
                     <p class="card-text">
-                        <img src="https://portal.um.edu.my/ihris/gambar_staff/{{ $user->profile->salary_no }}.jpg" alt="" style="width:120px;">
+                        <img src="https://portal.um.edu.my/ihris/gambar_staff/{{ $user->profile->profile_no }}.jpg" alt="" style="width:120px;">
                         <h2>{{ $user->name }}</h2>
                         <div><i class="fa fa-envelope"></i> {{ $user->email }}</div>
                         <div><i class="fa fa-phone"></i> {{ $user->profile->office_no }}</div>
@@ -33,7 +34,7 @@
                         <div><i class="fa fa-phone"></i> {{ $user->profile->hp_no }}</div>    
                         @endif
                         
-
+                        {{-- Get role names --}}
                         <div>
                             @if(!empty($user->getRoleNames()))
                                 @foreach($user->getRoleNames() as $v)
@@ -50,7 +51,6 @@
                 </div>
             </div>
         </div>
-    
     </div>
 </div>
 

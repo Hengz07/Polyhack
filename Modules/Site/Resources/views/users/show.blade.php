@@ -22,7 +22,7 @@
             <div class="{{ config('adminlte.card_default') }}">
                 <div class="card-body text-center">
                     <p class="card-text">
-                        <img src="https://portal.um.edu.my/ihris/gambar_staff/{{ $user->profile->salary_no }}.jpg" alt="" style="width:120px;">
+                        {{-- <img src="https://portal.um.edu.my/ihris/gambar_staff/{{ $user->profile->salary_no }}.jpg" alt="" style="width:120px;"> --}}
                         <h2>{{ $user->name }}</h2>
                         <div><i class="fa fa-envelope"></i> {{ $user->email }}</div>
                         <div><i class="fa fa-phone"></i> {{ $user->profile->office_no }}</div>

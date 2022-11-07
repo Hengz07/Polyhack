@@ -18,7 +18,7 @@
     {{-- User menu toggler --}}
     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
         @if (config('adminlte.usermenu_image'))
-            <img src="https://portal.um.edu.my/ihris/gambar_staff/{{ auth()->user()->profile->salary_no }}.jpg"
+            <img src="https://portal.um.edu.my/ihris/gambar_staff/{{ auth()->user()->profile }}.jpg"
                 class="user-image img-circle elevation-2" alt="">
         @endif
         <span @if (config('adminlte.usermenu_image')) class="d-none d-md-inline" @endif>
@@ -34,7 +34,7 @@
             <li
                 class="user-header {{ config('adminlte.usermenu_header_class', 'bg-primary') }} @if (!config('adminlte.usermenu_image')) h-auto @endif">
                 @if (config('adminlte.usermenu_image'))
-                    <img src="https://portal.um.edu.my/ihris/gambar_staff/{{ auth()->user()->profile->salary_no }}.jpg"
+                    <img src="https://portal.um.edu.my/ihris/gambar_staff/{{ auth()->user()->profile }}.jpg"
                         class="img-circle elevation-2" alt="{{ Auth::user()->name }}">
                 @endif
                 <p class="@if (!config('adminlte.usermenu_image')) mt-0 @endif">
@@ -62,7 +62,7 @@
                 @yield('usermenu_body')
             </li>
         @endif
-
+            
         {{-- User menu footer --}}
         <li class="user-footer">
             @if ($profile_url)
@@ -92,7 +92,5 @@
             @endif
 
         </li>
-
     </ul>
-
 </li>

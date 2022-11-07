@@ -19,9 +19,8 @@ class CreateModuleOwnersTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->boolean('active')->default(1);
             $table->timestamps();
-        });
-
-        Schema::table('module_owners', function (Blueprint $table) {
+            $table->timestamp('deleted_at');
+        
             $table->unsignedBigInteger('created_by')->after('created_at')->nullable();
             $table->unsignedBigInteger('updated_by')->after('updated_at')->nullable();
 

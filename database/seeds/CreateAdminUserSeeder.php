@@ -37,15 +37,29 @@ class CreateAdminUserSeeder extends Seeder
 
         if (env('HAS_CAS')) {
             ## create user haezal
+            // $user = User::create([
+            //     'name' => 'ENCIK TUN AMIN BIN MANAN',
+            //     'email' => 'tunamin@um.edu.my',
+            //     'password' => bcrypt('abcd1234'),
+            // ]);    
+
             $user = User::create([
-                'name' => 'ENCIK TUN AMIN BIN MANAN',
-                'email' => 'tunamin@um.edu.my',
+                'name' => 'MUHAMMAD HABIEL WAFI BIN ZAIRI',
+                'email' => 'habiel@um.edu.my',
                 'password' => bcrypt('abcd1234'),
-            ]);    
-            $user->profile()->updateOrCreate(['user_id' => $user->id], [
-                'salary_no' => '00014987',
             ]);
-            $user->assignRole([$role->id,config('constants.role.normalUser')]);
+
+            // $user->profile()->updateOrCreate(['user_id' => $user->id], [
+            //     'um_no' => '00014987',
+            // ]);
+
+            $user->profile()->updateOrCreate(['user_id' => $user->id], [
+                'user_id' => '987654321',
+                'profile_no' => '123456789',
+            ]);
+            
+
+            $user->assignRole([$role->id,config('constants.role.superAdmin')]);
         }
 
     }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Profile extends Model
 {
-    protected $connection = 'mysql';
+    //protected $connection = 'mysql';
     protected $primaryKey = 'user_id';
     public $incrementing = false;
 

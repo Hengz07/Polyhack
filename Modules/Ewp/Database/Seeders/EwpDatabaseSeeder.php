@@ -16,6 +16,6 @@ class EwpDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        // $this->call("OthersTableSeeder");
+         $this->call("OthersTableSeeder");
     }
 }

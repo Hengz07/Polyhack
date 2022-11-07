@@ -12,9 +12,9 @@ class EwpController extends Controller
      * Display a listing of the resource.
      * @return Renderable
      */
-    public function index()
+    public function dashboard()
     {
-        return view('ewp::index');
+        return view('ewp::setup\questions\dashboard');
     }
 
     /**

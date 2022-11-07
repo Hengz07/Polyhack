@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsersTable extends Migration
+class CreateEwpOverallReportTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,16 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('ewp_overall_report', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid');
-            $table->string('name', 255)->nullable();
-            $table->string('email', 255)->nullable();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password')->nullable();
-            $table->rememberToken('remember_token')->nullable();
+            $table->integer('user_id');
+            $table->integer('profile_id');
+            $table->string('session', 8);
+            $table->string('sem', 8)->nullable();
+            $table->jsonb('part_d');
+            $table->jsonb('part_a');
+            $table->jsonb('part_s');
             $table->string('createdby', 100)->nullable();
             $table->string('updatedby', 100)->nullable();
             $table->timestamps();
@@ -34,6 +36,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('ewp_overall_report');
     }
 }

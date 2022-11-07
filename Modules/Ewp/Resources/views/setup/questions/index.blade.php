@@ -1,15 +1,15 @@
 @extends('adminlte::page')
 
-@section('title', config('app.name') . ' - ')
+@section('title', $title ?? "")
 
 @section('content_header')
 <div class="d-flex">
-    <div class="mr-auto p-2"><h1>Questions</h1></div>
+    <div class="mr-auto p-2"><h1>QUESTION</h1></div>
     <div class="p-2">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Questions</li>
+                <li class="breadcrumb-item active" aria-current="page">{{ "Question" }}</li>
             </ol>
         </nav>
     </div>
@@ -19,74 +19,99 @@
 @section('content')
 <div class="container-fluid">
     <div class="{{ config('adminlte.card_default') }}">
-        <div class="card-body">
+        <div class="card-body"> 
 
             <div class="d-flex p-0">
                 <div class="mr-auto">
-                    @can('role-create')
-                        @include('widgets._addButton', ['route' => route('ewp.setup.questions.create'), 'label' => __('Add new')])
-                    @endcan
+                    {{-- Add Question --}}
+                        <a type="button" class="btn btn-success showQuestion" data-route="ewp/setup/questions" 
+                            id="btn2" data-title="Questions" data-toggle="modal" title="Add">
+                            <i class="fa fa-plus"></i></a>
+                    {{--  --}}
                 </div>
                 <div class="">
-                    @include('widgets._searchForm', ['route' => route('ewp.setup.questions')])
+                    @include('widgets._searchForm')
                 </div>
             </div>
+            
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="thead-navy bg-navy text-center">
+                        <tr>
+                            <th style="min-width:200px"> SKOR BAHAGIAN </th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+    
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered">
+                    <thead class="thead-navy bg-navy">
+                        <tr>
+                            <th style="width:4%" class="text-center"> # </th>
+                            <th style="width:7%" class="text-center"> Code </th>
+                            <th style="width:55%"> BM / BI </th>
+                            <th style="width:7%" class="text-center"> Version </th>
+                            <th style="width:7%" class="text-center"> Section </th>
+                            <th style="width:10%" class="text-center"> Actions </th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        @if (count($questions) == 0)
+                            <td style="text-align: center" colspan="8">No data availables</td>
+                        @else
+                            @foreach ($questions as $lookup => $item)
+                                <tr>
+                                    <td class="text-center">{{ ++$i }}</td>
+                                    <td class="text-center">{{ $item['code'] }}</td>
+                                    <td>
+                                        <b>{{ $item['value_local'] }}</b>
+                                        <div class="text-primary font-italic text-sm">{{ $item['value_translation'] }}</div>
+                                    </td>   
+                                    
+                                    @php 
+                                        $meta = json_decode($item['meta_value'], true)
+                                    @endphp
 
-                <div class="table-responsive">
-                    <table class="{{ config('adminlte.table_light') }}" id="roles-table" width="100%">
-                        <thead>
-                            <tr>
-                                <th style="width: 40px;">#</th>
-                                <th>{{ __('Sections') }}</th>
-                                <th>{{ __('Descritions') }}</th>
-                                <th>{{ __('Status') }}</th>
-                                <th>{{ __('Versions') }}</th>
-                                <th style="width: 20%;"></th>
-                                <th style="min-width: 180px; width: 180px;" class="text-center"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($questions as $question)
-                            <tr>
-                                <td>{{ ++$i }}</td>
-                                <td>
-                                    {{ $question->ewp_sections_code }}
-                                </td>
-                                <td><b>{{ $question->ewp_desc_bm }}</b> <div class="text-sm text-muted">{{ $question->ewp_desc_bm }}</div></td>
-                                <td>
-                                    {{ $question->ewp_status }}
-                                </td>
-                                <td>
-                                    {{ $question->ewp_versions }}
-                                </td>
-                            
-                                <td>
-                                    <div class="text-muted text-sm">{{ __("Updated on") }} </div>
-                                </td>
-                                <td class="text-right">
+                                    <td class="text-center">
+                                        {{ $meta['version'] }}
+                                    </td>
+
+                                    <td class="text-center">
+                                        {{ $meta['name'] }}
+                                    </td>
                                     
-                                    @can('role-edit')
-                                        @include('widgets._editButton', ['route' => route('site.roles.edit', $question)])
-                                    @endcan
-                                    
-                                    @can('role-delete')
-                                        @include('widgets._deleteButton', ['route' => route('site.roles.destroy', $question)])
-                                    @endcan
-                                </td>
-                            </tr>
+                                    <td class="text-center">
+                                        {{-- Edit button --}}   
+                                        <a class="{{ config("adminlte.btn_edit") }} btn showQuestion" 
+                                            data-route="ewp/setup/questions" data-id="{{ $item->id }}" data-title="Questions" 
+                                            data-toggle="modal"><i class="fa fa-edit"></i></a>
+            
+                                        {{-- Delete button --}}
+                                        <button type="button" class="btn btn-sm {{ config('adminlte.btn_delete') }} sa-warning" 
+                                            data-route="ewp/setup/questions" data-id="{{ $item->id }}" data-title="delete Questions" data-adopted="true">
+                                            <i class="fa fa-trash"  title="Click to delete questions"></i></button>
+                                                
+                                    </td>
+                                </tr>   
                             @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                        @endif
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-
 </div>
+{!! $questions->setPath('')->render() !!}
+
+@include('layouts.delete')
+@include('layouts.modal')
 
 @endsection
 
-@push('js')
-    <script>
-        $('.myTable').dataTable();
-    </script>
-@endpush
+@section('js') 
+    <script src="{{ asset('js/modal.js') }}"></script>
+    <script src="{{ asset('js/select_modal.js') }}"></script>
+    <script src="{{ asset('js/delete.js') }}"></script>
+@endsection

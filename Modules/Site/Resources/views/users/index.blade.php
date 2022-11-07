@@ -102,7 +102,6 @@
                             </a>
                             @endcan
                             @can('user-edit')
-                                
                                 @include('widgets._editButton', ['route' => route('site.users.edit',$user->id)])
                             @endcan
                             @if(auth()->user()->id != $user->id)
