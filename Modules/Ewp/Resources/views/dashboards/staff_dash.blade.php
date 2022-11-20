@@ -20,11 +20,13 @@
         <div class="row mb-3">
             <div class="card col-sm-5">
                 <div class="card-header">
-                    <a href="/ewp/dashboards/admin_dash">
-                        <button type="button" class="btn btn-warning">
-                            Admin
-                        </button>
-                    </a>
+                    @if (auth()->user()->hasRole(['SiteAdmin', 'SuperAdmin']))
+                        <a href="/ewp/dashboards/admin_dash">
+                            <button type="button" class="btn btn-warning">
+                                Admin
+                            </button>
+                        </a>
+                    @endif
                     {{-- Start Test --}}
                     <a type="button" class="btn btn-primary showReport" data-route="ewp/dashboards/reports" 
                         id="btn2" data-title="Report" data-toggle="modal" title="Save">Start Test</a>
@@ -38,22 +40,36 @@
                             <table class="table table-hover table-bordered">
                                 <thead class="thead-dark bg-dark">
                                     <tr class="text-center">
-                                        <th style="width:5%"> # </th>
-                                        <th style="width:10%"> Session / Semester </th>
-                                        <th style="width:10%"> Date </th>
-                                        <th style="width:10%"> Status </th>
+                                        <th style="width:5%" class="text-center"> # </th>
+                                        <th style="width:15%" class="text-center"> Session / Semester </th>
+                                        <th style="width:10%" class="text-center"> Date </th>
+                                        <th style="width:10%" class="text-center"> Status </th>
                                     </tr>
-                                </thead>
-            
+                                </thead> 
                                 <tbody>
-                                    @for ($i = 0; $i < 5; $i++)
-                                    <tr class="text-center">
-                                        <td> 1 </td> 
-                                        <td> 2021/2022 1 </td>
-                                        <td> 20-MAY-22 </td>
-                                        <td> UMUM </td>
-                                    </tr>
-                                    @endfor
+                                    {{-- TAKEN FROM SCHEDULES --}}
+                                    @if (count($schedules) == 0)
+                                        <td style="text-align: center" colspan="8">No data availables</td>
+                                    @else
+                                        @foreach ($schedules as $sch)
+                                            <tr>
+                                                <td class="text-center">{{ ++$i }}</td>
+                                                <td class="text-center">{{ $sch['session'] }} - {{ $sch['semester'] }}</td>
+                                                <td class="text-center">{{ date('d/m/Y') }}
+                                                <td class="text-center">
+                                                {{-- @if () --}}
+                                                    {{-- <div class="mx-4 font-italic bg-warning text-white rounded">
+                                                        IN PROGRESS
+                                                    </div> --}}
+                                                {{-- @else --}}
+                                                    <div class="mx-4 font-italic bg-success text-white rounded">
+                                                        COMPLETED
+                                                    </div>
+                                                {{-- @endif --}}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
@@ -62,12 +78,12 @@
             </div>
             
             <div class="card col-sm-7">
-                <div class="card-header">
+                <div class="card-body">
                     {{-- <div class="{{ config('adminlte.card_default') }}"> --}}
                         <div class="card-body">
                             <h2 class="text-center"> Emotional-Wellbeing Profiling Result </h2> <br>
                             <div>
-                                <figure class="highcharts-figure">
+                                <figure class="highcharts-figure col-sm">
                                     <div id="container"></div>
                                     <p class="highcharts-description">
                                         A spiderweb chart shows the test results of the Emotional-Wellbeing Profiling (EWP) test that has been answered by users (student/staffs).

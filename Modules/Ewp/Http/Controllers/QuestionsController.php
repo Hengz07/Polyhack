@@ -58,6 +58,9 @@ class QuestionsController extends Controller
         $value_translation = $request->input('value_translation');
         $desc              = $request->input('desc');
         $category          = $request->input('category');
+        
+        dd($category);
+
         $x                 = explode('-',$category);
         $order             = $request->input('order');
 
@@ -79,7 +82,7 @@ class QuestionsController extends Controller
             // 'created_by'  => Auth::user()->id,
         ];
 
-        $result = Lookups::updateOrCreate(['code' => $code],$items);
+        $result = Lookups::updateOrCreate(['code' => $code, 'value_local' => $value_local, 'value_translation' => $value_translation, 'desc' => $desc],$items);
             
         return redirect()->route('ewp.setup.questions')->with('toast_success', 'Question has been successfully created.');
     }
@@ -137,6 +140,8 @@ class QuestionsController extends Controller
         $category           = $request->input('category');
         $x                  = explode('-',$category);
         $order              = $request->input('order');
+        
+        // dd($request);
 
         $status = [
             "status"  => "Y",
@@ -167,7 +172,7 @@ class QuestionsController extends Controller
      */
     public function destroy($id)
     {
-        $questions = Lookups::findOrFail($id);
+        $questions = Lookups::findOrFail($id)->where('key', 'questions');
         $key = $questions->key;
         $questions->delete();
         return redirect()->route('ewp.setup.questions.index', ['route' => $key])

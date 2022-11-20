@@ -90,7 +90,7 @@
             
                                         {{-- Delete button --}}
                                         <button type="button" class="btn btn-sm {{ config('adminlte.btn_delete') }} sa-warning" 
-                                            data-route="ewp/setup/questions" data-id="{{ $item->id }}" data-title="delete Questions" data-adopted="true">
+                                            data-route="ewp/setup/questions" data-id="{{ $item->id }}" data-title="delete Questions">
                                             <i class="fa fa-trash"  title="Click to delete questions"></i></button>
                                                 
                                     </td>

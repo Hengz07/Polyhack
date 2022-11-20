@@ -27,7 +27,7 @@
                     </div>
         </div>
         <div class="card-body">
-
+            <form id="formsubmit" action='POST'>
             <table width="100%" border="1">
                 <tr>
                     <td colspan="2">Tandakan semua / <i class="text-primary">Tick all</i></td>
@@ -46,10 +46,11 @@
                 @if (count($question) == 0)
                 <td style="text-align: center" colspan="6">No data availables</td>
                 @else
+                @php $qCount = 0; @endphp
                 @foreach ($question as $key => $row)
                     <tr>
                         <td>{{ ++$key }}.</td>
-                        <td>{{ $row->ewp_desc_bm }}</td>
+                        <td>{{ $row['value_local'] }}</td>
 
                           @php   $tooltipdesc = '';
                             for($x =0; $x <= 3 ; $x++ ){
@@ -71,9 +72,9 @@
                         @endphp
                                 <td align="center"> 
                                                 <div class="<?=$color?> d-inline" data-toggle="tooltip"  title="<?=$tooltipdesc?>">
-                                                  <input type="radio"  id="{{ $row->id.$x }}" name="<?php echo "Q[]"; ?>" value="<?php echo $x;?>" 
+                                                    <input type="radio"  id="{{ $row->code.$x }}" name="<?php echo "Q[$row->code]"; ?>" value="<?php echo $x;?>" 
                                                   onclick="pilih(1)">
-                                                  <label class="" for="{{ $row->id.$x }}"></label>
+                                                  <label class="" for="{{ $row->code.$x }}"></label>
                                                 </div>                 
                                 </td>
                           @php  } @endphp
@@ -81,7 +82,13 @@
                 @endforeach
                 @endif
             </table>
-
+            </p>
+                <div class="pull-rigth">   
+                    <span class="float-right mr-3"> <a id='count'>0</a> / <span>{{ count($question) }}</span> &nbsp;          
+                    <input type="submit" name="submit" id="submit" class="btn btn-outline-success" style="float: right;" value="Submit" disabled="disabled"> <br>
+                </div>
+            <p>&nbsp;<small>SULIT</small></p>
+        </form>
         </div>
     </div>
 </div>
@@ -92,6 +99,70 @@
 
 @push('js')
     <script>
-        $('.myTable').dataTable();
+        $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+        });
+
+        var qCounting = 21;
+        function pilih(i){
+            var inputs = document.getElementById("formsubmit").elements;
+            count=0;
+            for (var i = 0; i < inputs.length; i++) {
+            if (inputs[i].type == 'radio' && inputs[i].checked) {
+                    count++;
+                    document.getElementById("count").innerHTML =  count;
+                }
+            }
+            // document.getElementById("totals").innerHTML =  qCounting;
+        // console.log(count +'-'+qCounting);
+        if(count == 21 )
+        
+        $("#submit").removeAttr("disabled");
+        }
+        
+        $(document).ready(function(e) {
+
+
+        $('#formsubmit').on('submit' , function(e){
+
+        e.preventDefault();
+        var data = $('#formsubmit').serializeArray();
+        var id = "{{ $uuid }}";
+        submitformSwal(data,id);
+        });
+        });
+
+        function submitformSwal(datas,ids){
+            swal.fire({
+                    title: "Simpan",
+                    text: "Maklumat yang diberikan adalah sulit",
+                    icon: "warning",
+                    buttons: true,
+                    closeOnConfirm: true,
+                    })
+                    .then((willDelete) => {
+                    if (willDelete) {
+
+                        $.ajax({
+                            url: "/ewp/survey/save",
+                            method:"POST",
+                            dataType: "json",
+                            data: {
+                                "_token": "{{ csrf_token() }}",
+                                "q": JSON.stringify(datas),
+                                "id": ids,
+                                },
+                            success: function(data){   
+                                $("#formsubmit")[0].reset();
+                                swal.fire('Terima Kasih ,Maklumat Disimpan');
+                                readProducts();
+                            }
+                        });
+                    }
+                    });
+                    }
+                    function readProducts(){
+                    window.location.href="/ewp/dashboards/staff_dash";	
+                    }
     </script>
 @endpush

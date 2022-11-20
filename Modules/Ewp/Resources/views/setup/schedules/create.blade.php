@@ -4,9 +4,9 @@
 <div class="card">
     <div class="card-body">
         <div class="row mb-3">
-            <div class="col-2 text-bold">Session<span style="color: red">*</span></div>
-            <div class="col-1 text-bold"> :</div>    
-            <div class="col-3">
+            <div class="col-sm-2 text-bold">Session<span style="color: red">*</span></div>
+            <div class="col-sm-1 text-bold"> :</div>    
+            <div class="col-sm-3">
                     <select class="form-control" name="session">
                         <option value="{{ date('Y')-1 }}/{{ date('Y') }}">{{ date('Y')-1 }} / {{ date('Y') }}</option>
                         <option value="{{ date('Y') }}/{{ date('Y')+1 }}">{{ date('Y') }} / {{ date('Y')+1 }}</option>
@@ -14,9 +14,9 @@
                     </select>
             </div>
 
-            <div class="col-2 text-bold">Semester<span style="color: red">*</span></div>
-            <div class="col-1 text-bold"> :</div>
-            <div class="col-3">
+            <div class="col-sm-2 text-bold">Semester<span style="color: red">*</span></div>
+            <div class="col-sm-1 text-bold"> :</div>
+            <div class="col-sm-3">
                 <select class="form-control" name="semester">
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -28,9 +28,9 @@
         </div>
 
         <div class="row mb-3">
-            <div class="col-2 text-bold">Start Date<span style="color: red">*</span></div>
-            <div class="col-1 text-bold"> :</div>
-            <div class="col-3">
+            <div class="col-sm-2 text-bold">Start Date<span style="color: red">*</span></div>
+            <div class="col-sm-1 text-bold"> :</div>
+            <div class="col-sm-3">
                 {!! Form::date('start_date', null, [
                     'class'       => 'form-control',
                     'placeholder' => 'Enter start date',
@@ -38,9 +38,9 @@
                 ]) !!}
             </div>
 
-            <div class="col-2 text-bold">End Date</div>
-            <div class="col-1 text-bold"> :</div>
-            <div class="col-3">
+            <div class="col-sm-2 text-bold">End Date</div>
+            <div class="col-sm-1 text-bold"> :</div>
+            <div class="col-sm-3">
                 {!! Form::date('end_date', null, [
                     'class'       => 'form-control',
                     'placeholder' => 'Enter end date',
@@ -50,27 +50,27 @@
         </div>
 
         <div class="row mb-3">
-            <div class="col-2 text-bold">Category<span style="color: red">*</span></div>
+            <div class="col-sm-2 text-bold">Category<span style="color: red">*</span></div>
 
-            <div class="col-1 text-bold"> :</div>
-            <div class="col-3"> 
-                {!! Form::radio('category', 'DEGREE', false) !!}
+            <div class="col-sm-1 text-bold"> :</div>
+            <div class="col-sm-3"> 
+                {!! Form::checkbox('category[]', 'PASUM', false) !!}
                 <label>
-                    DEGREE
+                    PASUM - FOUNDATION
                 </label>
             </div>
 
-            <div class="col-3"> 
-                {!! Form::radio('category', 'UNDERGRADUATE', false) !!}
+            <div class="col-sm-3"> 
+                {!! Form::checkbox('category[]', 'UG', false) !!}
                 <label>
-                    UNDERGRADUATE
+                    UG - UNDERGRADUATE
                 </label>
             </div>
             
-            <div class="col-3"> 
-                {!! Form::radio('category', 'POSTGRADUATE', false) !!}
+            <div class="col-sm-3"> 
+                {!! Form::checkbox('category[]', 'PG', false) !!}
                 <label>
-                    POSTGRADUATE
+                    PG - POSTGRADUATE
                 </label>
             </div>
         </div>

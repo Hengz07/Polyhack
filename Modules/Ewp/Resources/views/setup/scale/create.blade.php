@@ -4,8 +4,8 @@
 <div class="card">
     <div class="card-body">
         <div class="row  mb-3">
-            <div class="col-2 text-bold">Code<span style="color: red">*</span></div>
-            <div class="col-10">
+            <div class="col-sm-2 text-bold">Code<span style="color: red">*</span></div>
+            <div class="col-sm-10">
                 {!! Form::text('code', null, [
                     'class'       => 'form-control',
                     'placeholder' => 'Enter code for scale',
@@ -15,8 +15,8 @@
         </div>
 
         <div class="row  mb-3">
-            <div class="col-2 text-bold">Value (BM)<span style="color: red">*</span></div>
-            <div class="col-10">
+            <div class="col-sm-2 text-bold">Value (BM)<span style="color: red">*</span></div>
+            <div class="col-sm-10">
                 {!! Form::text('value_local', null, [
                     'class'       => 'form-control',
                     'placeholder' => 'Enter scale (In Malay Language)',
@@ -26,8 +26,8 @@
         </div>
 
         <div class="row  mb-3">
-            <div class="col-2 text-bold">Value (BI)</div>
-            <div class="col-10">
+            <div class="col-sm-2 text-bold">Value (BI)</div>
+            <div class="col-sm-10">
                 {!! Form::text('value_translation', null, [
                     'class'       => 'form-control',
                     'placeholder' => 'Enter scale (In English Language)',
@@ -36,8 +36,8 @@
         </div>
 
         <div class="row  mb-3">
-            <div class="col-2 text-bold">Description</div>
-            <div class="col-10">
+            <div class="col-sm-2 text-bold">Description</div>
+            <div class="col-sm-10">
                 {!! Form::text('desc', null, [
                     'class'       => 'form-control',
                     'placeholder' => 'Enter the description of the scale',

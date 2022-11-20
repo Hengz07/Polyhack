@@ -58,7 +58,7 @@
                         </td>
                         <td>{{ ++$i }}</td>
                         <td>
-                            @include('widgets._staffPhoto', ['id' => $user->profile->salary_no, 'width' => '60'])
+                            {{-- @include('widgets._staffPhoto', ['id' => $user->profile->profile_no, 'width' => '60']) --}}
                         </td>
                         <td>
                             <div class="font-weight-bold">
@@ -74,7 +74,9 @@
                         <td>
                             <div class="text-muted text-sm">
                                 <i class="fa fa-envelope"></i> {{ $user->email }} <br>
-                                <i class="fa fa-phone"></i> {{ $user->profile->office_no }}
+                                @if($user->profile != null);
+                                    <i class="fa fa-phone"></i> {{ $user->profile->office_no }}
+                                @endif
                             </div>
                         </td>
                         <td>

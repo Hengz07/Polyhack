@@ -6,7 +6,8 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-use Modules\Ewp\Entities\Questions;
+use Modules\Ewp\Entities\{Reports, Lookups, Schedules, Answers};
+use Modules\Site\Entities\Profile;
 
 class SurveysController extends Controller
 {
@@ -14,20 +15,27 @@ class SurveysController extends Controller
      * Display a listing of the resource.
      * @return Renderable
      */
-    public function index()
+    public function index($id)
     {
-        $question = Questions::orderby('id', 'asc')->get();
+        $question = Lookups::orderby('id', 'asc')
+                    ->where('key', 'questions')->get();
 
-        return view('ewp::survey.index',compact('question'));
+        $uuid = $id;
+
+        $schedules = Schedules::orderBy('id', 'asc')->get();
+    
+        return view('ewp::survey.index',compact('question', 'schedules','uuid'));
     }
 
     /**
      * Show the form for creating a new resource.
      * @return Renderable
      */
-    public function create()
+    public function create($id)
     {
-        return view('ewp::create');
+        $schedules = Schedules::findOrFail($id);
+
+        return view('ewp::create', compact('schedules'));
     }
 
     /**
@@ -37,7 +45,16 @@ class SurveysController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $survey = $request->input();
+        // dd($survey['q']);
+
+        $items = [
+            'meta' => $survey
+        ];
+
+        Answers::updateOrCreate(['report_id' => $survey['id']], $items);
+
+        return true;
     }
 
     /**

@@ -17,7 +17,9 @@ class CreateProfilesTable extends Migration
             $table->id();
             $table->uuid('uuid');
             $table->integer('user_id');
-            $table->string('profile_no', 25);
+            $table->string('profile_no', 25)->nullable();
+            $table->string('alt_email', 50)->nullable();
+            $table->string('alt_phone', 10)->nullable();
             $table->jsonb('ptj')->nullable();
             $table->jsonb('department')->nullable();
             $table->jsonb('status')->nullable();

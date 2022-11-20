@@ -35,7 +35,7 @@ class CreateAdminUserSeeder extends Seeder
         $permissions = Permission::pluck('id', 'id')->all();
         $role->syncPermissions($permissions);
 
-        if (env('HAS_CAS')) {
+        // if (env('HAS_CAS')) {
             ## create user haezal
             // $user = User::create([
             //     'name' => 'ENCIK TUN AMIN BIN MANAN',
@@ -54,13 +54,34 @@ class CreateAdminUserSeeder extends Seeder
             // ]);
 
             $user->profile()->updateOrCreate(['user_id' => $user->id], [
-                'user_id' => '987654321',
-                'profile_no' => '123456789',
+                'user_id' => '1',
+                'profile_no' => '000835049',
+                'ptj' => 
+                [
+                    [
+                        'code' => 'FCS',
+                        'desc' => 'Faculty of Computer Science' 
+                    ]
+                ],
+                'department' => 
+                [
+                    [
+                        'code' => 'CSAI',
+                        'desc' => 'Computer Science (AI)' 
+                    ]
+                ],
+                'meta' => 
+                [
+                    [
+                        'gender' => 'Male',
+                        'race' => 'Malaysian',
+                        'hp_no' => '0122894017',
+                        'office_no' => '03456789',
+                    ]
+                ]
             ]);
             
-
-            $user->assignRole([$role->id,config('constants.role.superAdmin')]);
-        }
-
+            $user->assignRole([$role->id,config('constants.role.siteAdmin')]);
+        // }
     }
 }

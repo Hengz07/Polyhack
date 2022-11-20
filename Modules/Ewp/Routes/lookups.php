@@ -3,14 +3,22 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Site\Http\Controllers\RoleController;
 
-
-Route::get('/', 'EwpController@dashboard')->name('ewp.dahsboard');
+//MAIN INDEX
 
 Route::prefix('survey')->group(function() {
     
-    Route::get('/', 'SurveysController@index')->name('ewp.servey.index');
+    Route::get('/{id}', 'SurveysController@index')->name('ewp.servey.index');
+    Route::post('/save', 'SurveysController@store')->name('ewp.survey.store');
 
 });  
+
+Route::prefix('dashboards/reports')->group(function() {
+        
+    Route::get('/', 'ReportsController@dashboard')->name('ewp.dashboards.reports');
+    Route::get('create', 'ReportsController@create')->name('ewp.dashboards.reports.create');
+
+    Route::post('store', 'ReportsController@store')->name('ewp.dashboards.reports.store');
+});
 
 Route::prefix('setup/questions')->group(function() {
         
@@ -21,8 +29,7 @@ Route::prefix('setup/questions')->group(function() {
         
         Route::post('store', 'QuestionsController@store')->name('ewp.setup.questions.store');
 
-        Route::delete('/{id}', 'LookupController@destroy')->name('lookup.destroy');
-        Route::delete('/{id}', 'QuestionsController@delete')->name('questions.delete');
+        Route::delete('/{id}', 'QuestionsController@destroy')->name('questions.delete');
 });
 
 Route::prefix('setup')->group(function() {
@@ -34,8 +41,7 @@ Route::prefix('setup')->group(function() {
         
         Route::post('store', 'ScalesController@store')->name('ewp.setup.scales.store');
 
-        Route::delete('/{id}', 'LookupController@destroy')->name('lookup.destroy');
-        Route::delete('/{id}', 'ScalesController@delete')->name('scales.delete');
+        Route::delete('/{id}/delete', 'ScalesController@destroy')->name('scales.delete');
 });
 
 Route::prefix('setup/schedules')->group(function() {
@@ -47,8 +53,13 @@ Route::prefix('setup/schedules')->group(function() {
     
     Route::post('store', 'SchedulesController@store')->name('ewp.setup.schedules.store');
 
-    Route::delete('/{id}', 'LookupController@destroy')->name('lookup.destroy');
-    Route::delete('/{id}', 'SchedulesController@delete')->name('schedules.delete');
+    Route::delete('/{id}', 'SchedulesController@destroy')->name('schedules.delete');
+});
+
+Route::prefix('/dashboards')->group(function() {
+
+    Route::get('/staff_dash', 'EwpController@index')->name('ewp.dashboards.index');
+    Route::get('/admin_dash', 'EwpController@adminindex')->name('ewp.dashboards.admin_dash');
 });
 
 Route::prefix('select2')->group(function () {

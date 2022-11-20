@@ -387,5 +387,35 @@ return [
                 ],
             ],
         ],
+        'Spiderchart' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'https://code.highcharts.com/highcharts.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'https://code.highcharts.com/highcharts-more.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'https://code.highcharts.com/modules/exporting.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'https://code.highcharts.com/modules/export-data.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'https://code.highcharts.com/modules/accessibility.js',
+                ],
+            ],
+        ],
     ],
 ];

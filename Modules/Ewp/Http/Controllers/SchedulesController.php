@@ -54,18 +54,32 @@ class SchedulesController extends Controller
         $session    = $request->input('session');
         $semester   = $request->input('semester');
         $category   = $request->input('category');
+
+        //CHECKBOX MULTIPLE VALUE 
+        $catcode = '';
+
+        foreach ($category as $cat => $cats)
+        {
+            if ($cat == array_key_first($category)) {
+                $catcode = $cats;
+            }
+            else{
+                $catcode = $catcode.', '.$cats;
+            }
+        }
+
         $start_date = $request->input('start_date');
         $end_date   = $request->input('end_date');
         
         $items = [
             'session'    => $session,
             'semester'   => $semester,
-            'category'   => $category,
+            'category'   => $catcode,
             'start_date' => $start_date,
             'end_date'   => $end_date
         ];
 
-        $result = Schedules::updateOrCreate(['session' => $session, 'semester' => $semester, 'category' => $category ], $items);
+        $result = Schedules::updateOrCreate(['session' => $session, 'semester' => $semester, 'category' => $catcode ], $items);
             
         return redirect()->route('ewp.setup.schedules')->with('toast_success', 'Schedule has been successfully created.');
     }

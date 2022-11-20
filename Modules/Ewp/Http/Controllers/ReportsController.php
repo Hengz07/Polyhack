@@ -5,19 +5,20 @@ namespace Modules\Ewp\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Auth;
-use Spatie\Permission\Models\Role;
 
 use Modules\Ewp\Entities\Reports;
 use Modules\Ewp\Entities\Schedules;
+use Modules\Site\Entities\Profile;
+use Modules\Site\Entities\User;
 
-class EwpController extends Controller
+class ReportsController extends Controller
 {
+    protected $baseView = 'ewp::dashboards.reports';
     /**
      * Display a listing of the resource.
      * @return Renderable
      */
-    public function index(Request $request)
+    public function dashboard(Request $request)
     {
         $limit = 10;
         $search = $request->has('q') ? $request->get('q') : null;
@@ -26,7 +27,7 @@ class EwpController extends Controller
             if ($search != null) {
                 $query->where('session', 'like', '%' . $search . '%')
                       ->orWhere('semester', 'like', '%' . $search . '%');
-            }
+            }   
         })
         ->orderBy('id', 'asc')
         ->paginate($limit);
@@ -37,21 +38,7 @@ class EwpController extends Controller
 
         session()->put('url.intended', url()->current());
 
-        return view('ewp::dashboards.staff_dash', compact('reports', 'schedules'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search);
-    }
-
-    public function adminindex()
-    {
-        $roles = auth()->user()->roles->pluck('id')->toArray();
-
-        if(in_array(1, $roles) || in_array(2, $roles) || in_array(3, $roles)){
-
-            return view('ewp::dashboards.admin_dash');
-        }
-        else{
-            
-            return redirect()->to(route('ewp.dashboards.index'));
-        }
+        return view('ewp::dashboards.staff_dashboard', compact('reports', 'schedules'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search);
     }
 
     /**
@@ -60,7 +47,24 @@ class EwpController extends Controller
      */
     public function create()
     {
-        return view('ewp::create');
+        $schedules = Schedules::all();
+        $users = auth()->user();
+        $profiles = Profile::all();
+
+        foreach ($profiles as $profile)
+
+        //RETRIEVE JSON/JSONB DATA
+        $jsonb_ptj = $profile['ptj'];
+            foreach ($jsonb_ptj as $jsonb_ptj)
+
+        $jsonb_department = $profile['department'];
+            foreach ($jsonb_department as $jsonb_department)
+
+        $meta = $profile['meta'];
+            foreach ($meta as $meta)
+        //
+
+        return view('ewp::dashboards.reports.create', compact('schedules', 'users', 'profiles', 'jsonb_ptj', 'jsonb_department', 'meta'));
     }
 
     /**
@@ -70,9 +74,23 @@ class EwpController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $alt_email = $request->input('alt_email');
+        $alt_phone = $request->input('alt_phone');
 
+        $items = [
+            'alt_email' => $alt_email,
+            'alt_phone' => $alt_phone,
+        ];
+
+        Profile::updateOrCreate(['user_id' => auth()->user()->id], $items);
+        
+        $result  = Reports::updateOrCreate(['uuid' => auth()->user()->uuid]);
+        $new     = Reports::findOrFail($result->id);
+        // $uuid = Reports::where('id', $result->id)->pluck('uuid')->first();
+
+        return redirect()->route('ewp.servey.index', $new->uuid)->with('toast_success', 'Report has been successfully saved.');
+    }
+    
     /**
      * Show the specified resource.
      * @param int $id
@@ -90,7 +108,7 @@ class EwpController extends Controller
      */
     public function edit($id)
     {
-        return view('ewp::edit');
+        
     }
 
     /**
@@ -101,7 +119,7 @@ class EwpController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
     }
 
     /**
@@ -111,6 +129,7 @@ class EwpController extends Controller
      */
     public function destroy($id)
     {
-        //
+
     }
+    
 }

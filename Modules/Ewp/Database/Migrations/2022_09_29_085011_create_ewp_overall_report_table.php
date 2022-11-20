@@ -16,13 +16,12 @@ class CreateEwpOverallReportTable extends Migration
         Schema::create('ewp_overall_report', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid');
-            $table->integer('user_id');
-            $table->integer('profile_id');
-            $table->string('session', 8);
+            $table->integer('profile_id')->nullable();
+            $table->string('session', 9)->nullable();
             $table->string('sem', 8)->nullable();
-            $table->jsonb('part_d');
-            $table->jsonb('part_a');
-            $table->jsonb('part_s');
+            $table->jsonb('part_d')->nullable();
+            $table->jsonb('part_a')->nullable();
+            $table->jsonb('part_s')->nullable();
             $table->string('createdby', 100)->nullable();
             $table->string('updatedby', 100)->nullable();
             $table->timestamps();

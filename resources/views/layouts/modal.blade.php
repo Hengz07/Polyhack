@@ -51,124 +51,6 @@
     </div>
 </div>
 
-{{-- <style>
-    #addlecturer .modal-body {
-        height: relative;
-        overflow-x: hidden;
-        overflow-y: auto;
-    }
-
-    #addlecturer .modal-header {
-        background: var(--dark);
-        color: var(--white);
-        border-bottom: 0px;
-        padding: 10px;
-    }
-
-    #addlecturer .modal-header h3 {
-        color: var(--white);
-        font-size: 18px;
-    }
-
-    #addlecturer .close_btn {
-        top: -2px;
-        margin: 0px !important;
-        opacity: 1;
-        width: 30px;
-        height: 30px;
-        padding: 0px;
-        color: #fff;
-    }
-
-</style>
-
-<div class="modal fade" id="addlecturer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered">
-        <div class="modal-content dragable_touch">
-            <div class="modal-header">
-                <h4 class="modal-title " id="modal-title">Form</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body" id="modal-body">test</div>
-        </div>
-    </div>
-</div>
-
-<style>
-    #addschedule .modal-body {
-        height: relative;
-        overflow-x: hidden;
-        overflow-y: auto;
-    }
-
-    #addschedule .modal-header {
-        background: var(--dark);
-        color: var(--white);
-        border-bottom: 0px;
-        padding: 8px;
-    }
-
-    #addschedule .modal-header h3 {
-        color: var(--white);
-        font-size: 18px;
-    }
-
-    #addschedule .close_btn {
-        top: -2px;
-        margin: 0px !important;
-        opacity: 1;
-        width: 30px;
-        height: 30px;
-        padding: 0px;
-        color: #fff;
-    }
-
-</style>
-
-<div class="modal fade" id="addschedule" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered">
-        <div class="modal-content dragable_touch">
-            <div class="modal-header">
-                <h4 class="modal-title " id="modal-title">Form</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body" id="modal-body">test</div>
-        </div>
-    </div>
-</div>
-
-<style>
-
-    input.largerCheckbox{
-        width: 30px;
-        height: 30px;
-    }
-    input.mediumCheckbox{
-        width: 25px;
-        height: 25px;
-    }
-
-
-</style>
-
-<div class="modal fade" id="showCourse" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered">
-        <div class="modal-content dragable_touch">
-            <div class="modal-header">
-                <h4 class="modal-title " id="modal-title">Form</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body" id="modal-body">test</div>
-        </div>
-    </div>
-</div> --}}
-
 <style>
     .border_dot {
         border: 1px dashed #ccc;
@@ -263,7 +145,40 @@
     </div>
 </div>
 
-{{-- <div class="modal fade" id="history_transaction" role="dialog" aria-labelledby="exampleModalLabel"
+<style>
+    .border_dot {
+        border: 1px dashed #ccc;
+    }
+    #showSchedule .modal-body {
+        height: relative;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    #showSchedule .modal-header {
+        background: var(--dark);
+        color: var(--white);
+        border-bottom: 0px;
+        padding: 8px;
+    }
+
+    #showSchedule .modal-header h3 {
+        color: var(--white);
+        font-size: 18px;
+    }
+
+    #showSchedule .close_btn {
+        top: -2px;
+        margin: 0px !important;
+        opacity: 1;
+        width: 30px;
+        height: 30px;
+        padding: 0px;
+        color: #fff;
+    }
+</style>
+
+<div class="modal fade" id="showSchedule" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content dragable_touch">
@@ -277,21 +192,40 @@
     </div>
 </div>
 
-<div class="modal fade" id="update_status" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content dragable_touch">
-            <div class="modal-header">
-                <h4 class="modal-title " id="modal-title">Form</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body" id="modal-body">test</div>
-        </div>
-    </div>
-</div> --}}
+<style>
+    .border_dot {
+        border: 1px dashed #ccc;
+    }
+    #showReport .modal-body {
+        height: relative;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
 
-<div class="modal fade" id="showSchedule" role="dialog" aria-labelledby="exampleModalLabel"
+    #showReport .modal-header {
+        background: var(--dark);
+        color: var(--white);
+        border-bottom: 0px;
+        padding: 8px;
+    }
+
+    #showReport .modal-header h3 {
+        color: var(--white);
+        font-size: 18px;
+    }
+
+    #showReport .close_btn {
+        top: -2px;
+        margin: 0px !important;
+        opacity: 1;
+        width: 30px;
+        height: 30px;
+        padding: 0px;
+        color: #fff;
+    }
+</style>
+
+<div class="modal fade" id="showReport" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content dragable_touch">

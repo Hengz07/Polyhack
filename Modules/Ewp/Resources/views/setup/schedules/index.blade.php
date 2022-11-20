@@ -67,8 +67,8 @@
                                     <td class="text-center">{{ $sch['session'] }}</td>
                                     <td class="text-center">{{ $sch['semester'] }}</td>
                                     <td class="text-center">{{ $sch['category'] }}</td>
-                                    <td class="text-center">{{ $sch['start_date'] }}</td>  
-                                    <td class="text-center">{{ $sch['end_date'] }}</td>
+                                    <td class="text-center">{{ date('d/m/Y', strtotime($sch['start_date'])) }}</td>  
+                                    <td class="text-center">{{ date('d/m/Y', strtotime($sch['end_date'])) }}</td>
                                     <td class="text-center">
                                         {{-- Edit button --}}
                                         <a class="{{ config("adminlte.btn_edit") }} btn showSchedule" 

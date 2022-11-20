@@ -5,31 +5,27 @@
 <div class="card">
     <div class="card-body">
         <div class="row mb-3">
-            <div class="col-2 text-bold">Session<span style="color: red">*</span></div>
-            <div class="col-1 text-bold"> :</div>    
-            <div class="col-3">
-                    <select class="form-control" name="session">
-                        @foreach($schedules as $sch)
-                            <option value="{{ $schedules['session'] }}" @selected(old('session') == $schedules['session'])>{{ $schedules['session'] }}</option>
-                        @endforeach
-                    </select>
+            <div class="col-sm-2 text-bold">Session<span style="color: red">*</span></div>
+            <div class="col-sm-1 text-bold"> :</div>    
+            <div class="col-sm-3">
+                <select class="form-control" name="session">
+                    <option value="{{ $schedules['session'] }}" @selected(old('session') == $schedules['session'])>{{ $schedules['session'] }}</option>
+                </select>
             </div>
 
-            <div class="col-2 text-bold">Semester<span style="color: red">*</span></div>
-            <div class="col-1 text-bold"> :</div>
-            <div class="col-3">
+            <div class="col-sm-2 text-bold">Semester<span style="color: red">*</span></div>
+            <div class="col-sm-1 text-bold"> :</div>
+            <div class="col-sm-3">
                 <select class="form-control" name="semester">
-                    @foreach($schedules as $sch)
-                        <option value="{{ $schedules['semester'] }}" @selected(old('semester') == $schedules['semester'])>{{ $schedules['semester'] }}</option>
-                    @endforeach
+                    <option value="{{ $schedules['semester'] }}" @selected(old('semester') == $schedules['semester'])>{{ $schedules['semester'] }}</option>
                 </select>
             </div>
         </div>
 
         <div class="row mb-3">
-            <div class="col-2 text-bold">Start Date<span style="color: red">*</span></div>
-            <div class="col-1 text-bold"> :</div>
-            <div class="col-3">
+            <div class="col-sm-2 text-bold">Start Date<span style="color: red">*</span></div>
+            <div class="col-sm-1 text-bold"> :</div>
+            <div class="col-sm-3">
                 {!! Form::date('start_date', $schedules['start_date'], [
                     'class'       => 'form-control',
                     'placeholder' => 'Enter start date',
@@ -37,9 +33,9 @@
                 ]) !!}
             </div>
 
-            <div class="col-2 text-bold">End Date</div>
-            <div class="col-1 text-bold"> :</div>
-            <div class="col-3">
+            <div class="col-sm-2 text-bold">End Date</div>
+            <div class="col-sm-1 text-bold"> :</div>
+            <div class="col-sm-3">
                 {!! Form::date('end_date', $schedules['end_date'], [
                     'class'       => 'form-control',
                     'placeholder' => 'Enter end date',
@@ -49,22 +45,22 @@
         </div>
 
         <div class="row mb-3">
-            <div class="col-2 text-bold">Category<span style="color: red">*</span></div>
+            <div class="col-sm-2 text-bold">Category<span style="color: red">*</span></div>
 
-            <div class="col-1 text-bold"> :</div>
-            <div class="col-3"> 
-                <input type="radio" name="category" value="DEGREE" {{ $schedules['category'] == 'DEGREE' ? 'checked' : '' }}></input>
-                <label> DEGREE </label>
+            <div class="col-sm-1 text-bold"> :</div>
+            <div class="col-sm-3"> 
+                <input type="checkbox" name="category[]" value="PASUM" {{ $schedules['category'] == 'PASUM' ? 'checked' : '' }}></input>
+                <label> PASUM - FOUNDATION </label>
             </div>
 
-            <div class="col-3"> 
-                <input type="radio" name="category" value="UNDERGRADUATE" {{ $schedules['category'] == 'UNDERGRADUATE' ? 'checked' : '' }}></input>
-                <label> UNDERGRADUATE </label>
+            <div class="col-sm-3"> 
+                <input type="checkbox" name="category[]" value="UG" {{ $schedules['category'] == 'UG' ? 'checked' : '' }}></input>
+                <label> UG - UNDERGRADUATE </label>
             </div>
             
-            <div class="col-3"> 
-                <input type="radio" name="category" value="POSTGRADUATE" {{ $schedules['category'] == 'POSTGRADUATE' ? 'checked' : '' }}></input>
-                <label> POSTGRADUATE </label>
+            <div class="col-sm-3"> 
+                <input type="checkbox" name="category[]" value="PG" {{ $schedules['category'] == 'PG' ? 'checked' : '' }}></input>
+                <label> PG - POSTGRADUATE </label>
             </div>
         </div>
     </div>

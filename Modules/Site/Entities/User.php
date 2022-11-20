@@ -15,7 +15,7 @@ class User extends Authenticatable
     use Notifiable;
     use HasRoles;
     use HasFactory;
-    protected $connection = 'mysql';
+    // protected $connection = 'mysql';
 
     /**
      * The attributes that are mass assignable.
@@ -23,7 +23,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','staff_no', 'phone_no', 'faculty_id', 'department_id',
+        'name', 'email', 'password',
     ];
 
     /**
@@ -92,9 +92,10 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
+
     public function profile()
     {
-        return $this->hasOne(Profile::class, 'user_id');
+        return $this->hasOne('Modules\Site\Entities\Profile', 'user_id', 'id');
     }
 
     ## FLEET 
