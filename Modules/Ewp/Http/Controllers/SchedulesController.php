@@ -5,6 +5,7 @@ namespace Modules\Ewp\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Carbon\Carbon;
 
 use Modules\Ewp\Entities\Schedules;
 
@@ -27,9 +28,28 @@ class SchedulesController extends Controller
                         ->orWhere('category', 'like', '%' . $search . '%');
             }
         })
-        
         ->orderBy('id', 'asc')->paginate($limit);
         session()->put('url.intended', url()->current());
+
+        // dd($schedules[0]['start_date']);
+        
+        // $start_date = $schedules['start_date'];
+        // $end_date   = $schedules['end_date'];
+
+        // dd($schedules);
+
+        $check = Schedules::where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->get();
+
+        dd($check);
+
+        // if(Carbon::now()->between($schedules['start_date'], $schedules['end_date']))
+        // {    
+        //     $schedules->status = 'OPEN'; 
+        // }
+        // else
+        // {
+        //     $schedules->status = 'CLOSE';
+        // }
          
         return view('ewp::setup.schedules.index', compact('schedules'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search);
     
@@ -53,20 +73,10 @@ class SchedulesController extends Controller
     {
         $session    = $request->input('session');
         $semester   = $request->input('semester');
-        $category   = $request->input('category');
 
-        //CHECKBOX MULTIPLE VALUE 
-        $catcode = '';
-
-        foreach ($category as $cat => $cats)
-        {
-            if ($cat == array_key_first($category)) {
-                $catcode = $cats;
-            }
-            else{
-                $catcode = $catcode.', '.$cats;
-            }
-        }
+        //ARRAY TO STRING
+        $catarray   = collect($request->input('category'));
+            $category = $catarray->implode(', ');
 
         $start_date = $request->input('start_date');
         $end_date   = $request->input('end_date');
@@ -74,12 +84,12 @@ class SchedulesController extends Controller
         $items = [
             'session'    => $session,
             'semester'   => $semester,
-            'category'   => $catcode,
+            'category'   => $category,
             'start_date' => $start_date,
             'end_date'   => $end_date
         ];
 
-        $result = Schedules::updateOrCreate(['session' => $session, 'semester' => $semester, 'category' => $catcode ], $items);
+        $result = Schedules::updateOrCreate(['session' => $session, 'semester' => $semester, 'category' => $category], $items);
             
         return redirect()->route('ewp.setup.schedules')->with('toast_success', 'Schedule has been successfully created.');
     }
@@ -119,9 +129,12 @@ class SchedulesController extends Controller
     {
         $session    = $request->input('session');
         $semester   = $request->input('semester');
-        $category   = $request->input('category');
         $start_date = $request->input('start_date');
         $end_date   = $request->input('end_date');
+
+        //ARRAY TO STRING
+        $catarray   = collect($request->input('category'));
+            $category = $catarray->implode(', ');
         
         $items = [
             'session'    => $session,

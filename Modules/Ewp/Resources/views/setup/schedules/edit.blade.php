@@ -49,17 +49,17 @@
 
             <div class="col-sm-1 text-bold"> :</div>
             <div class="col-sm-3"> 
-                <input type="checkbox" name="category[]" value="PASUM" {{ $schedules['category'] == 'PASUM' ? 'checked' : '' }}></input>
+                <input type="checkbox" name="category[]" value="PASUM" {{ str_contains($schedules['category'], 'PASUM') ? 'checked' : '' }}></input>
                 <label> PASUM - FOUNDATION </label>
             </div>
 
             <div class="col-sm-3"> 
-                <input type="checkbox" name="category[]" value="UG" {{ $schedules['category'] == 'UG' ? 'checked' : '' }}></input>
+                <input type="checkbox" name="category[]" value="UG" {{ str_contains($schedules['category'], 'UG') ? 'checked' : '' }}></input>
                 <label> UG - UNDERGRADUATE </label>
             </div>
             
             <div class="col-sm-3"> 
-                <input type="checkbox" name="category[]" value="PG" {{ $schedules['category'] == 'PG' ? 'checked' : '' }}></input>
+                <input type="checkbox" name="category[]" value="PG" {{ str_contains($schedules['category'], 'PG') ? 'checked' : '' }}></input>
                 <label> PG - POSTGRADUATE </label>
             </div>
         </div>

@@ -19,6 +19,7 @@ class CreateEwpOverallReportTable extends Migration
             $table->integer('profile_id')->nullable();
             $table->string('session', 9)->nullable();
             $table->string('sem', 8)->nullable();
+            $table->string('status', 1)->nullable();
             $table->jsonb('part_d')->nullable();
             $table->jsonb('part_a')->nullable();
             $table->jsonb('part_s')->nullable();

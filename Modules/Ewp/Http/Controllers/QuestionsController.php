@@ -58,8 +58,6 @@ class QuestionsController extends Controller
         $value_translation = $request->input('value_translation');
         $desc              = $request->input('desc');
         $category          = $request->input('category');
-        
-        dd($category);
 
         $x                 = explode('-',$category);
         $order             = $request->input('order');

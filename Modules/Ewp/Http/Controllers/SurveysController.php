@@ -21,10 +21,22 @@ class SurveysController extends Controller
                     ->where('key', 'questions')->get();
 
         $uuid = $id;
-
         $schedules = Schedules::orderBy('id', 'asc')->get();
-    
-        return view('ewp::survey.index',compact('question', 'schedules','uuid'));
+
+        $check = Reports::where('uuid', $id)->first();
+        
+        if(!empty($check)){
+
+            if($check == 'V'){
+                return view('ewp::survey.index',compact('question', 'schedules','uuid'));
+            }
+            else{
+                return redirect()->route('ewp.dashboards.index')->with('toast_success', 'Survey was already answered');
+            }
+        }
+        else{
+            return redirect()->route('ewp.dashboards.index')->with('toast_warning', 'Data not available.');
+        }
     }
 
     /**
@@ -41,18 +53,35 @@ class SurveysController extends Controller
     /**
      * Store a newly created resource in storage.
      * @param Request $request
+     * @param int $id
      * @return Renderable
      */
     public function store(Request $request)
     {
+        $schedules = Schedules::all();
+        $reports = Reports::all();
+
+        foreach($schedules as $sch)
+        foreach($reports as $report)
+
         $survey = $request->input();
-        // dd($survey['q']);
+        $session = $sch['session'];
+        $sem = $sch['semester'];    
 
         $items = [
-            'meta' => $survey
+            'meta' => $survey,
+            'session' => $session,
+            'sem' => $sem
         ];
 
-        Answers::updateOrCreate(['report_id' => $survey['id']], $items);
+        $status = $report['status'];
+
+        $status = [
+            'status' => 'C'
+        ];
+
+        Answers::updateOrCreate(['report_id' => $report['id'], 'session' => $session, 'sem' => $sem], $items);
+        Reports::updateOrCreate(['id' => $report['id']], $status);
 
         return true;
     }

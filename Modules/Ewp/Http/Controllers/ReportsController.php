@@ -6,10 +6,8 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-use Modules\Ewp\Entities\Reports;
-use Modules\Ewp\Entities\Schedules;
-use Modules\Site\Entities\Profile;
-use Modules\Site\Entities\User;
+use Modules\Ewp\Entities\{Reports, Schedules, Answers};
+use Modules\Site\Entities\{Profile, User};
 
 class ReportsController extends Controller
 {
@@ -34,11 +32,12 @@ class ReportsController extends Controller
 
         //CALL FROM OTHER TABLES
         $schedules = Schedules::all();
+        $answers = Answers::all();
         //
 
         session()->put('url.intended', url()->current());
 
-        return view('ewp::dashboards.staff_dashboard', compact('reports', 'schedules'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search);
+        return view('ewp::dashboards.staff_dashboard', compact('reports', 'schedules', 'answers'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search);
     }
 
     /**
@@ -71,20 +70,46 @@ class ReportsController extends Controller
      * Store a newly created resource in storage.
      * @param Request $request
      * @return Renderable
-     */
+     */   
     public function store(Request $request)
     {
+        
+        //OTHER TABLES
+        $profiles = Profile::where('user_id', auth()->user()->id)->where('status', 'AK')->first();
+
+        $schedules = Schedules::all();
+            
+        $reports = Reports::all();
+        
+
+        //DECLARE
+        $alt_phone = $alt_email = '';
+
         $alt_email = $request->input('alt_email');
         $alt_phone = $request->input('alt_phone');
 
-        $items = [
+        $items_p = [
             'alt_email' => $alt_email,
             'alt_phone' => $alt_phone,
         ];
 
-        Profile::updateOrCreate(['user_id' => auth()->user()->id], $items);
+        $session    = $schedules['session'];
+        $sem        = $schedules['semester'];
+        $profile_id = $profiles['id'];
+
+        dd($profile_id);
+        $status     = 'V';
+
+        $items_r = [
+            'session'    => $session,
+            'sem'        => $sem,
+            'profile_id' => $profile_id,
+            'status'     => $status
+        ];
+
+        Profile::updateOrCreate(['user_id' => auth()->user()->id], $items_p);
         
-        $result  = Reports::updateOrCreate(['uuid' => auth()->user()->uuid]);
+        $result  = Reports::updateOrCreate(['profile_id' => $profile_id, 'session' => $session, 'sem' => $sem], $items_r);
         $new     = Reports::findOrFail($result->id);
         // $uuid = Reports::where('id', $result->id)->pluck('uuid')->first();
 

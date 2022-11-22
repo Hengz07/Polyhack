@@ -8,8 +8,8 @@ use Illuminate\Routing\Controller;
 use Auth;
 use Spatie\Permission\Models\Role;
 
-use Modules\Ewp\Entities\Reports;
-use Modules\Ewp\Entities\Schedules;
+use Modules\Ewp\Entities\{Reports, Schedules, Answers};
+use Modules\Site\Entities\{Profile, User};
 
 class EwpController extends Controller
 {
@@ -33,11 +33,13 @@ class EwpController extends Controller
 
         //CALL FROM OTHER TABLES
         $schedules = Schedules::all();
+        $answers = Answers::all();
+        $report = Reports::all();
         //
 
         session()->put('url.intended', url()->current());
 
-        return view('ewp::dashboards.staff_dash', compact('reports', 'schedules'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search);
+        return view('ewp::dashboards.staff_dash', compact('reports', 'schedules', 'answers', 'report'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search);
     }
 
     public function adminindex()

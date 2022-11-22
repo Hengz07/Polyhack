@@ -57,15 +57,32 @@
                                                 <td class="text-center">{{ $sch['session'] }} - {{ $sch['semester'] }}</td>
                                                 <td class="text-center">{{ date('d/m/Y') }}
                                                 <td class="text-center">
-                                                {{-- @if () --}}
-                                                    {{-- <div class="mx-4 font-italic bg-warning text-white rounded">
-                                                        IN PROGRESS
-                                                    </div> --}}
-                                                {{-- @else --}}
-                                                    <div class="mx-4 font-italic bg-success text-white rounded">
-                                                        COMPLETED
-                                                    </div>
-                                                {{-- @endif --}}
+
+                                                    @if(count($reports) == 0)
+                                                        <div class="mx-4 font-italic bg-danger text-white rounded">
+                                                            NOT COMPLETED
+                                                        </div>
+                                                    @else
+                                                        @foreach($report as $rep)
+
+                                                            @if ($rep['status'] == '' || count($report) == 0)
+                                                                <div class="mx-4 font-italic bg-danger text-white rounded">
+                                                                    NOT COMPLETED
+                                                                </div>
+                                                            @elseif($rep['status'] == 'V')
+                                                                <div class="mx-4 font-italic bg-warning text-white rounded">
+                                                                    IN PROGRESS
+                                                                </div>
+                                                            @else
+                                                                <span class="mx-4 font-italic bg-success text-white rounded">
+                                                                    Done
+                                                                    &nbsp; 
+                                                                </span>
+                                                                <button class='btn btn-primary showResult'><i class="fas fa-list-alt" aria-hidden="true"></i></button>  
+                                                            @endif
+
+                                                        @endforeach
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach
