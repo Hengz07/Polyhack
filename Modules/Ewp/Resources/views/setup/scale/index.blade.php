@@ -95,15 +95,15 @@
 
                                         <td class="text-center">
                                             @if ($item['value_local'] == 'TERUK' || $item['value_local'] == 'SANGAT TERUK')
-                                                <div class="mx-4 font-weight-bold bg-primary text-white rounded">
+                                                <div class="mx-4 font-weight-bold bg-warning text-white rounded">
                                                     INTERVENSI KHUSUS
                                                 </div>
 
                                             @else 
-                                                <div class="mx-4 font-weight-bold bg-success text-white rounded">
+                                                <div class="mx-4 font-weight-bold bg-info text-white rounded">
                                                     INTERVENSI UMUM
                                                 </div>
-
+                                                
                                             @endif
                                         </td>
                                     </tr>

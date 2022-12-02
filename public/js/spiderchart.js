@@ -42,9 +42,13 @@ Highcharts.chart('container', {
     },
 
     series: [{
-        name: 'Test Results',
+        name: '2022/2023 1',
         data: [65, 24, 11],
-        pointPlacement: 'on'
+        pointPlacement: 'INTERVENSI UMUM'
+    },{
+        name: '2022/2023 2',
+        data: [24, 35, 12],
+        pointPlacement: 'INTERVENSI KHUSUS'
     }],
 
     responsive: {

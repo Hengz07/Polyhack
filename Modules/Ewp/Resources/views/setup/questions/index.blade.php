@@ -20,7 +20,6 @@
 <div class="container-fluid">
     <div class="{{ config('adminlte.card_default') }}">
         <div class="card-body"> 
-
             <div class="d-flex p-0">
                 <div class="mr-auto">
                     {{-- Add Question --}}
@@ -43,17 +42,17 @@
                     </thead>
                 </table>
             </div>
-    
+            
             <div class="table-responsive">
                 <table class="table table-hover table-bordered">
                     <thead class="thead-navy bg-navy">
-                        <tr>
-                            <th style="width:4%" class="text-center"> # </th>
-                            <th style="width:7%" class="text-center"> Code </th>
-                            <th style="width:55%"> BM / BI </th>
-                            <th style="width:7%" class="text-center"> Version </th>
-                            <th style="width:7%" class="text-center"> Section </th>
-                            <th style="width:10%" class="text-center"> Actions </th>
+                        <tr class="text-center">
+                            <th style="width:4%"> # </th>
+                            <th style="width:7%"> Code </th>
+                            <th style="width:55%"> Questions </th>
+                            <th style="width:7%"> Version </th>
+                            <th style="width:7%"> Section </th>
+                            <th style="width:10%"> Actions </th>
                         </tr>
                     </thead>
                     
@@ -87,12 +86,11 @@
                                         <a class="{{ config("adminlte.btn_edit") }} btn showQuestion" 
                                             data-route="ewp/setup/questions" data-id="{{ $item->id }}" data-title="Questions" 
                                             data-toggle="modal"><i class="fa fa-edit"></i></a>
-            
+                                        
                                         {{-- Delete button --}}
                                         <button type="button" class="btn btn-sm {{ config('adminlte.btn_delete') }} sa-warning" 
                                             data-route="ewp/setup/questions" data-id="{{ $item->id }}" data-title="delete Questions">
                                             <i class="fa fa-trash"  title="Click to delete questions"></i></button>
-                                                
                                     </td>
                                 </tr>   
                             @endforeach

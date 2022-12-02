@@ -18,11 +18,9 @@
             <div class="col-sm-1 text-bold"> :</div>
             <div class="col-sm-3">
                 <select class="form-control" name="semester">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
+                    @for($i = 1;$i <= 5;$i++)
+                        <option value="{{ $i }}">{{ $i }}</option>
+                    @endfor
                 </select>
             </div>
         </div>
@@ -51,26 +49,37 @@
 
         <div class="row mb-3">
             <div class="col-sm-2 text-bold">Category<span style="color: red">*</span></div>
-
             <div class="col-sm-1 text-bold"> :</div>
-            <div class="col-sm-3"> 
+
+            <div class="col-sm-4"> 
                 {!! Form::checkbox('category[]', 'PASUM', false) !!}
                 <label>
                     PASUM - FOUNDATION
                 </label>
             </div>
-
-            <div class="col-sm-3"> 
+            <span class="col-sm-1"></span>
+            <div class="col-sm-4"> 
                 {!! Form::checkbox('category[]', 'UG', false) !!}
                 <label>
                     UG - UNDERGRADUATE
                 </label>
             </div>
-            
-            <div class="col-sm-3"> 
+        </div>
+        
+        <div class="row mb-3">
+            <span class="col-sm-2 text-bold"></span>
+            <span class="col-sm-1 text-bold"></span>
+            <div class="col-sm-4"> 
                 {!! Form::checkbox('category[]', 'PG', false) !!}
                 <label>
                     PG - POSTGRADUATE
+                </label>
+            </div>
+            <span class="col-sm-1 text-bold"></span>
+            <div class="col-sm-4"> 
+                {!! Form::checkbox('category[]', 'ST', false) !!}
+                <label>
+                    ST - STAFF
                 </label>
             </div>
         </div>

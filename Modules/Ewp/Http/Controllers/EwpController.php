@@ -22,24 +22,34 @@ class EwpController extends Controller
         $limit = 10;
         $search = $request->has('q') ? $request->get('q') : null;
 
+        $profiles  = Profile::where('user_id', auth()->user()->id)->where('status', 'AK')->first();
+
         $reports = Reports::where(function ($query) use ($search) {
             if ($search != null) {
                 $query->where('session', 'like', '%' . $search . '%')
-                      ->orWhere('semester', 'like', '%' . $search . '%');
+                      ->orWhere('sem', 'like', '%' . $search . '%');
             }
         })
+        ->where('profile_id', $profiles['id'])
         ->orderBy('id', 'asc')
         ->paginate($limit);
 
-        //CALL FROM OTHER TABLES
-        $schedules = Schedules::all();
-        $answers = Answers::all();
-        $report = Reports::all();
-        //
+        //SCHEDULES RETRIEVE
+        $usertype  = auth()->user()->user_type;
+
+        if($usertype == 'staff'){
+            $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->whereIn('category', ['ST'])->first();
+        }
+        elseif($usertype == 'student'){
+            //REFER SCHEDULES BASED ON STUDENT TYPE (UG, PG, PASUM)
+            $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->whereIn('category', ['UG', 'PG', 'PASUM'])->first();
+        }
+
+        // dd($schedules);
 
         session()->put('url.intended', url()->current());
 
-        return view('ewp::dashboards.staff_dash', compact('reports', 'schedules', 'answers', 'report'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search);
+        return view('ewp::dashboards.staff_dash', compact('reports', 'schedules'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search);
     }
 
     public function adminindex()

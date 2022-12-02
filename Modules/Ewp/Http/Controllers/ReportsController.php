@@ -30,14 +30,9 @@ class ReportsController extends Controller
         ->orderBy('id', 'asc')
         ->paginate($limit);
 
-        //CALL FROM OTHER TABLES
-        $schedules = Schedules::all();
-        $answers = Answers::all();
-        //
-
         session()->put('url.intended', url()->current());
 
-        return view('ewp::dashboards.staff_dashboard', compact('reports', 'schedules', 'answers'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search);
+        return view('ewp::dashboards.staff_dashboard', compact('reports'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search);
     }
 
     /**
@@ -46,20 +41,32 @@ class ReportsController extends Controller
      */
     public function create()
     {
-        $schedules = Schedules::all();
-        $users = auth()->user();
-        $profiles = Profile::all();
+        //SESSION AND SEM REFER TO USER'S TYPE
+        $profiles  = Profile::where('user_id', auth()->user()->id)->where('status', 'AK')->first();
+        $users     = User::where('id' , $profiles['user_id'])->first();
 
-        foreach ($profiles as $profile)
+        //SCHEDULES RETRIEVE
+        $usertype  = auth()->user()->user_type;
+
+        if($usertype == 'staff'){
+            $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->whereIn('category', ['ST'])->first();
+        }
+        elseif($usertype == 'student'){
+            //REFER SCHEDULES BASED ON STUDENT TYPE (UG, PG, PASUM)
+            $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->whereIn('category', ['UG', 'PG', 'PASUM'])->first();
+        }
+        else{
+            return view('ewp::dashboards.staff_dashboard')->with('toast_waring', 'User does not exist.');
+        }
 
         //RETRIEVE JSON/JSONB DATA
-        $jsonb_ptj = $profile['ptj'];
+        $jsonb_ptj = $profiles['ptj'];
             foreach ($jsonb_ptj as $jsonb_ptj)
 
-        $jsonb_department = $profile['department'];
+        $jsonb_department = $profiles['department'];
             foreach ($jsonb_department as $jsonb_department)
 
-        $meta = $profile['meta'];
+        $meta = $profiles['meta'];
             foreach ($meta as $meta)
         //
 
@@ -75,12 +82,19 @@ class ReportsController extends Controller
     {
         
         //OTHER TABLES
-        $profiles = Profile::where('user_id', auth()->user()->id)->where('status', 'AK')->first();
+        $profiles  = Profile::where('user_id', auth()->user()->id)->where('status', 'AK')->first();
+        $users     = User::where('id' , $profiles['user_id'])->first();
 
-        $schedules = Schedules::all();
-            
-        $reports = Reports::all();
-        
+        //SCHEDULES RETRIEVE
+        $usertype  = auth()->user()->user_type;
+
+        if($usertype == 'staff'){
+            $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->whereIn('category', ['ST'])->first();
+        }
+        elseif($usertype == 'student'){
+            //REFER SCHEDULES BASED ON STUDENT TYPE (UG, PG, PASUM)
+            $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->whereIn('category', ['UG', 'PG', 'PASUM'])->first();
+        }
 
         //DECLARE
         $alt_phone = $alt_email = '';
@@ -97,8 +111,12 @@ class ReportsController extends Controller
         $sem        = $schedules['semester'];
         $profile_id = $profiles['id'];
 
-        dd($profile_id);
-        $status     = 'V';
+        $reports = Reports::where('profile_id', $profiles['id'])->first();
+
+        if(!isset($reports) || $reports['status'] == '')
+            $status     = 'V';
+        else
+            $status = $reports['status'];
 
         $items_r = [
             'session'    => $session,
@@ -156,5 +174,34 @@ class ReportsController extends Controller
     {
 
     }
-    
+
+    public function ajax()
+    {
+        // if()
+        // {
+
+        // }
+        
+        // {
+
+        //     if(req)
+        //     {
+        //         $list = report::where(uuid)->first();
+        //     }
+        //     else
+        //     {
+        //         $list = report::where()->get();
+        //     } 
+
+        //     foreach(){
+        //      $result = [{   name: '2022/2023 1',
+        //         data: [65, 24, 11],
+        //         pointPlacement: 'INTERVENSI UMUM'
+        //     }]
+          
+        //     }
+
+        // }
+        
+    }
 }

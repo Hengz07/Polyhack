@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\Site\Http\Controllers\RoleController;
 
 //MAIN INDEX
 
@@ -10,6 +9,7 @@ Route::prefix('survey')->group(function() {
     Route::get('/{id}', 'SurveysController@index')->name('ewp.servey.index');
     Route::post('/save', 'SurveysController@store')->name('ewp.survey.store');
 
+    Route::get('/answers', 'SurveysController@answers')->name('ewp.survey.answers');
 });  
 
 Route::prefix('dashboards/reports')->group(function() {

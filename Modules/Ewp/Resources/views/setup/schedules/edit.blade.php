@@ -9,7 +9,9 @@
             <div class="col-sm-1 text-bold"> :</div>    
             <div class="col-sm-3">
                 <select class="form-control" name="session">
-                    <option value="{{ $schedules['session'] }}" @selected(old('session') == $schedules['session'])>{{ $schedules['session'] }}</option>
+                    <option value="{{ date('Y')-1 }}/{{ date('Y') }}" {{ (($schedules['session'] == ((date('Y')-1).'/'.(date('Y')))) ? 'selected' : '') }}>{{ date('Y')-1 }}/{{ date('Y') }}</option>
+                    <option value="{{ date('Y') }}/{{ date('Y')+1 }}" {{ (($schedules['session'] == ((date('Y')).'/'.(date('Y')+1))) ? 'selected' : '') }}>{{ date('Y') }}/{{ date('Y')+1 }}</option>
+                    <option value="{{ date('Y')+1 }}/{{ date('Y')+2 }}" {{ (($schedules['session'] == ((date('Y')+1).'/'.(date('Y')+2))) ? 'selected' : '') }}>{{ date('Y')+1 }}/{{ date('Y')+2 }}</option>
                 </select>
             </div>
 
@@ -17,7 +19,9 @@
             <div class="col-sm-1 text-bold"> :</div>
             <div class="col-sm-3">
                 <select class="form-control" name="semester">
-                    <option value="{{ $schedules['semester'] }}" @selected(old('semester') == $schedules['semester'])>{{ $schedules['semester'] }}</option>
+                    @for($i = 1;$i <= 5;$i++)
+                        <option value="{{ $i }}" {{ (($schedules['semester'] == $i) ? 'selected' : '') }}>{{ $i }}</option>
+                    @endfor
                 </select>
             </div>
         </div>
@@ -46,21 +50,31 @@
 
         <div class="row mb-3">
             <div class="col-sm-2 text-bold">Category<span style="color: red">*</span></div>
-
             <div class="col-sm-1 text-bold"> :</div>
-            <div class="col-sm-3"> 
+            
+            <div class="col-sm-4"> 
                 <input type="checkbox" name="category[]" value="PASUM" {{ str_contains($schedules['category'], 'PASUM') ? 'checked' : '' }}></input>
                 <label> PASUM - FOUNDATION </label>
             </div>
-
-            <div class="col-sm-3"> 
+            <span class="col-sm-1 text-bold"></span>
+            <div class="col-sm-4"> 
                 <input type="checkbox" name="category[]" value="UG" {{ str_contains($schedules['category'], 'UG') ? 'checked' : '' }}></input>
                 <label> UG - UNDERGRADUATE </label>
             </div>
+        </div>
+
+        <div class="row mb-3">
+            <span class="col-sm-2 text-bold"></span>
+            <span class="col-sm-1 text-bold"></span>
             
-            <div class="col-sm-3"> 
+            <div class="col-sm-4"> 
                 <input type="checkbox" name="category[]" value="PG" {{ str_contains($schedules['category'], 'PG') ? 'checked' : '' }}></input>
                 <label> PG - POSTGRADUATE </label>
+            </div>
+            <span class="col-sm-1 text-bold"></span>
+            <div class="col-sm-4"> 
+                <input type="checkbox" name="category[]" value="ST" {{ str_contains($schedules['category'], 'ST') ? 'checked' : '' }}></input>
+                <label> ST - STAFF </label>
             </div>
         </div>
     </div>

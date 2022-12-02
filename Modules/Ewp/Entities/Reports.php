@@ -10,7 +10,7 @@ class Reports extends Model
     use HasFactory;
 
     protected $table    = 'ewp_overall_report';
-    protected $fillable = ['session', 'sem', 'profile_id', 'status'];     
+    protected $fillable = ['session', 'sem', 'profile_id', 'status', 'scale'];     
 
     /**
      * Get the faculty that owns the Profile

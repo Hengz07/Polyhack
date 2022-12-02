@@ -210,3 +210,46 @@ $('.showReport').on('click', function () {
 
     // For Moving
 });
+
+$('.showIntersive').on('click', function () { 
+    route = $(this).data('route');
+    title = $(this).data('title');
+    id = $(this).data('id');
+
+    method = $(this).data('method');
+    methodtitle = $(this).data('method-title');
+
+    if (methodtitle == undefined) {
+        title = 'Survey'; //if id =undefined, id = add else = edit
+    } else {
+        title = methodtitle + ' Answers';
+    }
+    if (method == undefined) {
+        method = 'answers';
+    } else { method = id + '/' + method; }
+
+    $.get("/" + route + '/' + method,
+        {
+            inputname: $(this).data('input-name'),
+            routename: $(this).data('route-name'),
+        },
+        function (data, status) { 
+            $('#showAnswers').find('#modal-title')[0].innerHTML = title;
+            $('#showAnswers').find('#modal-body')[0].innerHTML = data;
+            $('#showAnswers').modal();
+
+            $(document).ready(function (e) {
+                // $('input[type=text],textarea[type=text]').keyup(function () {
+                //     $(this).val($(this).val().toUpperCase());
+                // });
+
+                $('.number').bind('keypress', function (e) {
+                    return !(e.which != 8 && e.which != 0 &&
+                        (e.which < 48 || e.which > 57) && e.which != 46);
+                });
+            });
+
+        });
+
+    // For Moving
+});

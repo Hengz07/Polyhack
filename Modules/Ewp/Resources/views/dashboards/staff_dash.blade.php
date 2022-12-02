@@ -6,8 +6,6 @@
         <div class="p-2">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    {{-- <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li> --}}
-                    {{-- <li class="breadcrumb-item active" aria-current="page">Dashboard</li> --}}
                 </ol>
             </nav>
         </div>
@@ -17,87 +15,83 @@
 @section('content')
 
 <div class="container-fluid">
-        <div class="row mb-3">
-            <div class="card col-sm-5">
-                <div class="card-header">
-                    @if (auth()->user()->hasRole(['SiteAdmin', 'SuperAdmin']))
-                        <a href="/ewp/dashboards/admin_dash">
-                            <button type="button" class="btn btn-warning">
-                                Admin
-                            </button>
-                        </a>
-                    @endif
-                    {{-- Start Test --}}
-                    <a type="button" class="btn btn-primary showReport" data-route="ewp/dashboards/reports" 
-                        id="btn2" data-title="Report" data-toggle="modal" title="Save">Start Test</a>
-                    {{--  --}}
+                <div class="card card-header bg-navy">
+                    <div class="row d-flex">
+                        @if (auth()->user()->hasRole(['SiteAdmin', 'SuperAdmin']))
+                            <a href="/ewp/dashboards/admin_dash">
+                                <button type="button" class="btn btn-info mr-2">
+                                    Admin
+                                </button>
+                            </a>
+                        @endif
+
+                        @foreach ($reports as $report => $rep)
+                        @endforeach
+
+                        @if(count($reports) == 0 || $rep['status'] != 'C')
+                            <a type="button" class="btn btn-primary showReport" data-route="ewp/dashboards/reports" 
+                                id="btn2" data-title="Report" data-toggle="modal" title="Save">Start Test</a>
+                                    
+                                <div class="justify-content-end">
+                                    <label class="text-white">
+                                        {{ $schedules->session }} / {{ $schedules->semester }}
+                                    </label>
+                                </div>
+                        @endif
+                    </div>
                 </div>
 
-                {{-- <div class="{{ config('adminlte.card_default') }}"> --}}
-                    <div class="card-body"> <br><br>
-                        <h2 class="text-center"> Report </h2> <br><br>
-                        <div class="table-responsive">
-                            <table class="table table-hover table-bordered">
-                                <thead class="thead-dark bg-dark">
-                                    <tr class="text-center">
-                                        <th style="width:5%" class="text-center"> # </th>
-                                        <th style="width:15%" class="text-center"> Session / Semester </th>
-                                        <th style="width:10%" class="text-center"> Date </th>
-                                        <th style="width:10%" class="text-center"> Status </th>
-                                    </tr>
-                                </thead> 
-                                <tbody>
-                                    {{-- TAKEN FROM SCHEDULES --}}
-                                    @if (count($schedules) == 0)
-                                        <td style="text-align: center" colspan="8">No data availables</td>
-                                    @else
-                                        @foreach ($schedules as $sch)
-                                            <tr>
-                                                <td class="text-center">{{ ++$i }}</td>
-                                                <td class="text-center">{{ $sch['session'] }} - {{ $sch['semester'] }}</td>
-                                                <td class="text-center">{{ date('d/m/Y') }}
-                                                <td class="text-center">
-
-                                                    @if(count($reports) == 0)
-                                                        <div class="mx-4 font-italic bg-danger text-white rounded">
-                                                            NOT COMPLETED
-                                                        </div>
-                                                    @else
-                                                        @foreach($report as $rep)
-
-                                                            @if ($rep['status'] == '' || count($report) == 0)
-                                                                <div class="mx-4 font-italic bg-danger text-white rounded">
-                                                                    NOT COMPLETED
-                                                                </div>
-                                                            @elseif($rep['status'] == 'V')
-                                                                <div class="mx-4 font-italic bg-warning text-white rounded">
-                                                                    IN PROGRESS
-                                                                </div>
-                                                            @else
-                                                                <span class="mx-4 font-italic bg-success text-white rounded">
+                    <div class="row">
+                        <div class="card card-body col-sm-5"> <br><br>
+                            <h2 class="text-center"> Report </h2> <br><br>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered">
+                                    <thead class="thead-dark bg-dark">
+                                        <tr class="text-center">
+                                            <th style="width:5%" class="text-center"> # </th>
+                                            <th style="width:15%" class="text-center"> Session / Semester </th>
+                                            <th style="width:10%" class="text-center"> Date </th>
+                                            <th style="width:10%" class="text-center"> Status </th>
+                                        </tr>
+                                    </thead> 
+                                    <tbody>
+                                        @if (count($reports) == 0)
+                                            <td style="text-align: center" colspan="8">No data availables</td>
+                                        @else
+                                            @foreach ($reports as $report => $rep)
+                                                <tr>
+                                                    <td class="text-center">{{ ++$i }}</td>
+                                                    <td class="text-center">{{ $rep['session'] }} - {{ $rep['sem'] }}</td>
+                                                    <td class="text-center">{{ date('d/m/Y') }}
+                                                    <td class="text-center">
+                                                        
+                                                        @if($rep['status'] == 'V')
+                                                            <div class="d-inline-flex row mx-2">
+                                                                <span class="px-2 text-center font-weight-bold bg-secondary text-white rounded">
+                                                                    In Progress
+                                                                </span> 
+                                                            </div>
+                                                        @else
+                                                            <div class="d-inline-flex row mx-2">
+                                                                <span class="px-2 text-center font-weight-bold bg-success text-white rounded">
                                                                     Done
-                                                                    &nbsp; 
                                                                 </span>
-                                                                <button class='btn btn-primary showResult'><i class="fas fa-list-alt" aria-hidden="true"></i></button>  
-                                                            @endif
 
-                                                        @endforeach
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    @endif
-                                </tbody>
-                            </table>
+                                                                &nbsp; 
+                                                                <a type="button" class="px-2 btn btn-dark btn-sm fa-list-alt fa-2 fas"></a> 
+                                                            </div> 
+                                                        @endif
+
+                                                    </td>
+                                                </tr> 
+                                            @endforeach
+                                        @endif
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div>
-                {{-- </div> --}}
-            </div>
-            
-            <div class="card col-sm-7">
-                <div class="card-body">
-                    {{-- <div class="{{ config('adminlte.card_default') }}"> --}}
-                        <div class="card-body">
+                        <div class="col-sm-1 bg-light-navy"></div>
+                        <div class="card card-body col-sm-6">
                             <h2 class="text-center"> Emotional-Wellbeing Profiling Result </h2> <br>
                             <div>
                                 <figure class="highcharts-figure col-sm">
@@ -108,10 +102,7 @@
                                 </figure>
                             </div>
                         </div>
-                    {{-- </div> --}}
-                </div>
-            </div>
-        </div>
+                    </div>
 </div>
 @include('layouts.delete')
 @include('layouts.modal')

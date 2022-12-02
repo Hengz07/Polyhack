@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Profile extends Model
 {
-    //protected $connection = 'mysql';
-    // protected $table = 'profiles';
     protected $primaryKey = 'user_id';
     public $incrementing = false;
 
@@ -57,6 +55,11 @@ class Profile extends Model
     public function reports()
     {
         return $this->hasMany(Reports::class, 'id');
+    }
+
+    public function schedules()
+    {
+        return $this->hasMany('Modules\Ewp\Entities\Schedules');
     }
 
     /**

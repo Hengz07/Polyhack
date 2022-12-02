@@ -6,16 +6,15 @@
         <div class="row mb-3">
             <div class="col-sm-2 text-bold">Session :</div>
             <div class="col-sm-4">
-                @foreach($schedules as $sch) @endforeach
 
-                <p class="text-bold text-secondary"> {{ $sch['session'] }} </p>
+                <p class="text-bold text-secondary"> {{ $schedules['session'] }} </p>
             </div>
 
             <div class="col-sm-1 text-bold"></div>
         
             <div class="col-sm-2 text-bold">Semester :</div>
             <div class="col-sm-2">
-                <p class="text-bold text-secondary"> {{ $sch['semester'] }} </p>
+                <p class="text-bold text-secondary"> {{ $schedules['semester'] }} </p>
             </div>
         </div>
 
@@ -44,9 +43,8 @@
             
             <div class="col-sm-2 text-bold">Matric Number :</div>
             <div class="col-sm-2">
-                @foreach($profiles as $profile) @endforeach
 
-                <p class="text-bold text-secondary"> {{ $profile['profile_no'] }} </p>
+                <p class="text-bold text-secondary"> {{ $profiles['profile_no'] }} </p>
             </div>
         </div>
 
@@ -66,7 +64,7 @@
 
         <hr>
 
-        {{-- <input type="text" value="{{ $sch['id'] }}" name="idschedule"> --}}
+        {{-- <input type="text" value="{{ $schedules['id'] }}" name="idschedule"> --}}
         
         <label class="text-primary"><i> Enter your alternate informations for contact reasons </i></label>
         <br><br>

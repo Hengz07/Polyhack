@@ -15,6 +15,7 @@ class SchedulesController extends Controller
     /**
      * Display a listing of the resource.
      * @return Renderable
+     * 
      */
     public function index(Request $request)
     {
@@ -30,29 +31,24 @@ class SchedulesController extends Controller
         })
         ->orderBy('id', 'asc')->paginate($limit);
         session()->put('url.intended', url()->current());
-
-        // dd($schedules[0]['start_date']);
         
-        // $start_date = $schedules['start_date'];
-        // $end_date   = $schedules['end_date'];
+        //STATUS IF CURRENT DATE IN BETWEEN START AND END DATE
+        $open = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->get();
 
-        // dd($schedules);
+        foreach ($open as $o);
 
-        $check = Schedules::where('start_date', '<=', date('Y-m-d'))->where('end_date', '>=', date('Y-m-d'))->get();
+        $stat = '';
 
-        dd($check);
+        if(count($open) != 0)
+        {
+            $statusitem = [
+                'status' => 'O'
+            ];
 
-        // if(Carbon::now()->between($schedules['start_date'], $schedules['end_date']))
-        // {    
-        //     $schedules->status = 'OPEN'; 
-        // }
-        // else
-        // {
-        //     $schedules->status = 'CLOSE';
-        // }
-         
+            Schedules::updateOrCreate(['id' => $o['id']], $statusitem);
+        }
+
         return view('ewp::setup.schedules.index', compact('schedules'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search);
-    
     }
 
     /**
@@ -73,23 +69,27 @@ class SchedulesController extends Controller
     {
         $session    = $request->input('session');
         $semester   = $request->input('semester');
+        $start_date = $request->input('start_date');
+        $end_date   = $request->input('end_date');
+        $status     = 'C';
 
         //ARRAY TO STRING
         $catarray   = collect($request->input('category'));
             $category = $catarray->implode(', ');
 
-        $start_date = $request->input('start_date');
-        $end_date   = $request->input('end_date');
-        
+        // $sdformat = Carbon::createFromFormat('Y-m-d', $start_date)->format('d-m-Y');
+        // $edformat = Carbon::createFromFormat('Y-m-d', $end_date)->format('d-m-Y');
+
         $items = [
             'session'    => $session,
             'semester'   => $semester,
             'category'   => $category,
+            'status'     => $status,
             'start_date' => $start_date,
-            'end_date'   => $end_date
+            'end_date'   => $end_date,
         ];
 
-        $result = Schedules::updateOrCreate(['session' => $session, 'semester' => $semester, 'category' => $category], $items);
+        $result = Schedules::updateOrCreate(['session' => $session, 'semester' => $semester, 'category' => $category, 'start_date' => $start_date, 'end_date' => $end_date, 'status' => $status], $items);
             
         return redirect()->route('ewp.setup.schedules')->with('toast_success', 'Schedule has been successfully created.');
     }
@@ -116,7 +116,6 @@ class SchedulesController extends Controller
         $route = $schedules->id;
 
         return view('ewp::setup.schedules.edit', compact('schedules', 'route'));
-        
     }
 
     /**
@@ -131,15 +130,20 @@ class SchedulesController extends Controller
         $semester   = $request->input('semester');
         $start_date = $request->input('start_date');
         $end_date   = $request->input('end_date');
+        $status     = 'C';
 
         //ARRAY TO STRING
         $catarray   = collect($request->input('category'));
             $category = $catarray->implode(', ');
+
+        // $sdformat = Carbon::createFromFormat('Y-m-d', $start_date)->format('d-m-Y');
+        // $edformat = Carbon::createFromFormat('Y-m-d', $end_date)->format('d-m-Y');
         
         $items = [
             'session'    => $session,
             'semester'   => $semester,
             'category'   => $category,
+            'status'     => $status,
             'start_date' => $start_date,
             'end_date'   => $end_date
         ];

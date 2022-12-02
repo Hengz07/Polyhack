@@ -20,9 +20,10 @@ class CreateProfilesTable extends Migration
             $table->string('profile_no', 25)->nullable();
             $table->string('alt_email', 50)->nullable();
             $table->string('alt_phone', 10)->nullable();
+            $table->string('level', 20)->nullable();
             $table->jsonb('ptj')->nullable();
             $table->jsonb('department')->nullable();
-            $table->jsonb('status')->nullable();
+            $table->string('status', 10)->nullable();
             $table->jsonb('position')->nullable();
             $table->jsonb('grade')->nullable();
             $table->jsonb('employment_type')->nullable();

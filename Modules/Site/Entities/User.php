@@ -98,6 +98,11 @@ class User extends Authenticatable
         return $this->hasOne('Modules\Site\Entities\Profile', 'user_id', 'id');
     }
 
+    public function schedules()
+    {
+        return $this->hasMany('Modules\Ewp\Entities\Schedules');
+    }
+
     ## FLEET 
     public function fleetAdmins() {
         return $this->hasMany(FleetUser::class, 'user_id')->where('role_id', config('constants.role_id.fleetDeptAdmin'));

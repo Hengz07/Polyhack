@@ -25,9 +25,6 @@ class QuestionsController extends Controller
                 $query->where('value_local', 'like', '%' . $search . '%');
             }
         })
-
-
-
         ->orWhere('key', 'like', 'questions')
         ->orderBy('id', 'asc')
         ->paginate($limit);

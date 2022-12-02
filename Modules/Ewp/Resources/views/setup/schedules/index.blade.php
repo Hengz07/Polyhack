@@ -47,12 +47,12 @@
                 <table class="table table-hover table-bordered">
                     <thead class="thead-navy bg-navy">
                         <tr>
-                            <th style="width:4%" class="text-center"> # </th>
-                            <th style="width:10%" class="text-center"> Session </th>
-                            <th style="width:5%"> Semester </th>
-                            <th style="width:54%" class="text-center"> Category </th>
-                            <th style="width:10%" class="text-center"> Start Date </th>
-                            <th style="width:10%" class="text-center"> End Date </th>
+                            <th style="width:5%" class="text-center"> # </th>
+                            <th style="width:17.6%" class="text-center"> Session </th>
+                            <th style="width:17.6%" class="text-center"> Semester </th>
+                            <th style="width:17.6%" class="text-center"> Category </th>
+                            <th style="width:17.6%" class="text-center"> Start Date </th>
+                            <th style="width:17.6%" class="text-center"> End Date </th>
                             <th style="width:7%" class="text-center"> Actions </th>
                         </tr>
                     </thead>

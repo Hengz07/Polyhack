@@ -13,13 +13,13 @@ class Schedules extends Model
     protected $fillable = ['session', 'semester', 'status', 'category', 
                            'remark', 'start_date', 'end_date'];
 
-    public function setCategory($cat)
+    public function profile()
     {
-        $this->schedules['category'] = json_encode($cat);
+        return $this->belongsTo('Modules\Site\Entities\Profile');
     }
 
-    public function getCategory($cat)
+    public function user()
     {
-        return $this->schedules['category'] = json_decode($cat);
+        return $this->belongsTo('Modules\Site\Entities\User');
     }
 }
