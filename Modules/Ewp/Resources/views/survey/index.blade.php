@@ -26,21 +26,23 @@
                             <span class="text-primary"> Please state your level of agreement with the following statements:</span> 
                     </div>
         </div>
-        <div class="card-body">
+        <div class="card-body" style="padding: 0px;">
             <form id="formsubmit" action='POST'>
-                <div class="table">
-                    <table class="table-bordered">
-                        <tr class="bg-black">
-                            <td colspan="2">Tandakan semua / <i class="text-primary">Tick all</i></td>
-                            <?php 
-                            
-                            for($ans = 0; $ans <= 3 ; $ans++ ){
-                                ?><td  align="center">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="bg-navy">
+                                <td style="width:60%" colspan="2">Tandakan semua / <i class="text-primary">Tick all</i></td>
+                                <?php 
                                 
-                                <span class=""><?php echo $ans; ?></span>
-                            </td>
-                            <?php  }?>                              
-                        </tr>
+                                for($ans = 0; $ans <= 3 ; $ans++ ){
+                                    ?><td style="width:5%" align="center">
+                                    
+                                    <span class=""><?php echo $ans; ?></span>
+                                </td>
+                                <?php  }?>                              
+                            </tr>
+                        </thead>
                         {{-- <tr>
                             <td colspan="6">&nbsp;</td>
                         </tr> --}}
@@ -51,7 +53,11 @@
                         @foreach ($question as $key => $row)
                             <tr>
                                 <td>{{ ++$key }}.</td>
-                                <td>{{ $row['value_local'] }}</td>
+                                @if(app()->currentLocale() == 'ms-my') {{-- LANGUAGE CHANGE --}}
+                                    <td>{{ $row['value_local'] }}</td>
+                                @elseif(app()->currentLocale() == 'en')
+                                    <td>{{ $row['value_translation'] }}</td>
+                                @endif
 
                                 @php   $tooltipdesc = '';
                                     for($x =0; $x <= 3 ; $x++ ){
@@ -162,7 +168,7 @@
                 });
                 }
                 function readProducts(){
-                window.location.href="/ewp/dashboards/staff_dash";	
+                window.location.href="/ewp/dashboards/dashboard";	
                 }
     </script>
 @endpush

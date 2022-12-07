@@ -43,17 +43,17 @@ class CreateAdminUserSeeder extends Seeder
             //     'password' => bcrypt('abcd1234'),
             // ]);    
 
-            $user = User::create([
+            //---------------------------------------------------------------//
+
+            $userstaff = User::create([
                 'name' => 'MUHAMMAD HABIEL WAFI BIN ZAIRI',
                 'email' => 'habiel@um.edu.my',
                 'password' => bcrypt('abcd1234'),
+                'user_type' => 'staff',
+                'status' => 'AK',
             ]);
 
-            // $user->profile()->updateOrCreate(['user_id' => $user->id], [
-            //     'um_no' => '00014987',
-            // ]);
-
-            $user->profile()->updateOrCreate(['user_id' => $user->id], [
+            $userstaff->profile()->updateOrCreate(['user_id' => $userstaff->id], [
                 'user_id' => '1',
                 'profile_no' => '000835049',
                 'ptj' => 
@@ -80,8 +80,47 @@ class CreateAdminUserSeeder extends Seeder
                     ]
                 ]
             ]);
+
+            //---------------------------------------------------------------//
+
+            $userstud = User::create([
+                'name' => 'AHMAD HAFIZUL ILMI BIN AHMAD KHAIRI',
+                'email' => 'hafizul@siswa.um.edu.my',
+                'password' => bcrypt('abcd1234'),
+                'user_type' => 'student',
+                'status' => 'AK',
+            ]);
+
+            $userstud->profile()->updateOrCreate(['user_id' => $userstud->id], [
+                'user_id' => '2',
+                'profile_no' => '000854429',
+                'ptj' => 
+                [
+                    [
+                        'code' => 'FCST',
+                        'desc' => 'Faculty of Computer Science and Technology' 
+                    ]
+                ],
+                'department' => 
+                [
+                    [
+                        'code' => 'CSN',
+                        'desc' => 'Computer Science (Netcentric)' 
+                    ]
+                ],
+                'meta' => 
+                [
+                    [
+                        'gender' => 'Male',
+                        'race' => 'Malaysian',
+                        'hp_no' => '0123456789',
+                        'office_no' => '03654068',
+                    ]
+                ]
+            ]);
             
-            $user->assignRole([$role->id,config('constants.role.siteAdmin')]);
+            $userstaff->assignRole([$role->id,config('constants.role.siteAdmin')]);
+            $userstud->assignRole([$role->id,config('constants.role.normalUser')]);
         // }
     }
 }

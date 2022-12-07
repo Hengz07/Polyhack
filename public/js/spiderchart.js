@@ -42,7 +42,7 @@ Highcharts.chart('container', {
     },
 
     series: [{
-        name: '2022/2023 1',
+        name: '2022 1',
         data: [65, 24, 11],
         pointPlacement: 'INTERVENSI UMUM'
     },{
@@ -68,5 +68,4 @@ Highcharts.chart('container', {
             }
         }]
     }
-
 });

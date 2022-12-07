@@ -74,8 +74,15 @@ class SurveysController extends Controller
         //
 
         $survey = $request->input();
-        $session = $schedules['session'];
-        $sem = $schedules['semester'];  
+        
+        if($usertype == 'staff'){
+            $session    = date('Y');
+            $sem        = '1';
+        }
+        elseif($usertype == 'student'){
+            $session    = $schedules['session'];
+            $sem        = $schedules['semester'];
+        }
 
         $currdate = now();
 
@@ -89,7 +96,7 @@ class SurveysController extends Controller
         $status = $reports['status'];
         
         $result = $this->calculation($survey);
-
+        
         // dd($result);
 
         $status = [
@@ -99,7 +106,6 @@ class SurveysController extends Controller
 
         Answers::updateOrCreate(['report_id' => $reports['id'], 'session' => $session, 'sem' => $sem], $items);
         Reports::updateOrCreate(['id' => $reports['id']], $status);  
-
 
         return true;
     }
@@ -138,51 +144,7 @@ class SurveysController extends Controller
     {
         
     }
-
-    public function get_scale_intersive($info)
-    {
-        // for($i = 0; $i < 3; $i++)
-        // {
-        //     if($info['D'] == true) 
-        //     {
-        //         if($info['D']['status']['name'] == 'TERUK' || $info['D']['status']['name'] == 'SANGAT TERUK')
-        //         {
-        //             $info['D']['status']['intersive'] = 'INTERVENSI KHUSUS';
-        //         }
-        //         else
-        //         {
-        //             $info['D']['status']['intersive'] = 'INTERVENSI UMUM';
-        //         }
-        //     }
-
-        //     elseif($info['A'] == true) 
-        //     {
-        //         if($info['A']['status']['name'] == 'TERUK' || $info['A']['status']['name'] == 'SANGAT TERUK')
-        //         {
-        //             $info['A']['status']['intersive'] = 'INTERVENSI KHUSUS';
-        //         }
-        //         else
-        //         {
-        //             $info['A']['status']['intersive'] = 'INTERVENSI UMUM';
-        //         }
-        //     }
-
-        //     elseif($info['S'] == true) 
-        //     {
-        //         if($info['S']['status']['name'] == 'TERUK' || $info['S']['status']['name'] == 'SANGAT TERUK')
-        //         {
-        //             $info['S']['status']['intersive'] = 'INTERVENSI KHUSUS';
-        //         }
-        //         else
-        //         {
-        //             $info['S']['status']['intersive'] = 'INTERVENSI UMUM';
-        //         }
-        //     }
-        // }
-
-        // dd($info);
-    }
-
+    
     //DALAM INFO HANTAR VALUE UNTUK DAPATKAN CATEGORY
     public function get_scale_status($info, $category)
     {

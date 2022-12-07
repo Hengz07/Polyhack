@@ -161,10 +161,8 @@ class SchedulesController extends Controller
     public function destroy($id)
     {
         $schedules = Schedules::findOrFail($id);
-        $id = $schedules->id;
         $schedules->delete();
-        return redirect()->route('ewp.setup.schedules.index', ['route' => $schedules])
-            ->with('toast_success', $schedules .' Successfully deleted!');
+        return redirect()->route('schedules.index')->with('toast_success', 'Schedules successfully deleted!');
     }
     
 }

@@ -45,7 +45,7 @@ Route::prefix('setup')->group(function() {
 });
 
 Route::prefix('setup/schedules')->group(function() {
-        
+    
     Route::get('/', 'SchedulesController@index')->name('ewp.setup.schedules');
     Route::get('create', 'SchedulesController@create')->name('ewp.setup.schedules.create');
     Route::get('{id}/edit', 'SchedulesController@edit')->name('ewp.setup.schedules.edit');
@@ -53,17 +53,18 @@ Route::prefix('setup/schedules')->group(function() {
     
     Route::post('store', 'SchedulesController@store')->name('ewp.setup.schedules.store');
 
-    Route::delete('/{id}', 'SchedulesController@destroy')->name('schedules.delete');
+    Route::delete('/{id}', 'SchedulesController@destroy')->name('ewp.setup.schedules.destroy');
 });
 
 Route::prefix('/dashboards')->group(function() {
 
-    Route::get('/staff_dash', 'EwpController@index')->name('ewp.dashboards.index');
+    Route::get('/dashboard', 'EwpController@index')->name('ewp.dashboards.index');
     Route::get('/admin_dash', 'EwpController@adminindex')->name('ewp.dashboards.admin_dash');
 });
 
 Route::prefix('select2')->group(function () {
 
     Route::post('lookups/category', 'SelectController@getCategory')->name('select2.lookups.category');
+    // Route::post('lookups/result', 'SelectController@getResult')->name('select2.lookups.result');
 
 });

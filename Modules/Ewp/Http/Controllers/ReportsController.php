@@ -29,10 +29,10 @@ class ReportsController extends Controller
         })
         ->orderBy('id', 'asc')
         ->paginate($limit);
-
+        
         session()->put('url.intended', url()->current());
-
-        return view('ewp::dashboards.staff_dashboard', compact('reports'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search);
+        
+        return view('ewp::dashboards.dashboard', compact('reports'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search);
     }
 
     /**
@@ -56,7 +56,7 @@ class ReportsController extends Controller
             $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->whereIn('category', ['UG', 'PG', 'PASUM'])->first();
         }
         else{
-            return view('ewp::dashboards.staff_dashboard')->with('toast_waring', 'User does not exist.');
+            return view('ewp::dashboards.dashboard')->with('toast_waring', 'User does not exist.');
         }
 
         //RETRIEVE JSON/JSONB DATA
@@ -107,8 +107,15 @@ class ReportsController extends Controller
             'alt_phone' => $alt_phone,
         ];
 
-        $session    = $schedules['session'];
-        $sem        = $schedules['semester'];
+        if($usertype == 'staff' && str_contains($schedules['session'], date('Y'))){
+            $session    = date('Y');
+            $sem        = '1';
+        }
+        elseif($usertype == 'student'){
+            $session    = $schedules['session'];
+            $sem        = $schedules['semester'];
+        }
+
         $profile_id = $profiles['id'];
 
         $reports = Reports::where('profile_id', $profiles['id'])->first();
