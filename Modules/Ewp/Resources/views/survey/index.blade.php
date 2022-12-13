@@ -60,28 +60,21 @@
                                 @endif
 
                                 @php   $tooltipdesc = '';
-                                    for($x =0; $x <= 3 ; $x++ ){
-                                        
-                                        if($x == 0){
-                                        $tooltipdesc = 'Did not apply to me at all';
-                                        $color = 'icheck-success';
-                                        }else if($x == 1){
-                                        $tooltipdesc = 'Applied to me to some degree, or some of the time';
-                                        $color = 'icheck-info';
-                                        }else if($x == 2){
-                                        $tooltipdesc = ' Applied to me to a considerable degree or a good part of time';
-                                        $color = 'icheck-warning';
-                                        }
-                                        else{
-                                        $tooltipdesc = 'Applied to me very much or most of the time';
-                                        $color = 'icheck-secondary';
-                                        } 
+                                    foreach($ans_desc as $key => $desc)
+                                    {
+                                        if(app()->currentLocale() == 'ms-my')
+                                            $tooltipdesc = $desc['value_local'];
+                                        elseif(app()->currentLocale() == 'en')
+                                            $tooltipdesc = $desc['value_translation'];
+                                            
+                                        $color = $desc['desc'];
+
                                 @endphp
                                         <td align="center"> 
                                                         <div class="<?=$color?> d-inline" data-toggle="tooltip"  title="<?=$tooltipdesc?>">
-                                                            <input type="radio"  id="{{ $row->code.$x }}" name="<?php echo "Q[$row->code]"; ?>" value="<?php echo $x;?>" 
+                                                            <input type="radio"  id="{{ $row->code.$key }}" name="<?php echo "Q[$row->code]"; ?>" value="<?php echo $key;?>" 
                                                         onclick="pilih(1)">
-                                                        <label class="" for="{{ $row->code.$x }}"></label>
+                                                        <label class="" for="{{ $row->code.$key }}"></label>
                                                         </div>                 
                                         </td>
                                 @php  } @endphp

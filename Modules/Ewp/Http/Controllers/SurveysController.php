@@ -19,17 +19,19 @@ class SurveysController extends Controller
     {
         $question = Lookups::orderby('id', 'asc')
                     ->where('key', 'questions')->get();
+        $ans_desc = Lookups::orderby('id', 'asc')
+                    ->where('key', 'ans_desc')->get();
 
         $uuid = $id;
-        $schedules = Schedules::orderBy('id', 'asc')->get();
 
         $profiles  = Profile::where('user_id', auth()->user()->id)->where('status', 'AK')->first();
+        
         $check = Reports::where('uuid', $id)->where('profile_id', $profiles['id'])->first();
         
         if(!empty($check)){
 
             if($check['status'] == 'V'){
-                return view('ewp::survey.index',compact('question', 'schedules', 'uuid'));
+                return view('ewp::survey.index',compact('question', 'uuid', 'ans_desc'));
             }
             elseif($check['status'] == 'C'){
                 return redirect()->route('ewp.dashboards.index')->with('toast_success', 'Survey was already answered');
@@ -59,7 +61,6 @@ class SurveysController extends Controller
     {
         //OTHER TABLES
         $profiles  = Profile::where('user_id', auth()->user()->id)->where('status', 'AK')->first();
-        $reports   = Reports::where('profile_id', $profiles['id'])->first();
 
         //SCHEDULES RETRIEVE
         $usertype  = auth()->user()->user_type;
@@ -73,16 +74,18 @@ class SurveysController extends Controller
         }
         //
 
+        $reports   = Reports::where('profile_id', $profiles['id'])->where('session', $schedules['session'])->where('sem', $schedules['semester'])->first();
+
         $survey = $request->input();
         
-        if($usertype == 'staff'){
-            $session    = date('Y');
-            $sem        = '1';
-        }
-        elseif($usertype == 'student'){
+        // if($usertype == 'staff'){
+        //     $session    = date('Y');
+        //     $sem        = '1';
+        // }
+        // elseif($usertype == 'student'){
             $session    = $schedules['session'];
             $sem        = $schedules['semester'];
-        }
+        // }
 
         $currdate = now();
 
@@ -96,16 +99,19 @@ class SurveysController extends Controller
         $status = $reports['status'];
         
         $result = $this->calculation($survey);
-        
-        // dd($result);
 
         $status = [
             'status' => 'C',
             'scale' => json_encode($result)
         ];
 
-        Answers::updateOrCreate(['report_id' => $reports['id'], 'session' => $session, 'sem' => $sem], $items);
+        $answers = Answers::where('report_id', $reports['id'])->first();
+            
+        $result = Answers::updateOrCreate(['report_id' => $reports['id'], 'session' => $session, 'sem' => $sem], $items);
+
         Reports::updateOrCreate(['id' => $reports['id']], $status);  
+
+        dd('check database');
 
         return true;
     }
@@ -224,6 +230,9 @@ class SurveysController extends Controller
                 }
             }
         }
+
+        //FIXXXXXXXXXXXXX (CAN'T HAVE ALL 0 VALUE ON A AND S CODE)
+        // dd($info);
 
         return $info;
         //RETURN CATEGORY

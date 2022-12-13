@@ -35,7 +35,7 @@ class EwpController extends Controller
         ->paginate($limit);
 
         //SCHEDULES RETRIEVE
-        $usertype  = auth()->user()->user_type;
+        $usertype = auth()->user()->user_type;
 
         if($usertype == 'staff'){
             $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->whereIn('category', ['ST'])->first();
@@ -58,11 +58,9 @@ class EwpController extends Controller
         $roles = auth()->user()->roles->pluck('id')->toArray();
 
         if(in_array(1, $roles) || in_array(2, $roles) || in_array(3, $roles)){
-
             return view('ewp::dashboards.admin_dash');
         }
         else{
-            
             return redirect()->to(route('ewp.dashboards.index'));
         }
     }

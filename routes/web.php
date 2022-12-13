@@ -55,7 +55,7 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::prefix('survey')->group(function() {
     
-        Route::get('setup/', 'SurveysController@index')->name('ewp.servey.index');
+        Route::get('setup/', 'SurveysController@index')->name('ewp.survey.index');
 
     });
 

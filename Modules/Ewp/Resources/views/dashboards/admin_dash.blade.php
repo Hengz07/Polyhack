@@ -6,7 +6,7 @@
         <div class="p-2">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('ewp.dashboards.index') }}">Home</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Admin Dashboard</li>
                 </ol>
             </nav>
@@ -17,44 +17,41 @@
 @section('content')
 
 <div class="container-fluid">
-
     <br>
-    {{-- Table Design 2 --}}
     <body>
         <section class="ftco-section">
             {{-- Header/Title & Manual/Start Test Button Section --}}
-                <div class="card card-body">
-                    <div class="col-md-12 grid-margin transparent align-items-center justify-content-center">
-                        <div class="row">
-                            <div class="col-md-4 stretch-card transparent">
-                                <a href={{ route('ewp.setup.questions') }}>
-                                <div class="card bg-dark">
+            <div class="card card-body">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <a href={{ route('ewp.setup.questions') }}>
+                                <div class="card bg-success">
                                     <div class="card-body">
-                                        <p class="mb-4 text-center text-white">Questions</p>
+                                        <h5><p class="mb-4 text-left text-white">Questions</p></h5>
                                     </div>
                                 </div>
-                                </a>
-                            </div>
-                            
-                            <div class="col-md-4 stretch-card transparent">
-                                <a href={{ route('setup.scale') }}>
-                                <div class="card bg-dark">
+                            </a>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <a href={{ route('setup.scale') }}>
+                                <div class="card bg-warning">
                                     <div class="card-body">
-                                        <p class="mb-4 text-center text-white">Scales</p>
+                                        <h5><p class="mb-4 text-left text-white">Scales</p></h5>
                                     </div>
                                 </div>
-                                </a>
-                            </div>
-                            
-                            <div class="col-md-4 mb-lg-0 stretch-card transparent">
-                                <a href={{ route('ewp.setup.schedules') }}>
-                                <div class="card bg-dark">
+                            </a>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <a href={{ route('ewp.setup.schedules') }}>
+                                <div class="card bg-danger">
                                     <div class="card-body">
-                                        <p class="mb-4 text-center text-white">Schedules</p>
+                                        <h5><p class="mb-4 text-left text-white">Schedules</p></h5>
                                     </div>
                                 </div>
-                                </a>
-                            </div>
+                            </a>
                         </div>
                     </div>
                 </div>

@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('survey')->group(function() {
     
-    Route::get('/{id}', 'SurveysController@index')->name('ewp.servey.index');
+    Route::get('/{id}', 'SurveysController@index')->name('ewp.survey.index');
     Route::post('/save', 'SurveysController@store')->name('ewp.survey.store');
 
     Route::get('/answers', 'SurveysController@answers')->name('ewp.survey.answers');

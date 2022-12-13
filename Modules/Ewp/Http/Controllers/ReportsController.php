@@ -80,7 +80,6 @@ class ReportsController extends Controller
      */   
     public function store(Request $request)
     {
-        
         //OTHER TABLES
         $profiles  = Profile::where('user_id', auth()->user()->id)->where('status', 'AK')->first();
         $users     = User::where('id' , $profiles['user_id'])->first();
@@ -98,7 +97,7 @@ class ReportsController extends Controller
 
         //DECLARE
         $alt_phone = $alt_email = '';
-
+        
         $alt_email = $request->input('alt_email');
         $alt_phone = $request->input('alt_phone');
 
@@ -107,24 +106,26 @@ class ReportsController extends Controller
             'alt_phone' => $alt_phone,
         ];
 
-        if($usertype == 'staff' && str_contains($schedules['session'], date('Y'))){
-            $session    = date('Y');
-            $sem        = '1';
-        }
-        elseif($usertype == 'student'){
+
+        //UNFINISHED FIX THIS (IF STAFF SESSION BECOMES THE CURRENT YEAR ONLY AND SEMESTER DEFAULT TO 1)
+        // if($usertype == 'staff' && str_contains($schedules['session'], date('Y'))){
+        //     $session    = date('Y');
+        //     $sem        = '1';
+        // }
+        // elseif($usertype == 'student'){
             $session    = $schedules['session'];
             $sem        = $schedules['semester'];
-        }
-
+        // }
+        
         $profile_id = $profiles['id'];
 
-        $reports = Reports::where('profile_id', $profiles['id'])->first();
+        $reports = Reports::where('profile_id', $profiles['id'])->where('session', $schedules['session'])->where('sem', $schedules['semester'])->first();
 
-        if(!isset($reports) || $reports['status'] == '')
-            $status     = 'V';
-        else
-            $status = $reports['status'];
-
+            if(!isset($reports) || $reports['status'] == '' || $reports['status'] == null)
+                $status = 'V';
+            else
+                $status = $reports['status'];
+                
         $items_r = [
             'session'    => $session,
             'sem'        => $sem,
@@ -133,12 +134,18 @@ class ReportsController extends Controller
         ];
 
         Profile::updateOrCreate(['user_id' => auth()->user()->id], $items_p);
-        
-        $result  = Reports::updateOrCreate(['profile_id' => $profile_id, 'session' => $session, 'sem' => $sem], $items_r);
-        $new     = Reports::findOrFail($result->id);
-        // $uuid = Reports::where('id', $result->id)->pluck('uuid')->first();
 
-        return redirect()->route('ewp.servey.index', $new->uuid)->with('toast_success', 'Report has been successfully saved.');
+        // if($reports == null || $reports['session'] != $schedules['session'] || $reports['sem'] != $schedules['semester']){
+        //     Reports::create(['profile_id' => $profile_id, 'session' => $session, 'sem' => $sem], $items_r);
+        //     $result = Reports::updateOrCreate(['profile_id' => $profile_id, 'session' => $session, 'sem' => $sem], $items_r);
+        // }
+        // else{
+            $result  = Reports::updateOrCreate(['profile_id' => $profile_id, 'session' => $session, 'sem' => $sem], $items_r);
+        // }
+        
+        $new     = Reports::findOrFail($result->id);
+        
+        return redirect()->route('ewp.survey.index', $new->uuid)->with('toast_success', 'Report has been successfully d.');
     }
     
     /**

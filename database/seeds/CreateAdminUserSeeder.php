@@ -50,12 +50,12 @@ class CreateAdminUserSeeder extends Seeder
                 'email' => 'habiel@um.edu.my',
                 'password' => bcrypt('abcd1234'),
                 'user_type' => 'staff',
-                'status' => 'AK',
             ]);
 
             $userstaff->profile()->updateOrCreate(['user_id' => $userstaff->id], [
                 'user_id' => '1',
                 'profile_no' => '000835049',
+                'status' => 'AK',
                 'ptj' => 
                 [
                     [
@@ -88,12 +88,12 @@ class CreateAdminUserSeeder extends Seeder
                 'email' => 'hafizul@siswa.um.edu.my',
                 'password' => bcrypt('abcd1234'),
                 'user_type' => 'student',
-                'status' => 'AK',
             ]);
 
             $userstud->profile()->updateOrCreate(['user_id' => $userstud->id], [
                 'user_id' => '2',
                 'profile_no' => '000854429',
+                'status' => 'AK',
                 'ptj' => 
                 [
                     [
