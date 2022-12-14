@@ -18,6 +18,9 @@ Route::prefix('dashboards/reports')->group(function() {
     Route::get('create', 'ReportsController@create')->name('ewp.dashboards.reports.create');
 
     Route::post('store', 'ReportsController@store')->name('ewp.dashboards.reports.store');
+
+    //
+    Route::get('/result', 'ReportsController@getResult')->name('reports.result');
 });
 
 Route::prefix('setup/questions')->group(function() {
@@ -65,6 +68,5 @@ Route::prefix('/dashboards')->group(function() {
 Route::prefix('select2')->group(function () {
 
     Route::post('lookups/category', 'SelectController@getCategory')->name('select2.lookups.category');
-    // Route::post('lookups/result', 'SelectController@getResult')->name('select2.lookups.result');
 
 });

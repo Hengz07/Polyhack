@@ -106,7 +106,6 @@ class ReportsController extends Controller
             'alt_phone' => $alt_phone,
         ];
 
-
         //UNFINISHED FIX THIS (IF STAFF SESSION BECOMES THE CURRENT YEAR ONLY AND SEMESTER DEFAULT TO 1)
         // if($usertype == 'staff' && str_contains($schedules['session'], date('Y'))){
         //     $session    = date('Y');
@@ -135,13 +134,7 @@ class ReportsController extends Controller
 
         Profile::updateOrCreate(['user_id' => auth()->user()->id], $items_p);
 
-        // if($reports == null || $reports['session'] != $schedules['session'] || $reports['sem'] != $schedules['semester']){
-        //     Reports::create(['profile_id' => $profile_id, 'session' => $session, 'sem' => $sem], $items_r);
-        //     $result = Reports::updateOrCreate(['profile_id' => $profile_id, 'session' => $session, 'sem' => $sem], $items_r);
-        // }
-        // else{
-            $result  = Reports::updateOrCreate(['profile_id' => $profile_id, 'session' => $session, 'sem' => $sem], $items_r);
-        // }
+        $result  = Reports::updateOrCreate(['profile_id' => $profile_id, 'session' => $session, 'sem' => $sem], $items_r);
         
         $new     = Reports::findOrFail($result->id);
         
@@ -189,31 +182,46 @@ class ReportsController extends Controller
 
     }
 
-    public function ajax()
+    public function getResult(Request $request)
     {
-        // if()
-        // {
-
-        // }
+        $profiles = Profile::where('user_id', auth()->user()->id)->where('status', 'AK')->first();
         
-        // {
+        $search = $request->search;
 
-        //     if(req)
-        //     {
-        //         $list = report::where(uuid)->first();
-        //     }
-        //     else
-        //     {
-        //         $list = report::where()->get();
-        //     } 
+        if ($search == '') {
+            $results = Reports::select('scale')
+                            ->where('profile_id', $profiles['id'])
+                            ->get();
+        } 
+        else {
+            $results = Reports::select('scale')
+                            ->where('profile_id', $profiles['id'])
+                            ->where('session', 'ilike', '%' . $search . '%')->orWhere('sem', 'ilike', '%' . $search . '%')
+                            ->get();
+        }
 
-        //     foreach(){
-        //      $result = [{   name: '2022/2023 1',
-        //         data: [65, 24, 11],
-        //         pointPlacement: 'INTERVENSI UMUM'
-        //     }]
-          
-        //     }
+        foreach($results as $result) {
+            dd($result);
+        }
+
+
+
+            // if(req)
+            // {
+            //     $list = report::where(uuid)->first();
+            // }
+            // else
+            // {
+            //     $list = report::where()->get();
+            // } 
+
+            // foreach(){
+            // $result =   '
+            //                 name: '.$reports['scale'].', 
+            //                 data: [65, 24, 11],
+            //                 pointPlacement: "INTERVENSI UMUM"
+            //             '
+            // }
 
         // }
         

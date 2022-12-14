@@ -1,3 +1,35 @@
+var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+$("#getResult").click(function() {
+    // $('.selResult').click({
+        $.ajax ({
+            url: "reports/result",
+            type: "get",
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    _token: CSRF_TOKEN,
+                };
+            },
+            processResults: function (response) {
+                return {
+                    results: $.map(response, function (item) {
+                        return {
+                            name: test,
+                            data: test,
+                            pointPlacement: test
+                            // text:(item.code + ' - ' + item.text),
+                            // id: (item.code + '-' + item.text)
+                        }
+                    })
+                };
+            },
+            cache: true
+        })
+    // })
+});
+
 Highcharts.chart('container', {
 
     chart: {

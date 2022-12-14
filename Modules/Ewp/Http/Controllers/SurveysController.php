@@ -78,6 +78,7 @@ class SurveysController extends Controller
 
         $survey = $request->input();
         
+        //UNFINISHED FIX THIS (IF STAFF SESSION BECOMES THE CURRENT YEAR ONLY AND SEMESTER DEFAULT TO 1)
         // if($usertype == 'staff'){
         //     $session    = date('Y');
         //     $sem        = '1';

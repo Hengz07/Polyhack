@@ -1,3 +1,5 @@
+{{-- NOTE FOR HABIEL -- FIX STAFF SCHEDULES SESSION DISPLAYING STUDENT FORMAT INSTEAD OF THE STAFF FORMAT --}}
+
 @extends('adminlte::page')
 
 @section('title', $title ?? "")

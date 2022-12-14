@@ -20,29 +20,29 @@
                         
             @php
 
-            if(app()->currentLocale() == 'ms-my')
-            {
-                $sessem = 'Sesi / Semester';
-                $year   = 'Tahun';
+                if(app()->currentLocale() == 'ms-my')
+                {
+                    $sessem = 'Sesi / Semester';
+                    $year   = 'Tahun';
 
-                $date   = 'Tarikh';
-                $status   = 'Status';
+                    $date   = 'Tarikh';
+                    $status   = 'Status';
 
-                $teststart = 'Mulakan Ujian';
-                $notactive    = 'Tiada sesi / semester yang aktif';
-            }
-            
-            elseif(app()->currentLocale() == 'en')
-            {
-                $sessem = 'Session / Semester';
-                $year   = 'Year';
+                    $teststart = 'Mulakan Ujian';
+                    $notactive    = 'Tiada sesi / semester yang aktif';
+                }
+                
+                elseif(app()->currentLocale() == 'en')
+                {
+                    $sessem = 'Session / Semester';
+                    $year   = 'Year';
 
-                $date   = 'Date';
-                $status   = 'Status';
+                    $date   = 'Date';
+                    $status   = 'Status';
 
-                $teststart = 'Start Test';
-                $notactive    = 'No session / semester currently active';
-            }
+                    $teststart = 'Start Test';
+                    $notactive    = 'No session / semester currently active';
+                }
             
             @endphp
 
@@ -59,7 +59,8 @@
                 @endforeach
 
                     {{-- Start Test --}}
-                    @if(count($reports) == 0 || $rep['status'] == 'C')
+                    @if(!isset($rep) || $rep['status'] != 'C')
+                        @dd('test')
                         @if($schedules == null)
                             <label class="float-right text-white">
                                 {{ $notactive }}
@@ -151,7 +152,7 @@
                     <figure class="highcharts-figure col-sm">
                         <div id="container"></div>
                         
-                        <p class="highcharts-description">
+                        <p class="highcharts-description" id="getResult">
                             A spiderweb chart shows the test results of the Emotional-Wellbeing Profiling (EWP) test that has been answered by users (student/staffs).
                         </p>
                     </figure>
