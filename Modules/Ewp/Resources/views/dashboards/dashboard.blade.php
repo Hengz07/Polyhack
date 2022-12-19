@@ -29,7 +29,6 @@
                     $status   = 'Status';
 
                     $teststart = 'Mulakan Ujian';
-                    $notactive    = 'Tiada sesi / semester yang aktif';
                 }
                 
                 elseif(app()->currentLocale() == 'en')
@@ -41,7 +40,6 @@
                     $status   = 'Status';
 
                     $teststart = 'Start Test';
-                    $notactive    = 'No session / semester currently active';
                 }
             
             @endphp
@@ -58,22 +56,17 @@
                 @foreach ($reports as $report => $rep)
                 @endforeach
 
-                    {{-- Start Test --}}
-                    @if(!isset($rep) || $rep['status'] != 'C')
-                        @dd('test')
-                        @if($schedules == null)
-                            <label class="float-right text-white">
-                                {{ $notactive }}
-                            </label>
-                        @else
-                            <a type="button" class="btn btn-primary showReport" data-route="ewp/dashboards/reports" 
-                                id="btn2" data-title="Report" data-toggle="modal" title="Save">{{ $teststart }}</a>
+                {{-- Start Test --}}
+                @if(isset($schedules))
+                    @if(!isset($rep) || $rep['status'] != 'C' || $rep['session'] != $schedules['session'] || $rep['sem'] != $schedules['semester'])
+                        <a type="button" class="btn btn-primary showReport" data-route="ewp/dashboards/reports" 
+                            id="btn2" data-title="Report" data-toggle="modal" title="Save">{{ $teststart }}</a>
 
-                            <label class="float-right text-white">
-                                {{ $schedules['session'] }} / {{ $schedules['semester'] }}
-                            </label>
-                        @endif
+                        <label class="float-right text-white">
+                            {{ $schedules['session'] }} / {{ $schedules['semester'] }}
+                        </label>
                     @endif
+                @endif
                 {{--  --}}
             </span>
         </div>
@@ -130,7 +123,7 @@
 
                                                     &nbsp; 
                                                     
-                                                    <a type="button" class="px-2 btn btn-dark btn-sm fa-list-alt fa-2 fas"></a> 
+                                                    <a type="button" class="px-2 btn btn-dark btn-sm fa-list-alt fa-2 fas getResult"></a> 
                                                 </div> 
                                             @endif
 
@@ -152,7 +145,7 @@
                     <figure class="highcharts-figure col-sm">
                         <div id="container"></div>
                         
-                        <p class="highcharts-description" id="getResult">
+                        <p class="highcharts-description">
                             A spiderweb chart shows the test results of the Emotional-Wellbeing Profiling (EWP) test that has been answered by users (student/staffs).
                         </p>
                     </figure>

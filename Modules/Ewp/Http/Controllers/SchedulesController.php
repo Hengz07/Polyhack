@@ -45,7 +45,7 @@ class SchedulesController extends Controller
                 'session'  => $session,
                 'semester' => 1
             ];
-            
+        
             Schedules::updateOrCreate(['id' => $staffsch['id']], $usertypesch)->where('id', $staffsch['id']);
         }
 

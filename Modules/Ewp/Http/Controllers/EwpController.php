@@ -24,16 +24,6 @@ class EwpController extends Controller
 
         $profiles  = Profile::where('user_id', auth()->user()->id)->where('status', 'AK')->first();
 
-        $reports = Reports::where(function ($query) use ($search) {
-            if ($search != null) {
-                $query->where('session', 'like', '%' . $search . '%')
-                      ->orWhere('sem', 'like', '%' . $search . '%');
-            }
-        })
-        ->where('profile_id', $profiles['id'])
-        ->orderBy('id', 'asc')
-        ->paginate($limit);
-
         //SCHEDULES RETRIEVE
         $usertype = auth()->user()->user_type;
 
@@ -46,7 +36,17 @@ class EwpController extends Controller
             $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->whereIn('category', ['UG'])->first();
         }
 
-        // dd($schedules);
+        $reports = Reports::where(function ($query) use ($search) {
+            if ($search != null) {
+                $query->where('session', 'like', '%' . $search . '%')
+                      ->orWhere('sem', 'like', '%' . $search . '%');
+            }
+        })
+        ->where('profile_id', $profiles['id'])
+        ->orderBy('id', 'asc')
+        ->paginate($limit);
+
+        // dd($reports);
 
         session()->put('url.intended', url()->current());
 

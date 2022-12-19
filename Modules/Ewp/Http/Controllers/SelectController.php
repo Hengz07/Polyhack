@@ -36,6 +36,7 @@ class SelectController extends Controller
         }
 
         $response = array();
+        
         foreach ($results as $result) {
             $response[] = array(
                 "id" => $result->id,

@@ -1,33 +1,31 @@
 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
-$("#getResult").click(function() {
-    // $('.selResult').click({
-        $.ajax ({
-            url: "reports/result",
-            type: "get",
-            dataType: 'json',
-            delay: 250,
-            data: function (params) {
-                return {
-                    _token: CSRF_TOKEN,
-                };
-            },
-            processResults: function (response) {
-                return {
-                    results: $.map(response, function (item) {
-                        return {
-                            name: test,
-                            data: test,
-                            pointPlacement: test
-                            // text:(item.code + ' - ' + item.text),
-                            // id: (item.code + '-' + item.text)
-                        }
-                    })
-                };
-            },
-            cache: true
-        })
-    // })
+$(".getResult").click(function(){
+    $.ajax ({
+        url: "reports/result",
+        type: "get",
+        dataType: 'json',
+        delay: 250,
+        data: function () {
+            return {
+                _token: CSRF_TOKEN,
+                // search: params.term, // search term 
+            };
+        },
+        processResults: function (response) {
+            return {
+                results: $.map(response, function (item) {
+                    console.log(item);
+                    return {
+                        name: item.name,
+                        data: item.data,
+                        pointPlacement: item.pointPlacement
+                    }
+                })
+            };
+        },
+        cache: true
+    })
 });
 
 Highcharts.chart('container', {
@@ -51,7 +49,7 @@ Highcharts.chart('container', {
     },
 
     xAxis: {
-        categories: ['Depression', 'Anxiety', 'Stress'],
+        categories: ['Anxiety', 'Depression', 'Stress'],
         tickmarkPlacement: 'on',
         lineWidth: 0
     },
@@ -81,7 +79,7 @@ Highcharts.chart('container', {
         name: '2022/2023 2',
         data: [24, 35, 12],
         pointPlacement: 'INTERVENSI KHUSUS'
-    }],
+    },],
 
     responsive: {
         rules: [{

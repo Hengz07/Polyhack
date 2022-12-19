@@ -9,9 +9,15 @@
             <div class="col-sm-1 text-bold"> :</div>    
             <div class="col-sm-3">
                 <select class="form-control" name="session">
-                    <option value="{{ date('Y')-1 }}/{{ date('Y') }}" {{ (($schedules['session'] == ((date('Y')-1).'/'.(date('Y')))) ? 'selected' : '') }}>{{ date('Y')-1 }}/{{ date('Y') }}</option>
-                    <option value="{{ date('Y') }}/{{ date('Y')+1 }}" {{ (($schedules['session'] == ((date('Y')).'/'.(date('Y')+1))) ? 'selected' : '') }}>{{ date('Y') }}/{{ date('Y')+1 }}</option>
-                    <option value="{{ date('Y')+1 }}/{{ date('Y')+2 }}" {{ (($schedules['session'] == ((date('Y')+1).'/'.(date('Y')+2))) ? 'selected' : '') }}>{{ date('Y')+1 }}/{{ date('Y')+2 }}</option>
+                    @if(str_contains($schedules['category'], 'ST'))
+                        <option value="{{ date('Y') }}" {{ (($schedules['session'] == ((date('Y')))) ? 'selected' : '') }}>{{ date('Y') }}</option>
+                        <option value="{{ date('Y')+1 }}" {{ (($schedules['session'] == ((date('Y')+1))) ? 'selected' : '') }}>{{ date('Y')+1 }}</option>
+                        <option value="{{ date('Y')+2 }}" {{ (($schedules['session'] == ((date('Y')+2))) ? 'selected' : '') }}>{{ date('Y')+2 }}</option>
+                    @else
+                        <option value="{{ date('Y')-1 }}/{{ date('Y') }}" {{ (($schedules['session'] == ((date('Y')-1).'/'.(date('Y')))) ? 'selected' : '') }}>{{ date('Y')-1 }}/{{ date('Y') }}</option>
+                        <option value="{{ date('Y') }}/{{ date('Y')+1 }}" {{ (($schedules['session'] == ((date('Y')).'/'.(date('Y')+1))) ? 'selected' : '') }}>{{ date('Y') }}/{{ date('Y')+1 }}</option>
+                        <option value="{{ date('Y')+1 }}/{{ date('Y')+2 }}" {{ (($schedules['session'] == ((date('Y')+1).'/'.(date('Y')+2))) ? 'selected' : '') }}>{{ date('Y')+1 }}/{{ date('Y')+2 }}</option>
+                    @endif
                 </select>
             </div>
 
@@ -56,6 +62,7 @@
                 <input type="checkbox" name="category[]" value="PASUM" {{ str_contains($schedules['category'], 'PASUM') ? 'checked' : '' }}></input>
                 <label> PASUM - FOUNDATION </label>
             </div>
+            
             <span class="col-sm-1 text-bold"></span>
             <div class="col-sm-4"> 
                 <input type="checkbox" name="category[]" value="UG" {{ str_contains($schedules['category'], 'UG') ? 'checked' : '' }}></input>

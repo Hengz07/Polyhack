@@ -112,7 +112,7 @@ class SurveysController extends Controller
 
         Reports::updateOrCreate(['id' => $reports['id']], $status);  
 
-        dd('check database');
+        // dd('check database');
 
         return true;
     }

@@ -183,47 +183,83 @@ class ReportsController extends Controller
     }
 
     public function getResult(Request $request)
-    {
+    {   
         $profiles = Profile::where('user_id', auth()->user()->id)->where('status', 'AK')->first();
         
         $search = $request->search;
-
+        
         if ($search == '') {
-            $results = Reports::select('scale')
-                            ->where('profile_id', $profiles['id'])
+            $reports = Reports::where('profile_id', $profiles['id'])
+                            ->orderBy('id', 'asc')
                             ->get();
         } 
         else {
-            $results = Reports::select('scale')
-                            ->where('profile_id', $profiles['id'])
+            $reports = Reports::where('profile_id', $profiles['id'])
                             ->where('session', 'ilike', '%' . $search . '%')->orWhere('sem', 'ilike', '%' . $search . '%')
+                            ->orderBy('id', 'asc')
                             ->get();
         }
 
-        foreach($results as $result) {
-            dd($result);
-        }
+        //REVISE THESE CODES (DEFINING DATA TO SEND TO JQUERY)
+        $response = array();
 
+        //REPORT LOOPING TO ACCESS DATA FROM EACH REPORTS
+        foreach($reports as $result)
+        {
+            $dataA = $dataB = $dataC = 0;
+            $intersive = '';
+            $data = array();
 
+            $scaleresults = json_decode($result['scale'], true);
 
-            // if(req)
-            // {
-            //     $list = report::where(uuid)->first();
-            // }
-            // else
-            // {
-            //     $list = report::where()->get();
-            // } 
+            $count = 0;
 
-            // foreach(){
-            // $result =   '
-            //                 name: '.$reports['scale'].', 
-            //                 data: [65, 24, 11],
-            //                 pointPlacement: "INTERVENSI UMUM"
-            //             '
-            // }
+            // dd($scaleresults);
+            foreach ($scaleresults as $scaleresult => $sr){
+                
+                $count += 1;
 
-        // }
-        
+                //DATA
+                if ($scaleresults['A']){
+                    $dataA = $scaleresults['A']['value'] * 2;
+                }
+
+                if ($scaleresults['D']){
+                    $dataD = $scaleresults['D']['value'] * 2;
+                }
+
+                if ($scaleresults['S']){
+                    $dataS = $scaleresults['S']['value'] * 2; 
+                }
+                
+                //INTERSIVE
+                if ($scaleresults['A']['status']['intersive'] == 'INTERVENSI KHUSUS' || 
+                    $scaleresults['D']['status']['intersive'] == 'INTERVENSI KHUSUS' || 
+                    $scaleresults['S']['status']['intersive'] == 'INTERVENSI KHUSUS')
+                {
+                    $intersive = 'INTERVENSI KHUSUS';
+                }
+
+                else
+                {
+                    $intersive = 'INTERVENSI UMUM';
+                }
+            }
+
+            $data[] = $dataA;
+            $data[] = $dataD;
+            $data[] = $dataS;
+            
+            $sessem = $result->session.' - '.$result->sem;
+            
+            $fullresult[] = array(
+                'name' => $sessem,
+                'data' => $data,
+                'pointPlacement' => $intersive
+            );
+        }       
+
+        echo (json_encode($fullresult));
+        exit;
     }
 }
