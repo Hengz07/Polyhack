@@ -56,7 +56,7 @@ Route::prefix('setup/schedules')->group(function() {
     
     Route::post('store', 'SchedulesController@store')->name('ewp.setup.schedules.store');
 
-    Route::delete('/{id}', 'SchedulesController@destroy')->name('ewp.setup.schedules.destroy');
+    Route::post('/{id}', 'SchedulesController@destroy')->name('ewp.setup.schedules.destroy');
 });
 
 Route::prefix('/dashboards')->group(function() {

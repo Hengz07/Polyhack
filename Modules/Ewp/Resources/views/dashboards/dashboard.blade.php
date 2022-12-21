@@ -17,7 +17,6 @@
 <div class="container-fluid">
     <div class="row">
         <div class="card bg-navy col-sm-12">
-                        
             @php
 
                 if(app()->currentLocale() == 'ms-my')
@@ -145,9 +144,9 @@
                     <figure class="highcharts-figure col-sm">
                         <div id="container"></div>
                         
-                        <p class="highcharts-description">
+                        {{-- <p class="highcharts-description">
                             A spiderweb chart shows the test results of the Emotional-Wellbeing Profiling (EWP) test that has been answered by users (student/staffs).
-                        </p>
+                        </p> --}}
                     </figure>
                 </div>
             </div>

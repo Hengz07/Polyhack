@@ -212,12 +212,8 @@ class ReportsController extends Controller
 
             $scaleresults = json_decode($result['scale'], true);
 
-            $count = 0;
-
             // dd($scaleresults);
             foreach ($scaleresults as $scaleresult => $sr){
-                
-                $count += 1;
 
                 //DATA
                 if ($scaleresults['A']){
@@ -251,7 +247,7 @@ class ReportsController extends Controller
             $data[] = $dataS;
             
             $sessem = $result->session.' - '.$result->sem;
-            
+                
             $fullresult[] = array(
                 'name' => $sessem,
                 'data' => $data,
@@ -259,7 +255,6 @@ class ReportsController extends Controller
             );
         }       
 
-        echo (json_encode($fullresult));
-        exit;
+        return response()->json($fullresult);
     }
 }

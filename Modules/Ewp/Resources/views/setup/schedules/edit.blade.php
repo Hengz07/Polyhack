@@ -62,14 +62,14 @@
                 <input type="checkbox" name="category[]" value="PASUM" {{ str_contains($schedules['category'], 'PASUM') ? 'checked' : '' }}></input>
                 <label> PASUM - FOUNDATION </label>
             </div>
-            
+
             <span class="col-sm-1 text-bold"></span>
             <div class="col-sm-4"> 
                 <input type="checkbox" name="category[]" value="UG" {{ str_contains($schedules['category'], 'UG') ? 'checked' : '' }}></input>
                 <label> UG - UNDERGRADUATE </label>
             </div>
         </div>
-
+        
         <div class="row mb-3">
             <span class="col-sm-2 text-bold"></span>
             <span class="col-sm-1 text-bold"></span>
