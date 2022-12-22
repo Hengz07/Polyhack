@@ -112,7 +112,7 @@ class SurveysController extends Controller
 
         Reports::updateOrCreate(['id' => $reports['id']], $status);  
 
-        // dd('check database');
+        dd('check database');
 
         return true;
     }
@@ -233,7 +233,6 @@ class SurveysController extends Controller
         }
 
         //FIXXXXXXXXXXXXX (CAN'T HAVE ALL 0 VALUE ON A AND S CODE)
-        // dd($info);
 
         return $info;
         //RETURN CATEGORY

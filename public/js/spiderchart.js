@@ -29,10 +29,10 @@ $(".getResult").ready(function(){
                 //     description: 'A spiderweb chart shows the test results of the Emotional-Wellbeing Profiling (EWP) test that has been answered by users (student/staffs).'
                 // },
             
-                title: {
-                    text: 'Emotional-Wellbeing Profling Result',
-                    x: -70
-                },
+                // title: {
+                //     text: 'Emotional-Wellbeing Profling Result',
+                //     x: -70
+                // },
             
                 pane: {
                     size: '80%'

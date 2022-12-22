@@ -16,7 +16,7 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="card bg-navy col-sm-12">
+        <div class="card bg-navy col-sm-12">    
             @php
 
                 if(app()->currentLocale() == 'ms-my')
