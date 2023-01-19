@@ -285,3 +285,98 @@
         </div>
     </div>
 </div>
+
+<style>
+    .border_dot {
+        border: 1px dashed #ccc;
+    }
+    #showOfficer .modal-body {
+        height: relative;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    #showOfficer .modal-header {
+        background: var(--dark);
+        color: var(--white);
+        border-bottom: 0px;
+        padding: 8px;
+    }
+
+    #showOfficer .modal-header h3 {
+        color: var(--white);
+        font-size: 18px;
+    }
+
+    #showOfficer .close_btn {
+        top: -2px;
+        margin: 0px !important;
+        opacity: 1;
+        width: 30px;
+        height: 30px;
+        padding: 0px;
+        color: #fff;
+    }
+</style>
+
+<div class="modal fade" id="showOfficer" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content dragable_touch">
+            <div class="modal-header">
+                <h4 class="modal-title " id="modal-title">Form</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body" id="modal-body">test</div>
+            {{-- <div id="sid"></div> --}}
+        </div>
+    </div>
+</div>
+
+<style>
+    .border_dot {
+        border: 1px dashed #ccc;
+    }
+    #showSaringanInfo .modal-body {
+        height: relative;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    #showSaringanInfo .modal-header {
+        background: var(--dark);
+        color: var(--white);
+        border-bottom: 0px;
+        padding: 8px;
+    }
+
+    #showSaringanInfo .modal-header h3 {
+        color: var(--white);
+        font-size: 18px;
+    }
+
+    #showSaringanInfo .close_btn {
+        top: -2px;
+        margin: 0px !important;
+        opacity: 1;
+        width: 30px;
+        height: 30px;
+        padding: 0px;
+        color: #fff;
+    }
+</style>
+
+<div class="modal fade" id="showSaringanInfo" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content dragable_touch">
+            <div class="modal-header">
+                <h4 class="modal-title " id="modal-title">Form</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body" id="modal-body">test</div>
+        </div>
+    </div>
+</div>

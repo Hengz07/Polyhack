@@ -23,6 +23,7 @@ class SelectController extends Controller
     
     public function getCategory(Request $request)
     {
+             
         $search = $request->search;
         if ($search == '') {
             $results = Lookups::select('value_local', 'id','code')
@@ -49,33 +50,144 @@ class SelectController extends Controller
         exit;
     }
 
-    // public function getResult(Request $request)
-    // {
-    //     $search = $request->search;
+    public function getSession(Request $request)
+    {
 
-    //     //OTHER TABLES
-    //     $profiles  = Profile::where('user_id', auth()->user()->id)->where('status', 'AK')->first();
-    //     $users     = User::where('id' , $profiles['user_id'])->first();
+        $search = $request->search;
 
-    //     if ($search == '') {
-    //         $results = Reports::where('profile_id', $profiles['id'])->get();
-    //     } else {
-    //         $results = Reports::where('profile_id', $profiles['id'])
-    //                             ->where('session', 'ilike', '%' . $search . '%')
-    //                             ->get();
-    //     }
+        if ($search == '') {
+            $results = Reports::select('session')->with('profile.user')->with('assign')->distinct()->orderBy('session')->get();
+        } else {
+            $results = Reports::select('session')->with('profile.user')->with('assign')->where('value_local', 'ilike', '%' . $search . '%')->distinct()->orderBy('session')->get();
+        }
+        
+        $response = array();
+        
+        foreach ($results as $result) {
+            $response[] = array(
+                "session" => $result->session,
+            );
+        }
 
-    //     $scalestat = json_decode($results['scale'], true);
+        echo json_encode($response);
+        exit;
+    }
 
-    //     $response = array();
-    //     foreach ($results as $result) {
-    //         $response[] = array(
-    //             "id" => $result['id'],
-    //             "text" => $scalestat,
-    //         );
-    //     }
+    public function getSemester(Request $request)
+    {
+        $search = $request->search;
 
-    //     echo json_encode($response);
-    //     exit;
-    // }
+        if ($search == '') {
+            $results = Reports::select('sem')->with('profile.user')->with('assign')->distinct()->orderBy('sem')->get();
+        } else {
+            $results = Reports::select('sem')->with('profile.user')->with('assign')->where('value_local', 'ilike', '%' . $search . '%')->distinct()->orderBy('sem')->get();
+        }
+        
+        $response = array();
+        
+        foreach ($results as $result) {
+            $response[] = array(
+                "semester" => $result->sem,
+            );
+        }
+
+        echo json_encode($response);
+        exit;
+    }
+
+    public function getFaculty(Request $request)
+    {
+        $search = $request->search;
+
+        if ($search == '') {
+            $results = Profile::select('ptj')->distinct()->get();
+        } else {
+            $results = Profile::select('ptj')->where('value_local', 'ilike', '%' . $search . '%')->distinct()->get();
+        }
+        
+        $response = array();
+        
+        foreach ($results as $result) {
+            $response[] = array(
+                "faculty" => $result['ptj'][0]['code'].' - '.$result['ptj'][0]['desc'],
+            );
+        }
+
+        echo json_encode($response);
+        exit;
+    }
+    
+    public function getStatus(Request $request)
+    {
+        $search = $request->search;
+
+        if ($search == '') {
+            $results = Reports::select('scale')->distinct()->get();
+        } else {
+            $results = Reports::select('scale')->where('value_local', 'ilike', '%' . $search . '%')->distinct()->get();
+        }
+        
+        $response = array();
+        
+        foreach ($results as $result) {
+
+            dd($result['scale']);
+            $response[] = array(
+                "status" => $result['ptj'][0]['code'].' - '.$result['ptj'][0]['desc'],
+            );
+        }
+
+        echo json_encode($response);
+        exit;
+    }
+
+    public function getOfficer(Request $request)
+    {
+        $search = $request->search;
+
+        if ($search == '') {
+            $results = User::select('name')->role([5])->distinct()->get();
+        } else {
+            $results = User::select('name')->role([5])->where('value_local', 'ilike', '%' . $search . '%')->distinct()->get();
+        }
+        
+        $response = array();
+        
+        foreach ($results as $result) {
+            $response[] = array(
+                "officer" => $result['name'],
+            );
+        }
+
+        echo json_encode($response);
+        exit;
+    }
+
+    public function getModalOfficer(Request $request)
+    {
+        // $test = auth()->user();
+
+        $search = $request->search;
+
+        // dd($test);
+
+        $users = User::role([5])->where(function ($query) use ($search) {
+            if ($search != null) {
+                $query->where('name', 'like', '%' . $search . '%');
+                $query->orWhere('email', 'like', '%' . $search . '%');
+            }
+        })->orderBy('name', 'asc')->paginate(100);
+
+        $response = array();
+        
+        foreach ($users as $user) {
+            $response[] = array(
+                "id" => $user->id,
+                "text" => $user->name,
+            );
+        }
+
+        echo json_encode($response);
+        exit;
+    }
 }

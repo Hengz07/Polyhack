@@ -106,15 +106,8 @@ class ReportsController extends Controller
             'alt_phone' => $alt_phone,
         ];
 
-        //UNFINISHED FIX THIS (IF STAFF SESSION BECOMES THE CURRENT YEAR ONLY AND SEMESTER DEFAULT TO 1)
-        // if($usertype == 'staff' && str_contains($schedules['session'], date('Y'))){
-        //     $session    = date('Y');
-        //     $sem        = '1';
-        // }
-        // elseif($usertype == 'student'){
-            $session    = $schedules['session'];
-            $sem        = $schedules['semester'];
-        // }
+        $session    = $schedules['session'];
+        $sem        = $schedules['semester'];
         
         $profile_id = $profiles['id'];
 
@@ -207,7 +200,7 @@ class ReportsController extends Controller
         foreach($reports as $result)
         {
             $dataA = $dataB = $dataC = 0;
-            $intersive = '';
+            $intervention = '';
             $data = array();
 
             $scaleresults = json_decode($result['scale'], true);
@@ -228,17 +221,17 @@ class ReportsController extends Controller
                     $dataS = $scaleresults['S']['value'] * 2; 
                 }
                 
-                //INTERSIVE
-                if ($scaleresults['A']['status']['intersive'] == 'INTERVENSI KHUSUS' || 
-                    $scaleresults['D']['status']['intersive'] == 'INTERVENSI KHUSUS' || 
-                    $scaleresults['S']['status']['intersive'] == 'INTERVENSI KHUSUS')
+                //intervention
+                if ($scaleresults['A']['status']['intervention'] == 'INTERVENSI KHUSUS' || 
+                    $scaleresults['D']['status']['intervention'] == 'INTERVENSI KHUSUS' || 
+                    $scaleresults['S']['status']['intervention'] == 'INTERVENSI KHUSUS')
                 {
-                    $intersive = 'INTERVENSI KHUSUS';
+                    $intervention = 'INTERVENSI KHUSUS';
                 }
 
                 else
                 {
-                    $intersive = 'INTERVENSI UMUM';
+                    $intervention = 'INTERVENSI UMUM';
                 }
             }
 
@@ -251,7 +244,7 @@ class ReportsController extends Controller
             $fullresult[] = array(
                 'name' => $sessem,
                 'data' => $data,
-                'pointPlacement' => $intersive
+                'pointPlacement' => $intervention
             );
         }       
 

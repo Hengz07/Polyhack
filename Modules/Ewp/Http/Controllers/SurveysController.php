@@ -112,8 +112,6 @@ class SurveysController extends Controller
 
         Reports::updateOrCreate(['id' => $reports['id']], $status);  
 
-        dd('check database');
-
         return true;
     }
 
@@ -175,11 +173,11 @@ class SurveysController extends Controller
 
                         if($info['D']['status']['name'] == 'TERUK' || $info['D']['status']['name'] == 'SANGAT TERUK')
                         {
-                            $info['D']['status']['intersive'] = 'INTERVENSI KHUSUS';
+                            $info['D']['status']['intervention'] = 'INTERVENSI KHUSUS';
                         }
                         else
                         {
-                            $info['D']['status']['intersive'] = 'INTERVENSI UMUM';
+                            $info['D']['status']['intervention'] = 'INTERVENSI UMUM';
                         }
                     }
                 }
@@ -198,11 +196,11 @@ class SurveysController extends Controller
 
                         if($info['A']['status']['name'] == 'TERUK' || $info['A']['status']['name'] == 'SANGAT TERUK')
                         {
-                            $info['A']['status']['intersive'] = 'INTERVENSI KHUSUS';
+                            $info['A']['status']['intervention'] = 'INTERVENSI KHUSUS';
                         }
                         else
                         {
-                            $info['A']['status']['intersive'] = 'INTERVENSI UMUM';
+                            $info['A']['status']['intervention'] = 'INTERVENSI UMUM';
                         }
                     }
                 }
@@ -221,11 +219,11 @@ class SurveysController extends Controller
                         
                         if($info['S']['status']['name'] == 'TERUK' || $info['S']['status']['name'] == 'SANGAT TERUK')
                         {
-                            $info['S']['status']['intersive'] = 'INTERVENSI KHUSUS';
+                            $info['S']['status']['intervention'] = 'INTERVENSI KHUSUS';
                         }
                         else
                         {
-                            $info['S']['status']['intersive'] = 'INTERVENSI UMUM';
+                            $info['S']['status']['intervention'] = 'INTERVENSI UMUM';
                         }
                     }
                 }

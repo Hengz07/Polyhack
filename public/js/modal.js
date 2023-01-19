@@ -18,18 +18,19 @@ $('.showModal').on('click', function () {
     } else { method = id + '/' + method; }
 
     $.get("/" + route + '/' + method,
-        {
-            fid: $(this).data('faculty-id'),
-            uuid: $(this).data('uuid'),
-            inputname: $(this).data('input-name'),
-            routename: $(this).data('route-name'),
-        },
-        function (data, status) {
-            $('#showModal').find('#modal-title')[0].innerHTML = title;
-            $('#showModal').find('#modal-body')[0].innerHTML = data;
-            $('#showModal').modal();
+    {
+        fid: $(this).data('faculty-id'),
+        uuid: $(this).data('uuid'),
+        inputname: $(this).data('input-name'),
+        routename: $(this).data('route-name'),
+    },
+    
+    function (data, status) {
+        $('#showModal').find('#modal-title')[0].innerHTML = title;
+        $('#showModal').find('#modal-body')[0].innerHTML = data;
+        $('#showModal').modal();
 
-        });
+    });
 
     // For Moving
 
@@ -211,7 +212,93 @@ $('.showReport').on('click', function () {
     // For Moving
 });
 
-$('.showIntersive').on('click', function () { 
+$('.showSaringanInfo').on('click', function () { 
+    route = $(this).data('route');
+    title = $(this).data('title');
+    id = $(this).data('id');
+
+    method = $(this).data('method');
+    methodtitle = $(this).data('method-title');
+
+    if (methodtitle == undefined) {
+        title = 'Report'; //if id =undefined, id = add else = edit
+    } else {
+        title = methodtitle + ' Information';
+    }
+    if (method == undefined) {
+        method = 'information';
+    } else { method = id + '/' + method; }
+
+    $.get("/" + route + '/' + method,
+        {
+            inputname: $(this).data('input-name'),
+            routename: $(this).data('route-name'),
+        },
+        function (data, status) { 
+            $('#showSaringanInfo').find('#modal-title')[0].innerHTML = title;
+            $('#showSaringanInfo').find('#modal-body')[0].innerHTML = data;
+            $('#showSaringanInfo').modal();
+
+            $(document).ready(function (e) {
+                // $('input[type=text],textarea[type=text]').keyup(function () {
+                //     $(this).val($(this).val().toUpperCase());
+                // });
+
+                $('.number').bind('keypress', function (e) {
+                    return !(e.which != 8 && e.which != 0 &&
+                        (e.which < 48 || e.which > 57) && e.which != 46);
+                });
+            });
+
+        });
+
+    // For Moving
+});
+
+$('.showOfficer').on('click', function () { 
+    route = $(this).data('route');
+    title = $(this).data('title');
+    id = $(this).data('id');
+
+    method = $(this).data('method');
+    methodtitle = $(this).data('method-title');
+
+    if (methodtitle == undefined) {
+        title = 'Select'; //if id =undefined, id = add else = edit
+    } else {
+        title = methodtitle + ' Officer';
+    }
+    if (method == undefined) {
+        method = 'create';
+    } else { method = id + '/' + method; }
+
+    $.get("/" + route + '/' + method,
+        {
+            inputname: $(this).data('input-name'),
+            routename: $(this).data('route-name'),
+        },
+        function (data, status) { 
+            $('#showOfficer').find('#modal-title')[0].innerHTML = title;
+            $('#showOfficer').find('#modal-body')[0].innerHTML = data;
+            $('#showOfficer').modal();
+
+            $(document).ready(function (e) {
+                // $('input[type=text],textarea[type=text]').keyup(function () {
+                //     $(this).val($(this).val().toUpperCase());
+                // });
+
+                $('.number').bind('keypress', function (e) {
+                    return !(e.which != 8 && e.which != 0 &&
+                        (e.which < 48 || e.which > 57) && e.which != 46);
+                });
+            });
+
+        });
+
+    // For Moving
+});
+
+$('.showIntervention').on('click', function () { 
     route = $(this).data('route');
     title = $(this).data('title');
     id = $(this).data('id');

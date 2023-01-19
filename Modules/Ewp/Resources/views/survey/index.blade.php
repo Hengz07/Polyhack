@@ -22,8 +22,11 @@
             <div class="box">
                 <div class="card">
                     <div class="card-header">
-                            Berikan pendapat anda untuk pernyataan berikut:<br>
-                            <span class="text-primary"> Please state your level of agreement with the following statements:</span> 
+                        @if(app()->currentLocale() == 'ms-my')
+                            Berikan pendapat anda untuk pernyataan berikut:
+                        @elseif(app()->currentLocale() == 'en')
+                            Please state your level of agreement with the following statements:
+                        @endif
                     </div>
         </div>
         <div class="card-body" style="padding: 0px;">
@@ -32,7 +35,13 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr class="bg-navy">
-                                <td style="width:60%" colspan="2">Tandakan semua / <i class="text-primary">Tick all</i></td>
+                                
+                                @if(app()->currentLocale() == 'ms-my')
+                                    <td style="width:60%" colspan="2">Tandakan semua</td>
+                                @elseif(app()->currentLocale() == 'en')
+                                    <td style="width:60%" colspan="2">Tick all</td>
+                                @endif
+
                                 <?php 
                                 
                                 for($ans = 0; $ans <= 3 ; $ans++ ){

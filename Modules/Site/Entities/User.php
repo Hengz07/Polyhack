@@ -15,31 +15,15 @@ class User extends Authenticatable
     use Notifiable;
     use HasRoles;
     use HasFactory;
-    // protected $connection = 'mysql';
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    
     protected $fillable = [
         'name', 'email', 'password',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password', 'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
         // 'created_at' => 'datetime:Y-m-d H:i:s',
@@ -47,11 +31,6 @@ class User extends Authenticatable
 
     protected $dates = ['created_at', 'updated_at'];
 
-    /**
-     * The "booting" method of the model.
-     *
-     * @return void
-     */
     protected static function boot()
     {
         parent::boot();
@@ -67,13 +46,6 @@ class User extends Authenticatable
         });
     }
 
-
-    /**
-     * Prepare a date for array / JSON serialization.
-     *
-     * @param  \DateTimeInterface  $date
-     * @return string
-     */
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('d-M-Y h:i A');
@@ -87,11 +59,10 @@ class User extends Authenticatable
         return $this->belongsTo('Modules\Site\Entities\Department');
     }
 
-    /**
-     * Get the user associated with the Profile
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
+    public function assign()
+    { 
+        return $this->hasOne('Modules\Ewp\Entities\Assign', 'officer_id');
+    }
 
     public function profile()
     {

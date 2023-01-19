@@ -78,6 +78,12 @@ class AppServiceProvider extends ServiceProvider
                         'icon' => 'fas fa-fw fa-file',
                         'route' => 'ewp.setup.schedules',
                         'active' => [],
+                    ],
+                    [
+                        'text' => __('Assign Record'),
+                        'icon' => 'fas fa-fw fa-file',
+                        'route' => 'ewp.assign.index',
+                        'active' => [],
                     ]
                 ]
             ]);

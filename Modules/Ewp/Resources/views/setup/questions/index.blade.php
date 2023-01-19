@@ -4,7 +4,7 @@
 
 @section('content_header')
 <div class="d-flex">
-    <div class="mr-auto p-2"><h1>QUESTION</h1></div>
+    <div class="mr-auto p-2"><h1>Question</h1></div>
     <div class="p-2">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
@@ -21,6 +21,29 @@
 <div class="container-fluid">
     <div class="{{ config('adminlte.card_default') }}">
         <div class="card-body"> 
+            {{-- TRANSLATION --}}
+            @php
+
+                if(app()->currentLocale() == 'ms-my')
+                {
+                    $code    = 'Kod';
+                    $soalan  = 'Soalan';
+                    $version = 'Versi';
+                    $section = 'Seksyen';
+                    $action  = 'Tindakan';
+                }
+                
+                elseif(app()->currentLocale() == 'en')
+                {
+                    $code    = 'Code';
+                    $soalan  = 'Questions';
+                    $version = 'Versions';
+                    $section = 'Section';
+                    $action  = 'Actions';
+                }
+            
+            @endphp
+
             <div class="d-flex p-0">
                 <div class="mr-auto">
                     {{-- Add Question --}}
@@ -38,7 +61,11 @@
                 <table class="table table-hover">
                     <thead class="thead-navy bg-navy text-center">
                         <tr>
-                            <th style="min-width:200px"> SKOR BAHAGIAN </th>
+                            @if(app()->currentLocale() == 'ms-my')
+                                <th style="min-width:200px"> SOALAN </th>
+                            @elseif(app()->currentLocale() == 'en')
+                                <th style="min-width:200px"> QUESTION </th>
+                            @endif
                         </tr>
                     </thead>
                 </table>
@@ -49,11 +76,11 @@
                     <thead class="thead-navy bg-navy">
                         <tr class="text-center">
                             <th style="width:4%"> # </th>
-                            <th style="width:7%"> Code </th>
-                            <th style="width:55%"> Questions </th>
-                            <th style="width:7%"> Version </th>
-                            <th style="width:7%"> Section </th>
-                            <th style="width:10%"> Actions </th>
+                            <th style="width:7%"> {{ $code }} </th>
+                            <th style="width:55%"> {{ $soalan }} </th>
+                            <th style="width:7%"> {{ $version }} </th>
+                            <th style="width:7%"> {{ $section }} </th>
+                            <th style="width:10%"> {{ $action }} </th>
                         </tr>
                     </thead>
                     
@@ -66,8 +93,11 @@
                                     <td class="text-center">{{ ++$i }}</td>
                                     <td class="text-center">{{ $item['code'] }}</td>
                                     <td>
-                                        <b>{{ $item['value_local'] }}</b>
-                                        <div class="text-primary font-italic text-sm">{{ $item['value_translation'] }}</div>
+                                        @if(app()->currentLocale() == 'ms-my')
+                                            {{ $item['value_local'] }}
+                                        @elseif(app()->currentLocale() == 'en')
+                                            {{ $item['value_translation'] }}
+                                        @endif
                                     </td>   
                                     
                                     @php 

@@ -17,6 +17,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="card bg-navy col-sm-12">    
+            {{-- TRANSLATION --}}
             @php
 
                 if(app()->currentLocale() == 'ms-my')

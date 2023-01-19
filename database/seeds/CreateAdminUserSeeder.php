@@ -44,7 +44,7 @@ class CreateAdminUserSeeder extends Seeder
             // ]);    
 
             //---------------------------------------------------------------//
-
+            
             $userstaff = User::create([
                 'name' => 'MUHAMMAD HABIEL WAFI BIN ZAIRI',
                 'email' => 'habiel@um.edu.my',
@@ -89,7 +89,7 @@ class CreateAdminUserSeeder extends Seeder
                 'password' => bcrypt('abcd1234'),
                 'user_type' => 'student',
             ]);
-
+            
             $userstud->profile()->updateOrCreate(['user_id' => $userstud->id], [
                 'user_id' => '2',
                 'profile_no' => '000854429',
@@ -118,9 +118,41 @@ class CreateAdminUserSeeder extends Seeder
                     ]
                 ]
             ]);
+
+            //---------------------------------------------------------------//
+
+            $userofficer = User::create([
+                'name' => 'TUN MOHD ALAMIN BIN TUN ABD MANAN',
+                'email' => 'hafizul@siswa.um.edu.my',
+                'password' => bcrypt('abcd1234'),
+                'user_type' => 'student',
+            ]);
+            
+            $userofficer->profile()->updateOrCreate(['user_id' => $userofficer->id], [
+                'user_id' => '3',
+                'profile_no' => '000854429',
+                'status' => 'AK',
+                'department' => 
+                [
+                    [
+                        'code' => 'Section of Psychology Management & Counseling',
+                        'desc' => '-' 
+                    ]
+                ],
+                'meta' => 
+                [
+                    [
+                        'gender' => 'Male',
+                        'race' => 'Malaysian',
+                        'hp_no' => '013246578',
+                        'office_no' => '03654068',
+                    ]
+                ]
+            ]);
             
             $userstaff->assignRole([$role->id,config('constants.role.siteAdmin')]);
             $userstud->assignRole([$role->id,config('constants.role.normalUser')]);
+            $userofficer->assignRole([$role->id,config('constants.role.ewpOfficer')]);
         // }
     }
 }

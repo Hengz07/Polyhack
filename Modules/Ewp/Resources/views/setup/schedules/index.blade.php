@@ -6,7 +6,7 @@
 
 @section('content_header')
 <div class="d-flex">
-    <div class="mr-auto p-2"><h1>SCHEDULE</h1></div>
+    <div class="mr-auto p-2"><h1>Schedule</h1></div>
     <div class="p-2">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
@@ -22,7 +22,31 @@
 @section('content')
 <div class="container-fluid">
     <div class="{{ config('adminlte.card_default') }}">
-        <div class="card-body"> 
+        <div class="card-body">
+            {{-- TRANSLATION --}}
+            @php
+
+                if(app()->currentLocale() == 'ms-my')
+                {
+                    $session    = 'Sesi';
+                    $semester = 'Semester';
+                    $category = 'Kategori';
+                    $sdate = 'Tarikh Mula';
+                    $edate  = 'Tarikh Tamat';
+                    $action = 'Tindakan';
+                }
+                
+                elseif(app()->currentLocale() == 'en')
+                {
+                    $session    = 'Session';
+                    $semester = 'Semester';
+                    $category = 'Category';
+                    $sdate = 'Start Date';
+                    $edate  = 'End Date';
+                    $action = 'Actions';
+                }
+            
+            @endphp 
             <div class="d-flex p-0">
                 <div class="mr-auto">
                     {{-- Add Schedule --}}
@@ -40,7 +64,11 @@
                 <table class="table table-hover">
                     <thead class="thead-navy bg-navy text-center">
                         <tr>
-                            <th style="min-width:200px"> SCHEDULE </th>
+                            @if(app()->currentLocale() == 'ms-my')
+                                <th style="min-width:200px"> JADUAL </th>
+                            @elseif(app()->currentLocale() == 'en')
+                                <th style="min-width:200px"> SCHEDULE </th>
+                            @endif
                         </tr>
                     </thead>
                 </table>
@@ -51,12 +79,12 @@
                     <thead class="thead-navy bg-navy">
                         <tr>
                             <th style="width:5%" class="text-center"> # </th>
-                            <th style="width:17.6%" class="text-center"> Session </th>
-                            <th style="width:17.6%" class="text-center"> Semester </th>
-                            <th style="width:17.6%" class="text-center"> Category </th>
-                            <th style="width:17.6%" class="text-center"> Start Date </th>
-                            <th style="width:17.6%" class="text-center"> End Date </th>
-                            <th style="width:7%" class="text-center"> Actions </th>
+                            <th style="width:17.6%" class="text-center"> {{ $session }} </th>
+                            <th style="width:17.6%" class="text-center"> {{ $semester }} </th>
+                            <th style="width:17.6%" class="text-center"> {{ $category }} </th>
+                            <th style="width:17.6%" class="text-center"> {{ $sdate }} </th>
+                            <th style="width:17.6%" class="text-center"> {{ $edate }} </th>
+                            <th style="width:7%" class="text-center"> {{ $action }} </th>
                         </tr>
                     </thead>
                     

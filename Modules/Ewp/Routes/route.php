@@ -25,26 +25,26 @@ Route::prefix('dashboards/reports')->group(function() {
 
 Route::prefix('setup/questions')->group(function() {
         
-        Route::get('/', 'QuestionsController@index')->name('ewp.setup.questions');
-        Route::get('create', 'QuestionsController@create')->name('ewp.setup.questions.create');
-        Route::get('{id}/edit', 'QuestionsController@edit')->name('ewp.setup.questions.edit');
-        Route::put('{id}/update', 'QuestionsController@update')->name('ewp.setup.questions.update');
+    Route::get('/', 'QuestionsController@index')->name('ewp.setup.questions');
+    Route::get('create', 'QuestionsController@create')->name('ewp.setup.questions.create');
+    Route::get('{id}/edit', 'QuestionsController@edit')->name('ewp.setup.questions.edit');
+    Route::put('{id}/update', 'QuestionsController@update')->name('ewp.setup.questions.update');
         
-        Route::post('store', 'QuestionsController@store')->name('ewp.setup.questions.store');
+    Route::post('store', 'QuestionsController@store')->name('ewp.setup.questions.store');
 
-        Route::delete('/{id}', 'QuestionsController@destroy')->name('questions.delete');
+    Route::delete('/{id}', 'QuestionsController@destroy')->name('questions.delete');
 });
 
 Route::prefix('setup')->group(function() {
         
-        Route::get('/scales', 'ScalesController@index')->name('setup.scale');
-        Route::get('scale/create', 'ScalesController@create')->name('ewp.setup.scales.create');
-        Route::get('scale/{id}/edit', 'ScalesController@edit')->name('ewp.setup.scales.edit');
-        Route::put('scale/{id}/update', 'ScalesController@update')->name('ewp.setup.scales.update');
+    Route::get('/scales', 'ScalesController@index')->name('setup.scale');
+    Route::get('scale/create', 'ScalesController@create')->name('ewp.setup.scales.create');
+    Route::get('scale/{id}/edit', 'ScalesController@edit')->name('ewp.setup.scales.edit');
+    Route::put('scale/{id}/update', 'ScalesController@update')->name('ewp.setup.scales.update');
         
-        Route::post('store', 'ScalesController@store')->name('ewp.setup.scales.store');
+    Route::post('store', 'ScalesController@store')->name('ewp.setup.scales.store');
 
-        Route::delete('/{id}/delete', 'ScalesController@destroy')->name('scales.delete');
+    Route::delete('/{id}/delete', 'ScalesController@destroy')->name('scales.delete');
 });
 
 Route::prefix('setup/schedules')->group(function() {
@@ -65,8 +65,25 @@ Route::prefix('/dashboards')->group(function() {
     Route::get('/admin_dash', 'EwpController@adminindex')->name('ewp.dashboards.admin_dash');
 });
 
+Route::prefix('assign')->group(function() {
+
+    Route::get('/', 'AssignController@index')->name('ewp.assign.index');
+    Route::get('create', 'AssignController@create')->name('ewp.assign.create');
+    
+    Route::post('store', 'AssignController@store')->name('ewp.assign.store');
+
+    Route::get('information', 'AssignController@information')->name('ewp.assign.information');
+
+});  
+
 Route::prefix('select2')->group(function () {
 
     Route::post('lookups/category', 'SelectController@getCategory')->name('select2.lookups.category');
-
+    
+    Route::post('/session', 'SelectController@getSession')->name('select2.session');
+    Route::post('/semester', 'SelectController@getSemester')->name('select2.semester');
+    Route::post('/faculty', 'SelectController@getFaculty')->name('select2.faculty');
+    Route::post('/status', 'SelectController@getStatus')->name('select2.status');
+    Route::post('/officer', 'SelectController@getOfficer')->name('select2.officer');
+    Route::post('/modalOfficer', 'SelectController@getModalOfficer')->name('select2.modalOfficer');
 });

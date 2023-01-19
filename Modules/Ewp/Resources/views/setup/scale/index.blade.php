@@ -4,7 +4,7 @@
 
 @section('content_header')
 <div class="d-flex">
-    <div class="mr-auto p-2"><h1>SCALE</h1></div>
+    <div class="mr-auto p-2"><h1>Scale</h1></div>
     <div class="p-2">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
@@ -32,7 +32,11 @@
                 <table class="table table-hover">
                     <thead class="thead-primary bg-navy text-center">
                         <tr>
-                            <th style="min-width:200px"> SKOR SARINGAN </th>
+                            @if(app()->currentLocale() == 'ms-my')
+                                <th style="min-width:200px"> SKALA </th>
+                            @elseif(app()->currentLocale() == 'en')
+                                <th style="min-width:200px"> SCALE </th>
+                            @endif
                         </tr>
                     </thead>
                 </table>
@@ -46,8 +50,12 @@
                             <th style="width:20%" class="text-center">
                                 @foreach ($scales as $lookup => $item)
                                 @endforeach
-                                    
-                                Scale 
+                                
+                                @if(app()->currentLocale() == 'ms-my')
+                                    Skala
+                                @elseif(app()->currentLocale() == 'en')
+                                    Scale
+                                @endif
                             </th>
                             @foreach ($category as $key => $cat) 
                                 <th class="text-center" style="width: 15%"> 
@@ -74,8 +82,11 @@
 
                                         <td class="text-center">
                                             @if ($item['key'] == 'scales')
-                                                <b>{{ $item['value_local'] }}</b>
-                                                <div class="text-primary font-italic text-sm">{{ $item['value_translation'] }}</div>
+                                                @if(app()->currentLocale() == 'ms-my')
+                                                    {{ $item['value_local'] }}
+                                                @elseif(app()->currentLocale() == 'en')
+                                                    {{ $item['value_translation'] }}
+                                                @endif
                                             @endif
                                         </td>  
 

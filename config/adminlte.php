@@ -58,6 +58,8 @@ return [
     'btn_delete'        => 'btn btn-sm text-danger',
     'btn_edit'          => 'btn text-secondary btn-sm',
 
+    'btn_default'       => 'btn text-secondary',
+
     'table_light'       => 'table table-hover',
 
     /*
