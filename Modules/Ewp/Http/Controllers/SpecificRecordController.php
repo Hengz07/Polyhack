@@ -6,12 +6,12 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-use Modules\Ewp\Entities\{Reports, Schedules, Answers, Assign};
+use Modules\Ewp\Entities\{Reports, Schedules, Answers, Assign, Lookups};
 use Modules\Site\Entities\{Profile, User};
 
 use Modules\Ewp\Http\Controllers\ReportsController;
 
-class AssignController extends Controller
+class SpecificRecordController extends Controller
 {
     // protected $baseView = '';
     /**
@@ -36,8 +36,7 @@ class AssignController extends Controller
 
         $officers = User::role([5])->get();
 
-        return view('ewp::assign.index', compact('reports', 'officers'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search);
-    
+        return view('ewp::specialrecord.index', compact('reports', 'officers'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search);
     }
 
     /**
@@ -46,7 +45,13 @@ class AssignController extends Controller
     **/
     public function create()
     {
-        return view('ewp::assign.create');
+        $issue = Lookups::where('key', 'issue')->get();
+        $status = Lookups::where('key', 'status')->get();
+        $refer = Lookups::where('key', 'refer')->get();
+
+        // dd($issue);
+        
+        return view('ewp::specialrecord.create', compact('issue', 'status', 'refer'));
     }
     
     /**
@@ -56,35 +61,9 @@ class AssignController extends Controller
      */
     public function store(Request $request)
     {
-        $report_id  = explode(',', $request->input('sid'));
-        $officer_id = $request->input('officer');
         
-        foreach ($report_id as $rep_id)
-        {
-            $check = Assign::where('report_id', $rep_id)->first();
-
-            if(empty($check))
-            {
-                $status = [
-                    'report_id'  => $rep_id,
-                    'officer_id' => $officer_id
-                ];
-                
-                $result = Assign::updateOrCreate(['officer_id' => $officer_id, 'report_id' => $rep_id], $status);
-            }
-            else
-            {
-                $status = [
-                    'report_id'  => $rep_id,
-                    'officer_id' => $officer_id
-                ];
-
-                Assign::updateOrCreate(['id' => $check->id], $status);
-            }
-                // dd($result);
-        }
         
-        return redirect()->route('ewp.assign.index')->with('toast_success', 'Student have been assigned!');
+        return redirect()->route('ewp.specialrecord.index')->with('toast_success', 'Student have been assigned!');
     }
 
     /**
@@ -104,7 +83,9 @@ class AssignController extends Controller
      */
     public function edit($id)
     {
-        
+
+
+        return view('ewp::setup.schedules.edit', compact('schedules', 'route'));
     }
 
     /**
@@ -115,7 +96,31 @@ class AssignController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $session    = $request->input('session');
+        $semester   = $request->input('semester');
+        $start_date = $request->input('start_date');
+        $end_date   = $request->input('end_date');
+        $status     = 'C';
+
+        //ARRAY TO STRING
+        $catarray   = collect($request->input('category'));
+            $category = $catarray->implode(', ');
+
+        // $sdformat = Carbon::createFromFormat('Y-m-d', $start_date)->format('d-m-Y');
+        // $edformat = Carbon::createFromFormat('Y-m-d', $end_date)->format('d-m-Y');
         
+        $items = [
+            'session'    => $session,
+            'semester'   => $semester,
+            'category'   => $category,
+            'status'     => $status,
+            'start_date' => $start_date,
+            'end_date'   => $end_date
+        ];
+
+        $result = Schedules::updateOrCreate(['id' => $id], $items);
+
+        return redirect()->route('ewp.setup.schedules', ['route' => $result->id])->with('toast_success', 'Schedule has been successfully updated.');
     }
 
     /**

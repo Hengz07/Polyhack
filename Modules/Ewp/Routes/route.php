@@ -35,6 +35,17 @@ Route::prefix('setup/questions')->group(function() {
     Route::delete('/{id}', 'QuestionsController@destroy')->name('questions.delete');
 });
 
+Route::prefix('lookup')->group(function() {
+        
+    Route::get('/', 'LookupController@index')->name('ewp.lookup.index');
+    
+    Route::get('create', 'LookupController@create')->name('ewp.lookup.create');
+    Route::post('store', 'LookupController@store')->name('ewp.lookup.store');
+
+    Route::get('{id}/edit', 'LookupController@edit')->name('ewp.lookup.edit');
+    Route::put('{id}/update', 'LookupController@update')->name('ewp.lookup.update');
+});
+
 Route::prefix('setup')->group(function() {
         
     Route::get('/scales', 'ScalesController@index')->name('setup.scale');
@@ -75,6 +86,19 @@ Route::prefix('assign')->group(function() {
     Route::get('information', 'AssignController@information')->name('ewp.assign.information');
 
 });  
+
+Route::prefix('specialrecord')->group(function() {
+
+    Route::get('/', 'SpecialRecordController@index')->name('ewp.specialrecord.index');
+    Route::get('create', 'SpecialRecordController@create')->name('ewp.specialrecord.create');
+    Route::post('store', 'SpecialRecordController@store')->name('ewp.specialrecord.store');
+    
+    Route::get('{id}/edit', 'SpecialRecordController@edit')->name('ewp.specialrecord.edit');
+    Route::put('{id}/update', 'SpecialRecordController@update')->name('ewp.specialrecord.update');
+
+    // Route::get('summary', 'SpecialRecordController@summary')->name('ewp.specialrecord.summary');
+
+}); 
 
 Route::prefix('select2')->group(function () {
 

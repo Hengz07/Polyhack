@@ -124,9 +124,9 @@
                     <thead class="thead-navy bg-navy text-center">
                         <tr>
                             @if(app()->currentLocale() == 'ms-my')
-                                <th style="min-width:200px"> REKOD SARINGAN </th>
+                                <th style="min-width:200px"> REKOD KHAS </th>
                             @elseif(app()->currentLocale() == 'en')
-                                <th style="min-width:200px"> SCREENING RECORD </th>
+                                <th style="min-width:200px"> SPECIAL RECORD </th>
                             @endif
                         </tr>
                     </thead>
@@ -146,23 +146,10 @@
                             <th style="width: 7%"> D </th>
                             <th style="width: 7%"> S </th>
                             <th style="width: 7%"> Status </th>
-                            <th style="width: 7%"> Date </th>
-                            <th style="width: 8%"> Officer </th>
+                            <th style="width: 7%"> Assign Date </th>
+                            <th style="width: 8%">  </th>
                             <th style="width: 7%"> 
-                                <div class="d-inline-flex">
-
-                                        <div class="icheck-primary icheck-inline ">
-                                            <input type="checkbox" id="checkboxCheckAll" class="chk-box" />
-                                            <label for="checkboxCheckAll"></label>
-
-                                            <div class="input-group-append">
-                                                <a class="{{ config("adminlte.btn_default") }} btn-sm bg-warning" id="saveall"
-                                                    data-route="ewp/assign/create" data-title="Officer" 
-                                                    data-toggle="modal"><i class="fas fa-share"></i></a> 
-                                            </div> 
-                                        </div>
-                                    </div>
-
+                                
                             </th>
                             <th style="width: 10%"> Action </th>
                         </tr>
@@ -218,39 +205,22 @@
                                     <td class="text-center"> {{ date('d/m/Y', strtotime($rep['created_at'])) }} </td>
                                     <td class="text-center">
                                         
-                                        @foreach($officers as $officer)
-                                            @if(isset($assign))
-                                                @if($assign['officer_id'] == $officer['id'])
-                                                    {{ $officer['name'] }}
-                                                @endif
-                                            @else
-                                                {{ '' }}
-                                            @endif
-                                        @endforeach
-
                                     </td>
                                     <td class="text-center">
-
-                                        @if ($intervention == 'INTERVENSI KHUSUS')
-                                            <div class="icheck-primary icheck-inline">
-                                                <input type="checkbox" class="chk_box_sub" id="{{ $rep['id'] }}" value="{{ $rep['id'] }}" />
-                                                <label for="{{ $rep['id'] }}"></label>
-                                            </div>
-                                        @endif
-
+                                        
                                     </td>
                                     <td class="text-center"> 
 
                                         <a class="{{ config("adminlte.btn_default") }} btn-sm showSaringanInfo bg-info" 
-                                            data-route="ewp/assign" data-title="Saringan Info" 
+                                            data-route="ewp/specialrecord" data-title="Saringan Info"
                                             data-toggle="modal"><i class="fas fa-id-badge"></i></a> 
 
                                         <button type="button" class="btn btn-sm {{ config('adminlte.btn_default') }} sa-warning bg-danger" 
-                                            data-route="ewp/setup/questions" data-id="{{ $rep->id }}" data-title="delete Questions"> 
+                                            data-route="ewp/specialrecord" data-id="{{ $rep->id }}" data-title="delete Questions"> 
                                             <i class="fa fa-trash"  title="Click to delete questions"></i></button> 
                                            
-                                        <a class="{{ config("adminlte.btn_default") }} btn-sm showOfficer bg-warning" 
-                                            data-route="ewp/assign" data-title="Officer" 
+                                        <a class="{{ config("adminlte.btn_default") }} btn-sm showSummary bg-warning" 
+                                            data-route="ewp/specialrecord" data-title="Summary" 
                                             data-toggle="modal"><i class="fas fa-share"></i></a> 
 
                                     </td> 

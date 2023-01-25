@@ -11,13 +11,7 @@
             </div>
         </div>
 
-        <div class="row mb-3">
-            <div class="col-xl-1 text-bold">Test</div>
-            <div class="col-xl-1 text-bold"> :</div>
-            <div class="col-xl-10">
-                <input id="sid" name="sid">
-            </div>
-        </div>
+        <input id="sid" name="sid" type="hidden">
     </div>
 </div>
 

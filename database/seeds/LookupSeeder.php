@@ -492,7 +492,108 @@ class LookupSeeder extends Seeder
                 "value_translation" => "VERY BAD",
                 "desc" => "VERY BAD Scale",
                 "meta_value" => null
-            ]
+            ],
+
+            //RUMUSAN (REKOD KHAS)
+            //ISSUE
+            [
+                "key"         => '-',
+                "code"        => "issue",
+                "value_local" => "issue",
+                "desc"        => "lookup"
+            ],
+            [
+                "key"         => 'issue',
+                "code"        => "Peribadi",
+                "value_local" => "Peribadi",
+                "desc"        => "Issue 1"
+            ],
+            [
+                "key"         => 'issue',
+                "code"        => "Keluarga",
+                "value_local" => "Keluarga",
+                "desc"        => "Issue 2"
+            ],
+            [
+                "key"         => 'issue',
+                "code"        => "Akademik",
+                "value_local" => "Akademik",
+                "desc"        => "Issue 3"
+            ],
+            [
+                "key"         => 'issue',
+                "code"        => "Kewangan",
+                "value_local" => "Kewangan",
+                "desc"        => "Issue 4"
+            ],
+            [
+                "key"         => 'issue',
+                "code"        => "Ujian Psikologi",
+                "value_local" => "Ujian Psikologi",
+                "desc"        => "Issue 5"
+            ],
+            [
+                "key"         => 'issue',
+                "code"        => "Kecelaruan Mental",
+                "value_local" => "Kecelaruan Mental",
+                "desc"        => "Issue 6"
+            ],
+            //STATUS
+            [
+                "key"         => '-',
+                "code"        => "status",
+                "value_local" => "status",
+                "desc"        => "lookup"
+            ],
+            [
+                "key"         => 'status',
+                "code"        => "Rujuk",
+                "value_local" => "Rujuk",
+                "desc"        => "Status 1"
+            ],
+            [
+                "key"         => 'status',
+                "code"        => "Selesai",
+                "value_local" => "Selesai",
+                "desc"        => "Status 2"
+            ],
+            [
+                "key"         => 'status',
+                "code"        => "Belum Selesai",
+                "value_local" => "Belum Selesai",
+                "desc"        => "Status 3"
+            ],
+            //REFER
+            [
+                "key"         => '-',
+                "code"        => "refer",
+                "value_local" => "refer",
+                "desc"        => "lookup"
+            ],
+            [
+                "key"         => 'refer',
+                "code"        => "Psikiatrik",
+                "value_local" => "Psikiatrik",
+                "desc"        => "Refer 1"
+            ],
+            [
+                "key"         => 'refer',
+                "code"        => "Kesihatan",
+                "value_local" => "Kesihatan",
+                "desc"        => "Refer 2"
+            ],
+            [
+                "key"         => 'refer',
+                "code"        => "Agama",
+                "value_local" => "Agama",
+                "desc"        => "Refer 3"
+            ],
+            [
+                "key"         => 'refer',
+                "code"        => "Kebajikan",
+                "value_local" => "Kebajikan",
+                "desc"        => "Refer 4"
+            ],
         ];
 
         foreach($items as $item){
