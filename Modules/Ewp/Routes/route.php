@@ -79,29 +79,33 @@ Route::prefix('/dashboards')->group(function() {
 Route::prefix('assign')->group(function() {
 
     Route::get('/', 'AssignController@index')->name('ewp.assign.index');
+    Route::get('specificrecordindex', 'AssignController@specificrecordindex')->name('ewp.assign.specificrecordindex');
+
     Route::get('create', 'AssignController@create')->name('ewp.assign.create');
-    
     Route::post('store', 'AssignController@store')->name('ewp.assign.store');
 
-    Route::get('information', 'AssignController@information')->name('ewp.assign.information');
+    Route::get('{id}/edit', 'AssignController@edit')->name('ewp.assign.edit');
+    Route::put('{id}/update', 'AssignController@update')->name('ewp.assign.update');
+
+    Route::get('{id}/information', 'AssignController@information')->name('ewp.assign.information');
 
 });  
 
-Route::prefix('specialrecord')->group(function() {
+// Route::prefix('specificrecord')->group(function() {
 
-    Route::get('/', 'SpecialRecordController@index')->name('ewp.specialrecord.index');
-    Route::get('create', 'SpecialRecordController@create')->name('ewp.specialrecord.create');
-    Route::post('store', 'SpecialRecordController@store')->name('ewp.specialrecord.store');
+//     Route::get('/', 'SpecificRecordController@index')->name('ewp.specificrecord.index');
+//     Route::get('create', 'SpecificRecordController@create')->name('ewp.specificrecord.create');
+//     Route::post('store', 'SpecificRecordController@store')->name('ewp.specificrecord.store');
     
-    Route::get('{id}/edit', 'SpecialRecordController@edit')->name('ewp.specialrecord.edit');
-    Route::put('{id}/update', 'SpecialRecordController@update')->name('ewp.specialrecord.update');
+//     Route::get('{id}/edit', 'SpecificRecordController@edit')->name('ewp.specificrecord.edit');
+//     Route::put('{id}/update', 'SpecificRecordController@update')->name('ewp.specificrecord.update');
 
-    // Route::get('summary', 'SpecialRecordController@summary')->name('ewp.specialrecord.summary');
+//     // Route::get('summary', 'SpecificRecordController@summary')->name('ewp.specificrecord.summary');
 
-}); 
+// }); 
 
 Route::prefix('select2')->group(function () {
-
+    
     Route::post('lookups/category', 'SelectController@getCategory')->name('select2.lookups.category');
     
     Route::post('/session', 'SelectController@getSession')->name('select2.session');

@@ -58,15 +58,15 @@
             <div class="col-sm-2 text-bold">Category<span style="color: red">*</span></div>
             <div class="col-sm-1 text-bold"> :</div>
             
-            <div class="col-sm-4"> 
-                <input type="checkbox" name="category[]" value="PASUM" {{ str_contains($schedules['category'], 'PASUM') ? 'checked' : '' }}></input>
-                <label> PASUM - FOUNDATION </label>
+            <div class="col-sm-4 icheck-primary icheck-inline"> 
+                <input type="checkbox" name="category[]" value="PASUM" id="pasum" {{ str_contains($schedules['category'], 'PASUM') ? 'checked' : '' }}></input>
+                <label for="pasum"> PASUM - FOUNDATION </label>
             </div>
 
             <span class="col-sm-1 text-bold"></span>
-            <div class="col-sm-4"> 
-                <input type="checkbox" name="category[]" value="UG" {{ str_contains($schedules['category'], 'UG') ? 'checked' : '' }}></input>
-                <label> UG - UNDERGRADUATE </label>
+            <div class="col-sm-4 icheck-primary icheck-inline"> 
+                <input type="checkbox" name="category[]" value="UG" id="ug" {{ str_contains($schedules['category'], 'UG') ? 'checked' : '' }}></input>
+                <label for="ug"> UG - UNDERGRADUATE </label>
             </div>
         </div>
         
@@ -74,14 +74,14 @@
             <span class="col-sm-2 text-bold"></span>
             <span class="col-sm-1 text-bold"></span>
             
-            <div class="col-sm-4"> 
-                <input type="checkbox" name="category[]" value="PG" {{ str_contains($schedules['category'], 'PG') ? 'checked' : '' }}></input>
-                <label> PG - POSTGRADUATE </label>
+            <div class="col-sm-4 icheck-primary icheck-inline"> 
+                <input type="checkbox" name="category[]" value="PG" id="pg" {{ str_contains($schedules['category'], 'PG') ? 'checked' : '' }}></input>
+                <label for="pg"> PG - POSTGRADUATE </label>
             </div>
             <span class="col-sm-1 text-bold"></span>
-            <div class="col-sm-4"> 
-                <input type="checkbox" name="category[]" value="ST" {{ str_contains($schedules['category'], 'ST') ? 'checked' : '' }}></input>
-                <label> ST - STAFF </label>
+            <div class="col-sm-4 icheck-primary icheck-inline"> 
+                <input type="checkbox" name="category[]" value="ST" id="st" {{ str_contains($schedules['category'], 'ST') ? 'checked' : '' }}></input>
+                <label for="st"> ST - STAFF </label>
             </div>
         </div>
     </div>

@@ -299,6 +299,9 @@ $('.showOfficer').on('click', function () {
 });
 
 $('.showSummary').on('click', function () { 
+    
+    
+
     route = $(this).data('route');
     title = $(this).data('title');
     id = $(this).data('id');
@@ -306,14 +309,17 @@ $('.showSummary').on('click', function () {
     method = $(this).data('method');
     methodtitle = $(this).data('method-title');
 
-    if (methodtitle == undefined) {
-        title = 'Summary'; //if id =undefined, id = add else = edit
+    if(methodtitle == undefined){
+        title  = (id == undefined ?'Add ':'Edit ')+title;
     } else {
-        title = methodtitle + ' ';
+        title = methodtitle + ' Form';
+    } 
+    
+    if(method == undefined){
+        method = id == undefined ? 'create': id + '/edit';
+    } else {
+        method = id +'/'+ method;
     }
-    if (method == undefined) {
-        method = 'create';
-    } else { method = id + '/' + method; }
 
     $.get("/" + route + '/' + method,
         {
@@ -337,7 +343,6 @@ $('.showSummary').on('click', function () {
             });
 
         });
-
     // For Moving
 });
 

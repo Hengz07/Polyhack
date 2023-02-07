@@ -4,7 +4,7 @@
 
 @section('content_header')
 <div class="d-flex">    
-    <div class="mr-auto p-2"><h1>Rekod Saringan</h1></div>
+    <div class="mr-auto p-2"><h1>Rekod Khusus</h1></div>
     <div class="p-2">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
@@ -142,8 +142,8 @@
                             <th style="width: 7%"> ID </th>
                             <th style="width: 7%"> Name </th>
                             <th style="width: 7%"> Faculty </th>
-                            <th style="width: 7%"> A </th>
                             <th style="width: 7%"> D </th>
+                            <th style="width: 7%"> A </th>
                             <th style="width: 7%"> S </th>
                             <th style="width: 7%"> Status </th>
                             <th style="width: 7%"> Assign Date </th>
@@ -168,63 +168,77 @@
 
                                     $scale = $rep['scale'];
                                 @endphp
+                                @if ($scale['A']['status']['intervention'] == 'INTERVENSI KHUSUS' || $scale['D']['status']['intervention'] == 'INTERVENSI KHUSUS' || $scale['S']['status']['intervention'] == 'INTERVENSI KHUSUS')
+                                    <tr>
+                                        <td class="text-center"> {{ ++$i }} </td>
+                                        <td class="text-center"> {{ $rep['session'] }} - {{ $rep['sem'] }} </td> 
+                                        <td class="text-center"> {{ $profile['profile_no'] }} </td> 
+                                        <td class="text-center"> {{ $user['name'] }} </td> 
+                                        <td class="text-center"> {{ $profile['ptj'][0]['desc'] }} </td> 
+                                        @foreach($minmax as $mm)
 
-                                <tr>
-                                    <td class="text-center"> {{ ++$i }} </td>
-                                    <td class="text-center"> {{ $rep['session'] }} - {{ $rep['sem'] }} </td> 
-                                    <td class="text-center"> {{ $profile['profile_no'] }} </td> 
-                                    <td class="text-center"> {{ $user['name'] }} </td> 
-                                    <td class="text-center"> {{ $profile['ptj'][0]['desc'] }} </td> 
-                                    <td class="text-center"> 
-                                        {{ $scale['A']['value'] }}
-                                    </td>
-                                    <td class="text-center"> 
-                                        {{ $scale['D']['value'] }}
-                                    </td>
-                                    <td class="text-center"> 
-                                        {{ $scale['S']['value'] }}
-                                    </td>
-                                    <td class="text-center"> 
-    
                                         @php
-                                            if ($scale['A']['status']['intervention'] == 'INTERVENSI KHUSUS' || 
-                                                $scale['D']['status']['intervention'] == 'INTERVENSI KHUSUS' || 
-                                                $scale['S']['status']['intervention'] == 'INTERVENSI KHUSUS')
-                                            {
-                                                $intervention = 'INTERVENSI KHUSUS';
-                                            }
-                                            
-                                            else
-                                            {
-                                                $intervention = 'INTERVENSI UMUM';
-                                            }  
+                                            $range = json_decode($mm['meta_value'], true);
                                         @endphp
-                                        {{ $intervention }}
 
-                                    </td>
-                                    <td class="text-center"> {{ date('d/m/Y', strtotime($rep['created_at'])) }} </td>
-                                    <td class="text-center">
-                                        
-                                    </td>
-                                    <td class="text-center">
-                                        
-                                    </td>
-                                    <td class="text-center"> 
+                                        @foreach($scale as $up => $test)
+                                            @if($mm['code'] == $up)
+                                                <td class="text-center">
+                                                    @foreach($range as $scalestat)
+                                                        @if($scale[$up]['value'] >= $scalestat['min'] && $scale[$up]['value'] <= $scalestat['max']) 
+                                                            @if($scalestat['name'] == 'TERUK' || $scalestat['name'] == 'SANGAT TERUK')
+                                                                <div class="bg-danger rounded-circle d-inline-flex" style="width: 40px; justify-content: center;"><label>{{ $scale[$up]['value'] }}</label></div>
+                                                            @else
+                                                                <div class="bg-success rounded-circle d-inline-flex" style="width: 40px; justify-content: center;"><label>{{ $scale[$up]['value'] }}</label></div>
+                                                            @endif
+                                                        @endif
+                                                    @endforeach
+                                                </td> 
+                                            @endif
+                                        @endforeach
+                                    @endforeach
+                                        <td class="text-center"> 
+        
+                                            @php
+                                                if ($scale['A']['status']['intervention'] == 'INTERVENSI KHUSUS' || 
+                                                    $scale['D']['status']['intervention'] == 'INTERVENSI KHUSUS' || 
+                                                    $scale['S']['status']['intervention'] == 'INTERVENSI KHUSUS')
+                                                {
+                                                    $intervention = 'INTERVENSI KHUSUS';
+                                                }
+                                                
+                                                else
+                                                {
+                                                    $intervention = 'INTERVENSI UMUM';
+                                                }  
+                                            @endphp
+                                            {{ $intervention }}
 
-                                        <a class="{{ config("adminlte.btn_default") }} btn-sm showSaringanInfo bg-info" 
-                                            data-route="ewp/specialrecord" data-title="Saringan Info"
-                                            data-toggle="modal"><i class="fas fa-id-badge"></i></a> 
+                                        </td>
+                                        <td class="text-center"> {{ date('d/m/Y', strtotime($rep['created_at'])) }} </td>
+                                        <td class="text-center">
+                                            
+                                        </td>
+                                        <td class="text-center">
+                                            
+                                        </td>
+                                        <td class="text-center"> 
 
-                                        <button type="button" class="btn btn-sm {{ config('adminlte.btn_default') }} sa-warning bg-danger" 
-                                            data-route="ewp/specialrecord" data-id="{{ $rep->id }}" data-title="delete Questions"> 
-                                            <i class="fa fa-trash"  title="Click to delete questions"></i></button> 
-                                           
-                                        <a class="{{ config("adminlte.btn_default") }} btn-sm showSummary bg-warning" 
-                                            data-route="ewp/specialrecord" data-title="Summary" 
-                                            data-toggle="modal"><i class="fas fa-share"></i></a> 
+                                            <a class="{{ config("adminlte.btn_default") }} btn-sm showSaringanInfo bg-info" 
+                                                data-route="ewp/assign" data-title="Saringan Info" 
+                                                data-toggle="modal"><i class="fas fa-id-badge"></i></a>  
 
-                                    </td> 
-                                </tr>   
+                                            <button type="button" class="btn btn-sm {{ config('adminlte.btn_default') }} sa-warning bg-danger" 
+                                                data-route="ewp/assign" data-id="{{ $rep->id }}" data-title="delete Questions"> 
+                                                <i class="fa fa-trash"  title="Click to delete questions"></i></button> 
+                                            
+                                            <a class="{{ config("adminlte.btn_default") }} btn-sm showSummary bg-warning"
+                                                data-route="ewp/assign" data-title="Summary" 
+                                                data-toggle="modal" data-id="{{ $rep['id'] }}"><i class="fas fa-comment"></i></a> 
+
+                                        </td> 
+                                    </tr> 
+                                @endif  
                             @endforeach
                         @endif
                     </tbody>
@@ -245,50 +259,29 @@
     <script src="{{ asset('js/select_modal.js') }}"></script>
     <script src="{{ asset('js/delete.js') }}"></script>
     <script type="text/javascript">
-        
-        $(document).ready(function() {
-            $(function() {
-                $('.chk-box').click(function() {
-                    $('.chk_box_sub').prop('checked',this.checked);
-                });
-            });
-            
-            $(function() {
-                $('#saveall').click(function() {
-                    var checks = $("input[class='chk_box_sub']:checked"); 
 
-                    if(checks.length > 0){
-                        var selectId = [];
-                        for(var i=0; i<checks.length; i++){
-                            selectId.push($(checks[i]).val());
-                            console.log (selectId);
-                        }
-                        
-                        $.get("/ewp/assign/create",
-                        {
-                            inputname: $(this).data('selectId'),
-                            routename: $(this).data('route-name'),
-                        },
-                        function (data, status) {  
-                            // $('#sid').val('i');
-                            $('#showOfficer').find('#modal-title')[0].innerHTML = 'Select Officer';
-                            $('#showOfficer').find('#modal-body')[0].innerHTML = data;
-                            $('#showOfficer').modal();
-                            document.getElementById("sid").value = selectId;
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Please select student!',
-                        })
-                    }
-                })
-            })
-        });
+        //STATUS ON SUMMARY MODAL
+        function myFunction() {
+            var Rujuk = document.getElementById("Rujuk");
+            var statcat = document.getElementById("statcat");
+
+            var refercheckbox = document.getElementsByName("refer[]");
+            // console.log(refercheckbox);
+            
+            if (Rujuk.checked == true){
+                statcat.style.display = "block";
+            } else {
+                statcat.style.display = "none";
+                refercheckbox.check = false;
+            }
+        }
+
+        
+
+        // myFunction('onloadRujuk');
 
     </script>
 @endsection
 
 {{-- KERJA --}}
-{{-- SIMPAN ASSIGN, KELUARKAN INFORMATION, CHECKBOX (BUNDLE DAN SINGLE, PAPARKAN UNTUK KHUSUS SAHAJA), SEARCHING (SELECT2), PELAJAR ATAU STAFF (BILA SEARCH) --}}
+{{-- SIMPAN ASSIGN, KELUARKAN INFORMATION, CHECKBOX (BUNDLE DAN SINGLE, PAPARKAN UNTUK KHUSUS SAHAJA), SEARCHING (SELECT2), PELAJAR ATAU STAFF (BILA SEARCH) --}}     

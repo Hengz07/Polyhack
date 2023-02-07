@@ -103,7 +103,7 @@ class SurveysController extends Controller
 
         $status = [
             'status' => 'C',
-            'scale' => json_encode($result)
+            'scale' => $result,
         ];
 
         $answers = Answers::where('report_id', $reports['id'])->first();
@@ -229,8 +229,6 @@ class SurveysController extends Controller
                 }
             }
         }
-
-        //FIXXXXXXXXXXXXX (CAN'T HAVE ALL 0 VALUE ON A AND S CODE)
 
         return $info;
         //RETURN CATEGORY

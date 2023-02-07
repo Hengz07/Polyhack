@@ -86,9 +86,9 @@ class AppServiceProvider extends ServiceProvider
                         'active' => [],
                     ],
                     [
-                        'text' => __('Special Record'),
+                        'text' => __('Specific Record'),
                         'icon' => 'fas fa-fw fa-file',
-                        'route' => 'ewp.specialrecord.index',
+                        'route' => 'ewp.assign.specificrecordindex',
                         'active' => [],
                     ]
                 ]

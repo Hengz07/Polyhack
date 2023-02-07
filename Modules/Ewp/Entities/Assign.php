@@ -12,7 +12,11 @@ class Assign extends Model
     use HasFactory;
 
     protected $table    = 'ewp_assign';
-    protected $fillable = ['report_id', 'officer_id', 'status'];
+    protected $fillable = ['report_id', 'officer_id', 'status', 'meta'];
+
+    protected $casts = [
+        'meta' => 'array',
+    ]; 
 
     public function report()
     { 

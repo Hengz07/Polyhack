@@ -226,3 +226,7 @@ $('#showOfficer').on('shown.bs.modal', function () {
     }).on('change', function (response) {   
     });
  }); 
+
+//  $('#showSummary').on('shown.bs.modal', function () {
+
+// }); 

@@ -1,6 +1,10 @@
-{!! Form::open(['route' => 'ewp.assign.information', 'method' => 'POST', 'class' => 'form-horizontal']) !!}
+{!! Form::open(['route' => ['ewp.assign.information', $id], 'method' => 'POST', 'class' => 'form-horizontal']) !!}
+@method('PUT')
 
 {{-- @include('setup.question.form') --}}
+
+{{ $id = 1; }}
+
 <div class="card">
     <div class="card-body">
         <div class="row mb-3">

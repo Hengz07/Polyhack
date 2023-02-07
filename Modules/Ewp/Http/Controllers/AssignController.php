@@ -6,7 +6,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-use Modules\Ewp\Entities\{Reports, Schedules, Answers, Assign};
+use Modules\Ewp\Entities\{Reports, Schedules, Answers, Assign, Lookups};
 use Modules\Site\Entities\{Profile, User};
 
 use Modules\Ewp\Http\Controllers\ReportsController;
@@ -36,8 +36,33 @@ class AssignController extends Controller
 
         $officers = User::role([5])->get();
 
-        return view('ewp::assign.index', compact('reports', 'officers'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search);
+        $minmax = Lookups::where('key', 'category')->get();
+
+        return view('ewp::assign.index', compact('reports', 'officers', 'minmax'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search);
     
+    }
+
+    public function specificrecordindex(Request $request)
+    {
+        $limit = 10;
+        $search = $request->has('q') ? $request->get('q') : null;
+
+        $reports = Reports::with('profile.user')->with('assign')->where(function ($query) use ($search) {
+            if ($search != null) {
+                $query->where('session', 'like', '%' . $search . '%')
+                      ->orWhere('sem', 'like', '%' . $search . '%');
+            }
+        })
+        ->orderBy('profile_id', 'asc')
+        ->orderBy('session', 'asc')
+        ->orderBy('sem', 'asc')
+        ->paginate($limit);
+
+        $officers = User::role([5])->get();
+
+        $minmax = Lookups::where('key', 'category')->get();
+
+        return view('ewp::assign.specificrecordindex', compact('reports', 'officers', 'minmax'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search);
     }
 
     /**
@@ -59,7 +84,7 @@ class AssignController extends Controller
         $report_id  = explode(',', $request->input('sid'));
         $officer_id = $request->input('officer');
         
-        foreach ($report_id as $rep_id)
+        foreach ($report_id as $rep_id) 
         {
             $check = Assign::where('report_id', $rep_id)->first();
 
@@ -81,7 +106,6 @@ class AssignController extends Controller
 
                 Assign::updateOrCreate(['id' => $check->id], $status);
             }
-                // dd($result);
         }
         
         return redirect()->route('ewp.assign.index')->with('toast_success', 'Student have been assigned!');
@@ -104,7 +128,15 @@ class AssignController extends Controller
      */
     public function edit($id)
     {
+        $issue  = Lookups::where('key', 'issue')->get();
+        $status = Lookups::where('key', 'status')->get();
+        $refer  = Lookups::where('key', 'refer')->get();
+ 
+        $assign = Assign::where('report_id', $id)->first();
+
+        $assignmeta = json_decode($assign['meta'], true);
         
+        return view('ewp::assign.edit', compact('issue', 'status', 'refer', 'id', 'assignmeta', 'assign'));
     }
 
     /**
@@ -115,7 +147,29 @@ class AssignController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $report_id = $id;
+        $status    = substr($request->input('status'), 0, 1);
+        $comment   = $request->input('comment');
+
+        $issuearr     = collect($request->input('issue'));
+            $issue    = $issuearr->implode(', ');
+        $referarr     = collect($request->input('refer'));
+            $refer    = $referarr->implode(', ');
+
+        $meta = [
+            "issue"   => $issue,
+            "refer"   => $refer,
+            "comment" => $comment,
+        ];
+
+        $status = [
+            "status" => $status,
+            "meta"   => json_encode($meta, true),
+        ];
+
+        $result = Assign::updateOrCreate(['report_id' => $report_id], $status);
         
+        return redirect()->route('ewp.assign.specificrecordindex')->with('toast_success', "Student's summary has been created!");
     }
 
     /**
@@ -134,24 +188,26 @@ class AssignController extends Controller
 
     public function information()
     {
+        // dd($id);
+
         $reports = Reports::with('profile.user')->with('assign')
         ->orderBy('profile_id', 'asc')
         ->orderBy('session', 'asc')
         ->orderBy('sem', 'asc')
         ->get();
         
-        foreach($reports as $rep){
+        // foreach($reports as $rep){
+            
+        //     $profile = $rep['profile'];
+        //     $user = $profile['user'];
 
-            $profile = $rep['profile'];
-            $user = $profile['user'];
+        //     $scale = $rep['scale'];
+        //     $meta = $profile['meta'][0];
+        //     $ptj = $profile['ptj'][0];
+        //     $department = $profile['department'][0];
+        // }
 
-            $scale = json_decode($rep['scale'], true);
-            $meta = $profile['meta'][0];
-            $ptj = $profile['ptj'][0];
-            $department = $profile['department'][0];
-        }
-
-        return view('ewp::assign.information', compact('rep', 'profile', 'user', 'scale', 'meta', 'ptj', 'department'));
+        return view('ewp::assign.information', compact('reports'));
     }
     
 }

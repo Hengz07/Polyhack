@@ -48,8 +48,8 @@
                         <tr>
                             <th style="width:5%" class="text-center"> # </th>
                             <th style="width:20%" class="text-center">
-                                @foreach ($scales as $lookup => $item)
-                                @endforeach
+                                {{-- @foreach ($scales as $lookup => $item)
+                                @endforeach --}}
                                 
                                 @if(app()->currentLocale() == 'ms-my')
                                     Skala

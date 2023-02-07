@@ -77,10 +77,9 @@
                         <tr class="text-center">
                             <th style="width:4%"> # </th>
                             <th style="width:7%"> {{ $code }} </th>
-                            <th style="width:55%"> {{ $soalan }} </th>
-                            <th style="width:7%"> {{ $version }} </th>
-                            <th style="width:7%"> {{ $section }} </th>
-                            <th style="width:10%"> {{ $action }} </th>
+                            <th style="width:55%"> {{ $lookup }} </th>
+                            <th style="width:7%"> {{ $type }} </th>
+                            <th style="width:7%"> {{ $test }} </th>
                         </tr>
                     </thead>
                     

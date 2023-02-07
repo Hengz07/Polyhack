@@ -131,7 +131,7 @@ class ReportsController extends Controller
         
         $new     = Reports::findOrFail($result->id);
         
-        return redirect()->route('ewp.survey.index', $new->uuid)->with('toast_success', 'Report has been successfully d.');
+        return redirect()->route('ewp.survey.index', $new->uuid)->with('toast_success', 'Report has been successfully saved.');
     }
     
     /**
@@ -203,18 +203,18 @@ class ReportsController extends Controller
             $intervention = '';
             $data = array();
 
-            $scaleresults = json_decode($result['scale'], true);
-
+            $scaleresults = $result['scale'];
+        
             // dd($scaleresults);
             foreach ($scaleresults as $scaleresult => $sr){
 
                 //DATA
-                if ($scaleresults['A']){
-                    $dataA = $scaleresults['A']['value'] * 2;
-                }
-
                 if ($scaleresults['D']){
                     $dataD = $scaleresults['D']['value'] * 2;
+                }
+
+                if ($scaleresults['A']){
+                    $dataA = $scaleresults['A']['value'] * 2;
                 }
 
                 if ($scaleresults['S']){

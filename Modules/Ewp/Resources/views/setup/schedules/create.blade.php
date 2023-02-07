@@ -13,7 +13,7 @@
                     <option value="{{ date('Y')+1 }}/{{ date('Y')+2 }}">{{ date('Y')+1 }} / {{ date('Y')+2 }}</option>
                 </select>
             </div>
-
+            
             <div class="col-sm-2 text-bold">Semester<span style="color: red">*</span></div>
             <div class="col-sm-1 text-bold"> :</div>
             <div class="col-sm-3">

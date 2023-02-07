@@ -142,27 +142,26 @@
                             <th style="width: 7%"> ID </th>
                             <th style="width: 7%"> Name </th>
                             <th style="width: 7%"> Faculty </th>
-                            <th style="width: 7%"> A </th>
-                            <th style="width: 7%"> D </th>
-                            <th style="width: 7%"> S </th>
+                            <th class="text-center" style="width: 7%"> {{ $D = 'D' }} </th>
+                            <th class="text-center" style="width: 7%"> {{ $A = 'A' }} </th>
+                            <th class="text-center" style="width: 7%"> {{ $S = 'S' }} </th>
                             <th style="width: 7%"> Status </th>
                             <th style="width: 7%"> Date </th>
                             <th style="width: 8%"> Officer </th>
                             <th style="width: 7%"> 
                                 <div class="d-inline-flex">
 
-                                        <div class="icheck-primary icheck-inline ">
-                                            <input type="checkbox" id="checkboxCheckAll" class="chk-box" />
-                                            <label for="checkboxCheckAll"></label>
-
-                                            <div class="input-group-append">
-                                                <a class="{{ config("adminlte.btn_default") }} btn-sm bg-warning" id="saveall"
-                                                    data-route="ewp/assign/create" data-title="Officer" 
-                                                    data-toggle="modal"><i class="fas fa-share"></i></a> 
-                                            </div> 
-                                        </div>
+                                    <div class="icheck-primary icheck-inline ">
+                                        <input type="checkbox" id="checkboxCheckAll" class="chk-box" />
+                                        <label for="checkboxCheckAll"></label>
                                     </div>
-
+                                    
+                                    <div class="input-group-append">
+                                        <a class="{{ config("adminlte.btn_default") }} btn-sm bg-warning" id="saveall"
+                                            data-route="ewp/assign/create" data-title="Officer" 
+                                            data-toggle="modal"><i class="fas fa-share" style="height: 12px; width: 21px;"></i></a> 
+                                    </div> 
+                                </div>
                             </th>
                             <th style="width: 10%"> Action </th>
                         </tr>
@@ -176,8 +175,8 @@
                                 
                                 @php
                                     $profile = $rep['profile'];
-                                    $user = $profile['user'];
-                                    $assign = $rep['assign'];
+                                    $user    = $profile['user'];
+                                    $assign  = $rep['assign'];
 
                                     $scale = $rep['scale'];
                                 @endphp
@@ -188,15 +187,30 @@
                                     <td class="text-center"> {{ $profile['profile_no'] }} </td> 
                                     <td class="text-center"> {{ $user['name'] }} </td> 
                                     <td class="text-center"> {{ $profile['ptj'][0]['desc'] }} </td> 
-                                    <td class="text-center"> 
-                                        {{ $scale['A']['value'] }}
-                                    </td>
-                                    <td class="text-center"> 
-                                        {{ $scale['D']['value'] }}
-                                    </td>
-                                    <td class="text-center"> 
-                                        {{ $scale['S']['value'] }}
-                                    </td>
+                                    
+                                    @foreach($minmax as $mm)
+
+                                        @php
+                                            $range = json_decode($mm['meta_value'], true);
+                                        @endphp
+
+                                        @foreach($scale as $up => $test)
+                                            @if($mm['code'] == $up)
+                                                <td class="text-center">
+                                                    @foreach($range as $scalestat)
+                                                        @if($scale[$up]['value'] >= $scalestat['min'] && $scale[$up]['value'] <= $scalestat['max']) 
+                                                            @if($scalestat['name'] == 'TERUK' || $scalestat['name'] == 'SANGAT TERUK')
+                                                                <div class="bg-danger rounded-circle d-inline-flex" style="width: 40px; justify-content: center;"><label>{{ $scale[$up]['value'] }}</label></div>
+                                                            @else
+                                                                <div class="bg-success rounded-circle d-inline-flex" style="width: 40px; justify-content: center;"><label>{{ $scale[$up]['value'] }}</label></div>
+                                                            @endif
+                                                        @endif
+                                                    @endforeach
+                                                </td> 
+                                            @endif
+                                        @endforeach
+                                    @endforeach
+
                                     <td class="text-center"> 
     
                                         @php
@@ -224,7 +238,7 @@
                                                     {{ $officer['name'] }}
                                                 @endif
                                             @else
-                                                {{ '' }}
+                                                {{ '-' }}
                                             @endif
                                         @endforeach
 
@@ -236,22 +250,20 @@
                                                 <input type="checkbox" class="chk_box_sub" id="{{ $rep['id'] }}" value="{{ $rep['id'] }}" />
                                                 <label for="{{ $rep['id'] }}"></label>
                                             </div>
+                                        @else
+                                            --
                                         @endif
 
                                     </td>
                                     <td class="text-center"> 
 
-                                        <a class="{{ config("adminlte.btn_default") }} btn-sm showSaringanInfo bg-info" 
-                                            data-route="ewp/assign" data-title="Saringan Info" 
-                                            data-toggle="modal"><i class="fas fa-id-badge"></i></a> 
+                                        <a class="{{ config("adminlte.btn_default") }} btn-sm showSaringanInfo bg-info" id="showinfo"
+                                            data-route="ewp/assign" data-id="{{ $rep['id'] }}" data-title="Saringan Info" 
+                                            data-toggle="modal"><i class="fas fa-id-badge" style="width: 12px;"></i></a> 
 
                                         <button type="button" class="btn btn-sm {{ config('adminlte.btn_default') }} sa-warning bg-danger" 
                                             data-route="ewp/setup/questions" data-id="{{ $rep->id }}" data-title="delete Questions"> 
                                             <i class="fa fa-trash"  title="Click to delete questions"></i></button> 
-                                           
-                                        <a class="{{ config("adminlte.btn_default") }} btn-sm showOfficer bg-warning" 
-                                            data-route="ewp/assign" data-title="Officer" 
-                                            data-toggle="modal"><i class="fas fa-share"></i></a> 
 
                                     </td> 
                                 </tr>   
@@ -286,12 +298,13 @@
             $(function() {
                 $('#saveall').click(function() {
                     var checks = $("input[class='chk_box_sub']:checked"); 
+                    console.log(checks.val());
 
                     if(checks.length > 0){
                         var selectId = [];
                         for(var i=0; i<checks.length; i++){
                             selectId.push($(checks[i]).val());
-                            console.log (selectId);
+                            // console.log (selectId);
                         }
                         
                         $.get("/ewp/assign/create",
@@ -315,6 +328,22 @@
                     }
                 })
             })
+
+            $(function() {
+                $('#showinfo').click(function() {
+                    $.get("/ewp/assign/information",
+                    {
+                            inputname: $(this).data('infoId'),
+                            routename: $(this).data('route-name'),
+                    },
+                    function (data, status) {  
+                        $('#showSaringanInfo').find('#modal-title')[0].innerHTML = 'User Information';
+                        $('#showSaringanInfo').find('#modal-body')[0].innerHTML = data;
+                        $('#showSaringanInfo').modal();
+                        document.getElementById("iid").value = infoId;
+                    });
+                });
+            });
         });
 
     </script>
