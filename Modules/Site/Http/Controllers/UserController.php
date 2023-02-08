@@ -63,8 +63,8 @@ class UserController extends Controller
         $getRoles = Role::orderBy('level', 'asc')->whereIn('name', config('constants.role_list'))->where('level', '>=', $this->getCurrentUserRoleLevel())->get();
         $sql = "SELECT c.id, c.name, COUNT(*) as total
                 FROM sys_users a
-                JOIN sys_model_has_roles b ON a.id = b.module_id
-                JOIN sys_roles c ON c.id = b.role_id
+                JOIN sys_model_has_roles b ON b.id = a.module_id
+                JOIN sys_roles c ON c.id = a.role_id
                 GROUP BY 1, 2";
         $totals = DB::select($sql);
 
@@ -174,7 +174,7 @@ class UserController extends Controller
                 'name' => 'required',
                 'email' => 'required|email|unique:users',
                 'password' => 'same:confirm-password|required',
-                'roles' => 'required',
+             
             ]);
 
             $input = $request->all();

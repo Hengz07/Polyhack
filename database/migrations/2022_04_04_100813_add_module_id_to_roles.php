@@ -28,7 +28,7 @@ class AddModuleIdToRoles extends Migration
     public function down()
     {
         Schema::table('roles', function (Blueprint $table) {
-            $table->dropForeign('sys_roles_module_id_foreign');
+            $table->dropForeign('sys_roles_module_id_foreign')->unsigned();
             $table->dropColumn(['module_id']);
         });
     }

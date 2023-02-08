@@ -35,18 +35,124 @@ class CreateAdminUserSeeder extends Seeder
         $permissions = Permission::pluck('id', 'id')->all();
         $role->syncPermissions($permissions);
 
-        if (env('HAS_CAS')) {
+        // if (env('HAS_CAS')) {
             ## create user haezal
-            $user = User::create([
-                'name' => 'ENCIK TUN AMIN BIN MANAN',
-                'email' => 'tunamin@um.edu.my',
-                'password' => bcrypt('abcd1234'),
-            ]);    
-            $user->profile()->updateOrCreate(['user_id' => $user->id], [
-                'salary_no' => '00014987',
-            ]);
-            $user->assignRole([$role->id,config('constants.role.normalUser')]);
-        }
+            // $user = User::create([
+            //     'name' => 'ENCIK TUN AMIN BIN MANAN',
+            //     'email' => 'tunamin@um.edu.my',
+            //     'password' => bcrypt('abcd1234'),
+            // ]);    
 
+            //---------------------------------------------------------------//
+            
+            $userstaff = User::create([
+                'name' => 'MUHAMMAD HABIEL WAFI BIN ZAIRI',
+                'email' => 'habiel@um.edu.my',
+                'password' => bcrypt('abcd1234'),
+                'user_type' => 'staff',
+            ]);
+
+            $userstaff->profile()->updateOrCreate(['user_id' => $userstaff->id], [
+                'user_id' => '1',
+                'profile_no' => '000835049',
+                'status' => 'AK',
+                'ptj' => 
+                [
+                    [
+                        'code' => 'FCS',
+                        'desc' => 'Faculty of Computer Science' 
+                    ]
+                ],
+                'department' => 
+                [
+                    [
+                        'code' => 'CSAI',
+                        'desc' => 'Computer Science (AI)' 
+                    ]
+                ],
+                'meta' => 
+                [
+                    [
+                        'gender' => 'Male',
+                        'race' => 'Malaysian',
+                        'hp_no' => '0122894017',
+                        'office_no' => '03456789',
+                    ]
+                ]
+            ]);
+
+            //---------------------------------------------------------------//
+
+            $userstud = User::create([
+                'name' => 'AHMAD HAFIZUL ILMI BIN AHMAD KHAIRI',
+                'email' => 'hafizul@siswa.um.edu.my',
+                'password' => bcrypt('abcd1234'),
+                'user_type' => 'student',
+            ]);
+            
+            $userstud->profile()->updateOrCreate(['user_id' => $userstud->id], [
+                'user_id' => '2',
+                'profile_no' => '000854429',
+                'status' => 'AK',
+                'ptj' => 
+                [
+                    [
+                        'code' => 'FCST',
+                        'desc' => 'Faculty of Computer Science and Technology' 
+                    ]
+                ],
+                'department' => 
+                [
+                    [
+                        'code' => 'CSN',
+                        'desc' => 'Computer Science (Netcentric)' 
+                    ]
+                ],
+                'meta' => 
+                [
+                    [
+                        'gender' => 'Male',
+                        'race' => 'Malaysian',
+                        'hp_no' => '0123456789',
+                        'office_no' => '03654068',
+                    ]
+                ]
+            ]);
+
+            //---------------------------------------------------------------//
+
+            $userofficer = User::create([
+                'name' => 'TUN MOHD ALAMIN BIN TUN ABD MANAN',
+                'email' => 'hafizul@siswa.um.edu.my',
+                'password' => bcrypt('abcd1234'),
+                'user_type' => 'student',
+            ]);
+            
+            $userofficer->profile()->updateOrCreate(['user_id' => $userofficer->id], [
+                'user_id' => '3',
+                'profile_no' => '000854429',
+                'status' => 'AK',
+                'department' => 
+                [
+                    [
+                        'code' => 'Section of Psychology Management & Counseling',
+                        'desc' => '-' 
+                    ]
+                ],
+                'meta' => 
+                [
+                    [
+                        'gender' => 'Male',
+                        'race' => 'Malaysian',
+                        'hp_no' => '013246578',
+                        'office_no' => '03654068',
+                    ]
+                ]
+            ]);
+            
+            $userstaff->assignRole([$role->id,config('constants.role.siteAdmin')]);
+            $userstud->assignRole([$role->id,config('constants.role.normalUser')]);
+            $userofficer->assignRole([$role->id,config('constants.role.ewpOfficer')]);
+        // }
     }
 }

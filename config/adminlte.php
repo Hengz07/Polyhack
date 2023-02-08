@@ -58,6 +58,8 @@ return [
     'btn_delete'        => 'btn btn-sm text-danger',
     'btn_edit'          => 'btn text-secondary btn-sm',
 
+    'btn_default'       => 'btn text-secondary',
+
     'table_light'       => 'table table-hover',
 
     /*
@@ -384,6 +386,36 @@ return [
                     'type' => 'js',
                     'asset' => false,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js',
+                ],
+            ],
+        ],
+        'Spiderchart' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'https://code.highcharts.com/highcharts.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'https://code.highcharts.com/highcharts-more.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'https://code.highcharts.com/modules/exporting.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'https://code.highcharts.com/modules/export-data.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'https://code.highcharts.com/modules/accessibility.js',
                 ],
             ],
         ],

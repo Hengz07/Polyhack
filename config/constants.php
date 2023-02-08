@@ -8,7 +8,7 @@ return [
      */
 
     ## LIST ROLE IN THE SYSTEM
-    'role_list' => ['Superadmin', 'SiteAdmin', 'ModuleAdmin', 'NormalUser'],
+    'role_list' => ['Superadmin', 'SiteAdmin', 'ModuleAdmin', 'NormalUser', 'EwpOfficer'],
     'role_top' => ['Superadmin', 'SiteAdmin'],
 
     ## ROLE NAME
@@ -18,6 +18,7 @@ return [
         'siteAdmin'         => 'SiteAdmin',
         'moduleAdmin'       => 'ModuleAdmin',
         'normalUser'        => 'NormalUser',
+        'ewpOfficer'        => 'EwpOfficer',
     ],
 
     ## ROLE ID
@@ -27,6 +28,7 @@ return [
         'siteAdmin'         => 2,
         'moduleAdmin'       => 3,
         'normalUser'        => 4,
+        'ewpOfficer'        => 5,
     ],
     /** END ROLE MANAGEMENT */
 

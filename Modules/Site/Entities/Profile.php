@@ -6,23 +6,34 @@ use Illuminate\Database\Eloquent\Model;
 
 class Profile extends Model
 {
-    protected $connection = 'mysql';
     protected $primaryKey = 'user_id';
     public $incrementing = false;
 
     protected $fillable = [
         'user_id', 
-        'ptj_id', 
-        'department_id', 
-        'salary_no', 
-        'ic',
-        'office_no', 
-        'hp_no', 
-        'status', 
+        'profile_no', 
+        'ptj', 
+        'department', 
+        'status',
+        'position', 
         'grade', 
-        'grade_desc',
-        'position'
+        'employment_type', 
+        'academic', 
+        'meta',
+        'alt_email',
+        'alt_phone'
     ];
+
+    protected $casts = [
+        'ptj' => 'array',
+        'department' => 'array',
+        'status' => 'array',
+        'position' => 'array',
+        'grade' => 'array',
+        'employment_type' => 'array',
+        'academic' => 'array',
+        'meta' => 'array',
+    ]; 
 
     public function getGradeDescAttribute($value)
     {
@@ -38,7 +49,17 @@ class Profile extends Model
      */
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo('Modules\Site\Entities\User', 'id');
+    }
+
+    public function reports()
+    {
+        return $this->hasMany(Reports::class, 'id');
+    }
+
+    public function schedules()
+    {
+        return $this->hasMany('Modules\Ewp\Entities\Schedules');
     }
 
     /**

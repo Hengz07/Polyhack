@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Subfission\Cas\Facades\Cas;
+use Modules\Ewp\Http\Controllers\QuestionsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +49,14 @@ Route::group(['middleware' => 'auth'], function() {
         Route::post('departments/{id}', 'Misc\SelectController@getDepartments')->name('select2.departments');
         Route::post('divisions/{id}', 'Misc\SelectController@getDivisions')->name('select2.divisions');
         Route::post('sections/{id}', 'Misc\SelectController@getSections')->name('select2.sections');
+    });
+
+
+
+    Route::prefix('survey')->group(function() {
+    
+        Route::get('setup/', 'SurveysController@index')->name('ewp.survey.index');
+
     });
 
     ###########################################################
@@ -103,3 +112,4 @@ Route::get('/cas/login', function() {
     }
     return Cas::authenticate();
 })->name('cas');
+

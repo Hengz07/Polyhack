@@ -45,9 +45,9 @@ class AppServiceProvider extends ServiceProvider
         $events->listen(BuildingMenu::class, function (BuildingMenu $event) {
             // MAIN MENU
             $event->menu->add([
-                'text' => __('Home'),
+                'text' => __('User Dashboard'),
                 'icon' => 'fas fa-fw fa-home',
-                'url' => '/',
+                'route' => 'ewp.dashboards.index',
             ]);
 
             $event->menu->add([
@@ -56,9 +56,9 @@ class AppServiceProvider extends ServiceProvider
                 'url' => '#',
                 'submenu' => [
                     [
-                        'text' => __('Dashboard'),
+                        'text' => __('Admin Dashboard'),
                         'icon' => 'fas fa-fw fa-file',
-                        'route' => 'ewp.dahsboard',
+                        'route' => 'ewp.dashboards.admin_dash',
                         'active' => [],
                     ],
                     [
@@ -68,9 +68,27 @@ class AppServiceProvider extends ServiceProvider
                         'active' => [],
                     ],
                     [
-                        'text' => __('Scale'),
+                        'text' => __('Scales'),
                         'icon' => 'fas fa-fw fa-file',
                         'route' => 'setup.scale',
+                        'active' => [],
+                    ],
+                    [
+                        'text' => __('Schedules'),
+                        'icon' => 'fas fa-fw fa-file',
+                        'route' => 'ewp.setup.schedules',
+                        'active' => [],
+                    ],
+                    [
+                        'text' => __('Screening Record'),
+                        'icon' => 'fas fa-fw fa-file',
+                        'route' => 'ewp.assign.index',
+                        'active' => [],
+                    ],
+                    [
+                        'text' => __('Specific Record'),
+                        'icon' => 'fas fa-fw fa-file',
+                        'route' => 'ewp.assign.specificrecordindex',
                         'active' => [],
                     ]
                 ]
