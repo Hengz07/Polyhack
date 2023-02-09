@@ -186,28 +186,19 @@ class AssignController extends Controller
             ->with('toast_success', $key .' Successfully deleted!');
     }
 
-    public function information()
+    public function saringaninfo($id)
     {
-        // dd($id);
+        $report = Reports::with('profile.user')->with('assign')->where('id', $id)->first();
 
-        $reports = Reports::with('profile.user')->with('assign')
-        ->orderBy('profile_id', 'asc')
-        ->orderBy('session', 'asc')
-        ->orderBy('sem', 'asc')
-        ->get();
+        $profile = $report['profile'];
+        $user = $profile['user'];
         
-        // foreach($reports as $rep){
-            
-        //     $profile = $rep['profile'];
-        //     $user = $profile['user'];
+        $meta = $profile['meta'][0];
+        $ptj = $profile['ptj'][0];
+        $department = $profile['department'][0];
 
-        //     $scale = $rep['scale'];
-        //     $meta = $profile['meta'][0];
-        //     $ptj = $profile['ptj'][0];
-        //     $department = $profile['department'][0];
-        // }
-
-        return view('ewp::assign.information', compact('reports'));
+        $route = $report->id;
+        
+        return view('ewp::assign.saringaninfo', compact('report', 'route', 'user', 'profile', 'meta', 'ptj', 'department'));
     }
-    
 }

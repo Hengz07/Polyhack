@@ -31,6 +31,7 @@ class CreateAdminUserSeeder extends Seeder
                 Role::create(['id' => 2, 'module_id' => 1, 'name' => 'SiteAdmin', 'description' => 'Site Admin', 'level' => 1]);
                 Role::create(['id' => 3, 'module_id' => 1, 'name' => 'ModuleAdmin', 'description' => 'Specific Module Admin', 'level' => 2]);
                 Role::create(['id' => 4, 'module_id' => 1, 'name' => 'NormalUser', 'description' => 'Public user', 'level' => 999]);
+                Role::create(['id' => 5, 'module_id' => null, 'name' => 'EwpOfficer', 'description' => 'Ewp Officer', 'level' => 5]);
         
         $permissions = Permission::pluck('id', 'id')->all();
         $role->syncPermissions($permissions);
