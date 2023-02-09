@@ -494,6 +494,40 @@ class LookupSeeder extends Seeder
                 "meta_value" => null
             ],
 
+            //ANSWER DESCRIPTION
+            [
+                "key"         => "ans_desc",
+                "code"        => "0",
+                "value_local" => "Tidak pernah sama sekali",
+                "value_translation" => "Did not apply to me at all",
+                "desc" =>"icheck-primary",
+                "meta_value" => null
+            ],
+            [
+                "key"         => "ans_desc",
+                "code"        => "1",
+                "value_local" => "Jarang",
+                "value_translation" => "Applied to me to a considerable degree or a good part of time",
+                "desc" =>"icheck-success",
+                "meta_value" => null
+            ],
+            [
+                "key"         => "ans_desc",
+                "code"        => "2",
+                "value_local" => "Kerap",
+                "value_translation" => "Applied to me to some degree, or some of the time",
+                "desc" =>"icheck-warning",
+                "meta_value" => null
+            ],
+            [
+                "key"         => "ans_desc",
+                "code"        => "3",
+                "value_local" => "Sangat kerap",
+                "value_translation" => "Applied to me very much or most of the time",
+                "desc" =>"icheck-danger",
+                "meta_value" => null
+            ],
+
             //RUMUSAN (REKOD KHAS)
             //ISSUE
             [

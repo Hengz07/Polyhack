@@ -26,7 +26,7 @@ class QuestionsController extends Controller
             }
         })
         ->orWhere('key', 'like', 'questions')
-        ->orderBy('id', 'asc')
+        ->orderBy('code', 'asc')
         ->paginate($limit);
         session()->put('url.intended', url()->current());
          
