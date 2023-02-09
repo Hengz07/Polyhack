@@ -87,17 +87,17 @@
             </div>
 
             <div class="card-footer">
-                {{-- <a> --}}
-                    <button type="submit" class="btn btn-primary">
-                        Papar
-                    </button>
-                {{-- </a> --}}
+                <button type="submit" class="btn btn-primary" title="">
+                    Papar
+                </button>
 
-                {{-- <a> --}}
-                    <button type="button" class="btn btn-danger">
-                        Reset
-                    </button>
-                {{-- </a> --}}
+                <button type="button" class="btn btn-danger">
+                    Reset
+                </button>
+                    
+                <button type="button" class="btn btn-success float-right" title="Click to download report">
+                    <i class="fa fa-file-excel fa-success"></i>
+                </button>
             </div>
         </form>
     </div>
@@ -149,9 +149,8 @@
                             <th style="width: 7%"> Date </th>
                             <th style="width: 8%"> Officer </th>
                             <th style="width: 7%"> 
-                                <div class="d-inline-flex">
-
-                                    <div class="icheck-primary icheck-inline ">
+                                <div class="d-inline-flex input-group">
+                                    <div class="icheckbox-polaris icheck-primary icheck-inline bg-light">
                                         <input type="checkbox" id="checkboxCheckAll" class="chk-box" />
                                         <label for="checkboxCheckAll"></label>
                                     </div>
@@ -160,7 +159,7 @@
                                         <a class="{{ config("adminlte.btn_default") }} btn-sm bg-warning" id="saveall"
                                             data-route="ewp/assign/create" data-title="Officer" 
                                             data-toggle="modal"><i class="fas fa-share" style="height: 12px; width: 21px;"></i></a> 
-                                    </div> 
+                                    </div>
                                 </div>
                             </th>
                             <th style="width: 10%"> Action </th>
@@ -200,9 +199,9 @@
                                                     @foreach($range as $scalestat)
                                                         @if($scale[$up]['value'] >= $scalestat['min'] && $scale[$up]['value'] <= $scalestat['max']) 
                                                             @if($scalestat['name'] == 'TERUK' || $scalestat['name'] == 'SANGAT TERUK')
-                                                                <div class="bg-danger rounded-circle d-inline-flex" style="width: 40px; justify-content: center;"><label>{{ $scale[$up]['value'] }}</label></div>
+                                                                <label class="badge badge-danger px-4">{{ $scale[$up]['value'] }}</label>
                                                             @else
-                                                                <div class="bg-success rounded-circle d-inline-flex" style="width: 40px; justify-content: center;"><label>{{ $scale[$up]['value'] }}</label></div>
+                                                                <label class="badge badge-success px-4">{{ $scale[$up]['value'] }}</label>
                                                             @endif
                                                         @endif
                                                     @endforeach
@@ -212,7 +211,6 @@
                                     @endforeach
 
                                     <td class="text-center"> 
-    
                                         @php
                                             if ($scale['A']['status']['intervention'] == 'INTERVENSI KHUSUS' || 
                                                 $scale['D']['status']['intervention'] == 'INTERVENSI KHUSUS' || 
@@ -256,14 +254,16 @@
 
                                     </td>
                                     <td class="text-center"> 
-
-                                        <a class="{{ config("adminlte.btn_default") }} btn-sm showSaringanInfo bg-info" id="showinfo"
+                                        <a class="{{ config("adminlte.btn_edit") }} btn showSaringanInfo bg-info" 
+                                            data-route="ewp/assign" data-id="{{ $rep->id }}" data-title="Information" 
+                                            data-toggle="modal"><i class="fa fa-id-badge" style="width: 12px;"></i></a>
+                                        
+                                        {{-- <a class="{{ config("adminlte.btn_default") }} btn-sm showSaringanInfo bg-info" id="showinfo"
                                             data-route="ewp/assign" data-id="{{ $rep['id'] }}" data-title="Saringan Info" 
-                                            data-toggle="modal"><i class="fas fa-id-badge" style="width: 12px;"></i></a> 
+                                            data-toggle="modal"><i class="fas fa-id-badge" style="width: 12px;"></i></a>  --}}
 
-                                        <button type="button" class="btn btn-sm {{ config('adminlte.btn_default') }} sa-warning bg-danger" 
-                                            data-route="ewp/setup/questions" data-id="{{ $rep->id }}" data-title="delete Questions"> 
-                                            <i class="fa fa-trash"  title="Click to delete questions"></i></button> 
+                                        <button type="button" class="btn btn-sm {{ config('adminlte.btn_default') }} bg-danger">
+                                            <i class="fa fa-file"  title="Click to delete questions"></i></button> 
 
                                     </td> 
                                 </tr>   
@@ -328,22 +328,6 @@
                     }
                 })
             })
-
-            $(function() {
-                $('#showinfo').click(function() {
-                    $.get("/ewp/assign/information",
-                    {
-                            inputname: $(this).data('infoId'),
-                            routename: $(this).data('route-name'),
-                    },
-                    function (data, status) {  
-                        $('#showSaringanInfo').find('#modal-title')[0].innerHTML = 'User Information';
-                        $('#showSaringanInfo').find('#modal-body')[0].innerHTML = data;
-                        $('#showSaringanInfo').modal();
-                        document.getElementById("iid").value = infoId;
-                    });
-                });
-            });
         });
 
     </script>

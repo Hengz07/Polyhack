@@ -87,7 +87,7 @@ Route::prefix('assign')->group(function() {
     Route::get('{id}/edit', 'AssignController@edit')->name('ewp.assign.edit');
     Route::put('{id}/update', 'AssignController@update')->name('ewp.assign.update');
 
-    Route::get('{id}/information', 'AssignController@information')->name('ewp.assign.information');
+    Route::get('{id}/saringaninfo', 'AssignController@saringaninfo')->name('ewp.assign.saringaninfo');
 
 });  
 

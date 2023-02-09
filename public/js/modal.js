@@ -217,17 +217,21 @@ $('.showSaringanInfo').on('click', function () {
     title = $(this).data('title');
     id = $(this).data('id');
 
+    console.log('test');
+
     method = $(this).data('method');
     methodtitle = $(this).data('method-title');
-
+    
     if (methodtitle == undefined) {
-        title = 'Report'; //if id =undefined, id = add else = edit
+        title = 'Report' + title; //if id =undefined, id = add else = edit
     } else {
-        title = methodtitle + ' Information';
+        title = methodtitle + ' Modal';
     }
+
     if (method == undefined) {
-        method = 'information';
-    } else { method = id + '/' + method; }
+        method = id + '/saringaninfo';
+    } else 
+    { method = id + '/' + method; }
 
     $.get("/" + route + '/' + method,
         {
@@ -299,9 +303,6 @@ $('.showOfficer').on('click', function () {
 });
 
 $('.showSummary').on('click', function () { 
-    
-    
-
     route = $(this).data('route');
     title = $(this).data('title');
     id = $(this).data('id');

@@ -187,9 +187,9 @@
                                                     @foreach($range as $scalestat)
                                                         @if($scale[$up]['value'] >= $scalestat['min'] && $scale[$up]['value'] <= $scalestat['max']) 
                                                             @if($scalestat['name'] == 'TERUK' || $scalestat['name'] == 'SANGAT TERUK')
-                                                                <div class="bg-danger rounded-circle d-inline-flex" style="width: 40px; justify-content: center;"><label>{{ $scale[$up]['value'] }}</label></div>
+                                                                <label class="badge badge-danger px-4">{{ $scale[$up]['value'] }}</label>
                                                             @else
-                                                                <div class="bg-success rounded-circle d-inline-flex" style="width: 40px; justify-content: center;"><label>{{ $scale[$up]['value'] }}</label></div>
+                                                                <label class="badge badge-success px-4">{{ $scale[$up]['value'] }}</label>
                                                             @endif
                                                         @endif
                                                     @endforeach
@@ -224,13 +224,12 @@
                                         </td>
                                         <td class="text-center"> 
 
-                                            <a class="{{ config("adminlte.btn_default") }} btn-sm showSaringanInfo bg-info" 
-                                                data-route="ewp/assign" data-title="Saringan Info" 
-                                                data-toggle="modal"><i class="fas fa-id-badge"></i></a>  
+                                            <a class="{{ config("adminlte.btn_edit") }} btn showSaringanInfo bg-info" 
+                                                data-route="ewp/assign" data-id="{{ $rep->id }}" data-title="Information" 
+                                                data-toggle="modal"><i class="fa fa-id-badge" style="width: 12px;"></i></a>  
 
-                                            <button type="button" class="btn btn-sm {{ config('adminlte.btn_default') }} sa-warning bg-danger" 
-                                                data-route="ewp/assign" data-id="{{ $rep->id }}" data-title="delete Questions"> 
-                                                <i class="fa fa-trash"  title="Click to delete questions"></i></button> 
+                                            <button type="button" class="btn btn-sm {{ config('adminlte.btn_default') }} bg-danger">
+                                                <i class="fa fa-file"></i></button> 
                                             
                                             <a class="{{ config("adminlte.btn_default") }} btn-sm showSummary bg-warning"
                                                 data-route="ewp/assign" data-title="Summary" 
