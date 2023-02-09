@@ -45,6 +45,8 @@ class CreateAdminUserSeeder extends Seeder
             // ]);    
 
             //---------------------------------------------------------------//
+
+            $aktif = 'AK';
             
             $userstaff = User::create([
                 'name' => 'MUHAMMAD HABIEL WAFI BIN ZAIRI',
@@ -56,7 +58,7 @@ class CreateAdminUserSeeder extends Seeder
             $userstaff->profile()->updateOrCreate(['user_id' => $userstaff->id], [
                 'user_id' => '1',
                 'profile_no' => '000835049',
-                'status' => 'AK',
+                'status' => $aktif,
                 'ptj' => 
                 [
                     [
@@ -94,7 +96,7 @@ class CreateAdminUserSeeder extends Seeder
             $userstud->profile()->updateOrCreate(['user_id' => $userstud->id], [
                 'user_id' => '2',
                 'profile_no' => '000854429',
-                'status' => 'AK',
+                'status' => $aktif,
                 'ptj' => 
                 [
                     [
@@ -124,15 +126,15 @@ class CreateAdminUserSeeder extends Seeder
 
             $userofficer = User::create([
                 'name' => 'TUN MOHD ALAMIN BIN TUN ABD MANAN',
-                'email' => 'hafizul@siswa.um.edu.my',
+                'email' => 'tunamin@um.edu.my',
                 'password' => bcrypt('abcd1234'),
-                'user_type' => 'student',
+                'user_type' => 'staff',
             ]);
             
             $userofficer->profile()->updateOrCreate(['user_id' => $userofficer->id], [
                 'user_id' => '3',
-                'profile_no' => '000854429',
-                'status' => 'AK',
+                'profile_no' => '000333429',
+                'status' => $aktif,
                 'department' => 
                 [
                     [

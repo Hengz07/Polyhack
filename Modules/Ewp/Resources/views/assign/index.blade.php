@@ -150,16 +150,16 @@
                             <th style="width: 8%"> Officer </th>
                             <th style="width: 7%"> 
                                 <div class="d-inline-flex input-group">
-                                    <div class="icheckbox-polaris icheck-primary icheck-inline bg-light">
+                                    <div class="icheck-primary icheck-inline">
                                         <input type="checkbox" id="checkboxCheckAll" class="chk-box" />
                                         <label for="checkboxCheckAll"></label>
                                     </div>
                                     
-                                    <div class="input-group-append">
+                                    {{-- <div class="input-group-append"> --}}
                                         <a class="{{ config("adminlte.btn_default") }} btn-sm bg-warning" id="saveall"
                                             data-route="ewp/assign/create" data-title="Officer" 
                                             data-toggle="modal"><i class="fas fa-share" style="height: 12px; width: 21px;"></i></a> 
-                                    </div>
+                                    {{-- </div> --}}
                                 </div>
                             </th>
                             <th style="width: 10%"> Action </th>
@@ -187,28 +187,34 @@
                                     <td class="text-center"> {{ $user['name'] }} </td> 
                                     <td class="text-center"> {{ $profile['ptj'][0]['desc'] }} </td> 
                                     
-                                    @foreach($minmax as $mm)
+                                    @if(isset($scale))
+                                        @foreach($minmax as $mm)
 
-                                        @php
-                                            $range = json_decode($mm['meta_value'], true);
-                                        @endphp
+                                            @php
+                                                $range = json_decode($mm['meta_value'], true);
+                                            @endphp
 
-                                        @foreach($scale as $up => $test)
-                                            @if($mm['code'] == $up)
-                                                <td class="text-center">
-                                                    @foreach($range as $scalestat)
-                                                        @if($scale[$up]['value'] >= $scalestat['min'] && $scale[$up]['value'] <= $scalestat['max']) 
-                                                            @if($scalestat['name'] == 'TERUK' || $scalestat['name'] == 'SANGAT TERUK')
-                                                                <label class="badge badge-danger px-4">{{ $scale[$up]['value'] }}</label>
-                                                            @else
-                                                                <label class="badge badge-success px-4">{{ $scale[$up]['value'] }}</label>
+                                            @foreach($scale as $up => $test)
+                                                @if($mm['code'] == $up)
+                                                    <td class="text-center">
+                                                        @foreach($range as $scalestat)
+                                                            @if($scale[$up]['value'] >= $scalestat['min'] && $scale[$up]['value'] <= $scalestat['max']) 
+                                                                @if($scalestat['name'] == 'TERUK' || $scalestat['name'] == 'SANGAT TERUK')
+                                                                    <label class="badge badge-danger px-4">{{ $scale[$up]['value'] }}</label>
+                                                                @else
+                                                                    <label class="badge badge-success px-4">{{ $scale[$up]['value'] }}</label>
+                                                                @endif
                                                             @endif
-                                                        @endif
-                                                    @endforeach
-                                                </td> 
-                                            @endif
+                                                        @endforeach
+                                                    </td> 
+                                                @endif
+                                            @endforeach
                                         @endforeach
-                                    @endforeach
+                                    @else  
+                                        <td class="text-center">
+                                            No data available
+                                        </td>
+                                    @endif
 
                                     <td class="text-center"> 
                                         @php
