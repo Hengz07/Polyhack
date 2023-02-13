@@ -27,5 +27,10 @@ class Reports extends Model
     { 
         return $this->hasOne(Assign::class, 'report_id');
     }
+
+    public function answer()
+    { 
+        return $this->hasOne(Answers::class, 'report_id');
+    }
 }
 

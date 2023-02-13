@@ -24,7 +24,7 @@ class SurveysController extends Controller
 
         $uuid = $id;
 
-        $profiles  = Profile::where('user_id', auth()->user()->id)->where('status', 'AK')->first();
+        $profiles  = Profile::where('user_id', auth()->user()->id)->where('status', '"AK"')->first();
         
         $check = Reports::where('uuid', $id)->where('profile_id', $profiles['id'])->first();
         
@@ -60,18 +60,22 @@ class SurveysController extends Controller
     public function store(Request $request)
     {
         //OTHER TABLES
-        $profiles  = Profile::where('user_id', auth()->user()->id)->where('status', 'AK')->first();
+        $profiles  = Profile::where('user_id', auth()->user()->id)->where('status', '"AK"')->first();
 
         //SCHEDULES RETRIEVE
-        $usertype  = auth()->user()->user_type;
+        $usertype = auth()->user()->user_type;
 
         if($usertype == 'staff'){
-            $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->whereIn('category', ['ST'])->first();
+            $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->where('category', 'LIKE', '%ST%')->first();
         }
         elseif($usertype == 'student'){
             //REFER SCHEDULES BASED ON STUDENT TYPE (UG, PG, PASUM)
-            $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->whereIn('category', ['UG', 'PG', 'PASUM'])->first();
-        }
+            //TRY EXPLODE FOR whereIN to work
+            $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->where('category', 'LIKE', '%UG%')
+                                                                                                    ->orWhere('category', 'LIKE', '%PG%')
+                                                                                                    ->orWhere('category', 'LIKE', '%PASUM%')
+                                                                                                    ->first();
+        };
         //
 
         $reports   = Reports::where('profile_id', $profiles['id'])->where('session', $schedules['session'])->where('sem', $schedules['semester'])->first();

@@ -201,4 +201,23 @@ class AssignController extends Controller
         
         return view('ewp::assign.saringaninfo', compact('report', 'route', 'user', 'profile', 'meta', 'ptj', 'department'));
     }
+
+    public function surveyanswer($id)
+    {
+        $report = Reports::with('profile.user')->with('assign')->with('answer')->where('id', $id)->first();
+        $question = Lookups::where('key', 'questions')->orderBy('code')->get();
+
+        $answer = $report['answer'];
+
+        $q = $answer['meta']['q'];
+
+        $meta = json_decode($q, true);
+
+        $profile = $report['profile'];
+        $user = $profile['user'];
+        
+        $route = $report->id;
+        
+        return view('ewp::assign.surveyanswer', compact('report', 'question', 'answer', 'route', 'user', 'profile', 'meta'));
+    }
 }

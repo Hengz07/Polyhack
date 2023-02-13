@@ -42,22 +42,23 @@ class ReportsController extends Controller
     public function create()
     {
         //SESSION AND SEM REFER TO USER'S TYPE
-        $profiles  = Profile::where('user_id', auth()->user()->id)->where('status', 'AK')->first();
+        $profiles  = Profile::where('user_id', auth()->user()->id)->where('status', '"AK"')->first();
         $users     = User::where('id' , $profiles['user_id'])->first();
 
         //SCHEDULES RETRIEVE
-        $usertype  = auth()->user()->user_type;
+        $usertype = auth()->user()->user_type;
 
         if($usertype == 'staff'){
-            $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->whereIn('category', ['ST'])->first();
+            $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->where('category', 'LIKE', '%ST%')->first();
         }
         elseif($usertype == 'student'){
             //REFER SCHEDULES BASED ON STUDENT TYPE (UG, PG, PASUM)
-            $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->whereIn('category', ['UG', 'PG', 'PASUM'])->first();
-        }
-        else{
-            return view('ewp::dashboards.dashboard')->with('toast_waring', 'User does not exist.');
-        }
+            //TRY EXPLODE FOR whereIN to work
+            $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->where('category', 'LIKE', '%UG%')
+                                                                                                    ->orWhere('category', 'LIKE', '%PG%')
+                                                                                                    ->orWhere('category', 'LIKE', '%PASUM%')
+                                                                                                    ->first();
+        };
 
         //RETRIEVE JSON/JSONB DATA
         $jsonb_ptj = $profiles['ptj'];
@@ -81,19 +82,23 @@ class ReportsController extends Controller
     public function store(Request $request)
     {
         //OTHER TABLES
-        $profiles  = Profile::where('user_id', auth()->user()->id)->where('status', 'AK')->first();
+        $profiles  = Profile::where('user_id', auth()->user()->id)->where('status', '"AK"')->first();
         $users     = User::where('id' , $profiles['user_id'])->first();
 
         //SCHEDULES RETRIEVE
-        $usertype  = auth()->user()->user_type;
+        $usertype = auth()->user()->user_type;
 
         if($usertype == 'staff'){
-            $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->whereIn('category', ['ST'])->first();
+            $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->where('category', 'LIKE', '%ST%')->first();
         }
         elseif($usertype == 'student'){
             //REFER SCHEDULES BASED ON STUDENT TYPE (UG, PG, PASUM)
-            $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->whereIn('category', ['UG', 'PG', 'PASUM'])->first();
-        }
+            //TRY EXPLODE FOR whereIN to work
+            $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->where('category', 'LIKE', '%UG%')
+                                                                                                    ->orWhere('category', 'LIKE', '%PG%')
+                                                                                                    ->orWhere('category', 'LIKE', '%PASUM%')
+                                                                                                    ->first();
+        };
 
         //DECLARE
         $alt_phone = $alt_email = '';
@@ -177,7 +182,7 @@ class ReportsController extends Controller
 
     public function getResult(Request $request)
     {   
-        $profiles = Profile::where('user_id', auth()->user()->id)->where('status', 'AK')->first();
+        $profiles = Profile::where('user_id', auth()->user()->id)->where('status', '"AK"')->first();
         
         $search = $request->search;
         

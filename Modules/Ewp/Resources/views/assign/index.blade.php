@@ -21,29 +21,28 @@
 <div class="container-fluid">
     <div class="{{ config('adminlte.card_default') }}">
         <div class="card-header">
-            Senarai pelajar yang telah membuat saringan
+            Senarai pelajar dan staff yang telah membuat saringan
+        </div> 
+        <div class="card-header">
+            <div class="row mb-3">
+                <div class="col-xl-5 text-bold">
+                    <div class="icheck-primary icheck-inline">
+                        <input type="radio" name="usertype" value="alluser" id="alluser" checked /><label for="alluser">All</label>
+                    </div>
+                    <div class="icheck-primary icheck-inline">
+                        <input type="radio" name="usertype" value="student" id="student" /><label for="student">Student</label>
+                    </div>
+                    <div class="icheck-primary icheck-inline">
+                        <input type="radio" name="usertype" value="staff" id="staff" /><label for="staff">Staff</label>
+                    </div>
+                </div>
+            </div>
         </div> 
 
         <form action="{{ $route??null }}" method="get">
             <div class="card-body"> 
                 <div class="row mb-3">
-                    <div class="col-xl-1 text-bold"></div>
-                    <div class="col-xl-5">
-                        {{-- <a> --}}   
-                            <button type="submit" class="btn btn-info">
-                                Student
-                            </button>
-                        {{-- </a> --}}
-                         {{-- <a> --}}
-                            <button type="button" class="btn btn-warning">
-                                Staff
-                            </button>
-                        {{-- </a> --}}
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-xl-1 text-bold">Pegguna</div>
+                    <div class="col-xl-1 text-bold">Nama</div>
                     <div class="col-xl-5">
                         <div class="input-group mb-3">        
                             {!! Form::text('q', $q, array(
@@ -149,17 +148,17 @@
                             <th style="width: 7%"> Date </th>
                             <th style="width: 8%"> Officer </th>
                             <th style="width: 7%"> 
-                                <div class="d-inline-flex input-group">
-                                    <div class="icheck-primary icheck-inline">
+                                <div class="d-inline-flex input-group justify-content-center">
+                                    <label class="icheck-primary icheck-inline">
                                         <input type="checkbox" id="checkboxCheckAll" class="chk-box" />
                                         <label for="checkboxCheckAll"></label>
-                                    </div>
+                                    </label>
                                     
-                                    {{-- <div class="input-group-append"> --}}
-                                        <a class="{{ config("adminlte.btn_default") }} btn-sm bg-warning" id="saveall"
+                                    <div class="input-group-append">
+                                        <a class="{{ config("adminlte.btn_default") }} btn btn-sm" id="saveall"
                                             data-route="ewp/assign/create" data-title="Officer" 
-                                            data-toggle="modal"><i class="fas fa-share" style="height: 12px; width: 21px;"></i></a> 
-                                    {{-- </div> --}}
+                                            data-toggle="modal"><i class="fa fa-xs fa-share"></i></a> 
+                                    </div>
                                 </div>
                             </th>
                             <th style="width: 10%"> Action </th>
@@ -261,15 +260,16 @@
                                     </td>
                                     <td class="text-center"> 
                                         <a class="{{ config("adminlte.btn_edit") }} btn showSaringanInfo bg-info" 
-                                            data-route="ewp/assign" data-id="{{ $rep->id }}" data-title="Information" 
+                                            data-route="ewp/assign" data-id="{{ $rep->id }}" data-title=" Information" 
                                             data-toggle="modal"><i class="fa fa-id-badge" style="width: 12px;"></i></a>
                                         
                                         {{-- <a class="{{ config("adminlte.btn_default") }} btn-sm showSaringanInfo bg-info" id="showinfo"
                                             data-route="ewp/assign" data-id="{{ $rep['id'] }}" data-title="Saringan Info" 
                                             data-toggle="modal"><i class="fas fa-id-badge" style="width: 12px;"></i></a>  --}}
 
-                                        <button type="button" class="btn btn-sm {{ config('adminlte.btn_default') }} bg-danger">
-                                            <i class="fa fa-file"  title="Click to delete questions"></i></button> 
+                                        <a class="{{ config("adminlte.btn_edit") }} btn showSurveyAnswer bg-danger" 
+                                            data-route="ewp/assign" data-id="{{ $rep->id }}" data-title=" Answer" 
+                                            data-toggle="modal"><i class="fa fa-file" style="width: 12px;"></i></a>
 
                                     </td> 
                                 </tr>   

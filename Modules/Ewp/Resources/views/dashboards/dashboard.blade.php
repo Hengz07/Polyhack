@@ -100,11 +100,7 @@
                                 @foreach ($reports as $report => $rep)
                                     <tr>
                                         <td class="text-center">{{ ++$i }}</td>
-                                        @if(auth()->user()->user_type == 'student')
-                                            <td class="text-center">{{ $rep['session'] }} - {{ $rep['sem'] }}</td>
-                                        @else
-                                            <td class="text-center">{{ $rep['session'] }}</td>
-                                        @endif
+                                        <td class="text-center">{{ $rep['session'] }} - {{ $rep['sem'] }}</td>
                                         <td class="text-center">{{ date('d/m/Y', strtotime($rep['created_at'])) }}
                                         <td class="text-center">
                                                                 

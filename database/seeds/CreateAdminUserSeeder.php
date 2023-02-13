@@ -47,15 +47,19 @@ class CreateAdminUserSeeder extends Seeder
             //---------------------------------------------------------------//
 
             $aktif = 'AK';
+
+            //---------------------------------------------------------------//
             
-            $userstaff = User::create([
+            //STAFF 1
+            
+            $userstaff1 = User::create([
                 'name' => 'MUHAMMAD HABIEL WAFI BIN ZAIRI',
                 'email' => 'habiel@um.edu.my',
                 'password' => bcrypt('abcd1234'),
                 'user_type' => 'staff',
             ]);
 
-            $userstaff->profile()->updateOrCreate(['user_id' => $userstaff->id], [
+            $userstaff1->profile()->updateOrCreate(['user_id' => $userstaff1->id], [
                 'user_id' => '1',
                 'profile_no' => '000835049',
                 'status' => $aktif,
@@ -84,18 +88,96 @@ class CreateAdminUserSeeder extends Seeder
                 ]
             ]);
 
+            //STAFF 2
+
+            $userstaff2 = User::create([
+                'name' => 'HAMI HELMI BIN ALIAS',
+                'email' => 'hami@um.edu.my',
+                'password' => bcrypt('abcd1234'),
+                'user_type' => 'staff',
+            ]);
+
+            $userstaff2->profile()->updateOrCreate(['user_id' => $userstaff2->id], [
+                'user_id' => '2',
+                'profile_no' => '000958467',
+                'status' => $aktif,
+                'ptj' => 
+                [
+                    [
+                        'code' => 'FCS',
+                        'desc' => 'Faculty of Computer Science' 
+                    ]
+                ],
+                'department' => 
+                [
+                    [
+                        'code' => 'IT',
+                        'desc' => 'Information Technology' 
+                    ]
+                ],
+                'meta' => 
+                [
+                    [
+                        'gender' => 'Male',
+                        'race' => 'Malaysian',
+                        'hp_no' => '0195749358',
+                        'office_no' => '03854392',
+                    ]
+                ]
+            ]);
+
+            //STAFF 3
+
+            $userstaff3 = User::create([
+                'name' => 'ABDUL HADI BIN YAHAYA',
+                'email' => 'hadi@um.edu.my',
+                'password' => bcrypt('abcd1234'),
+                'user_type' => 'staff',
+            ]);
+
+            $userstaff3->profile()->updateOrCreate(['user_id' => $userstaff3->id], [
+                'user_id' => '3',
+                'profile_no' => '000862642',
+                'status' => $aktif,
+                'ptj' => 
+                [
+                    [
+                        'code' => 'FCS',
+                        'desc' => 'Faculty of Computer Science' 
+                    ]
+                ],
+                'department' => 
+                [
+                    [
+                        'code' => 'CS',
+                        'desc' => 'Computer Science' 
+                    ]
+                ],
+                'meta' => 
+                [
+                    [
+                        'gender' => 'Male',
+                        'race' => 'Malaysian',
+                        'hp_no' => '0129584325',
+                        'office_no' => '03895832',
+                    ]
+                ]
+            ]);
+
             //---------------------------------------------------------------//
 
-            $userstud = User::create([
+            //STUD 1
+
+            $userstud1 = User::create([
                 'name' => 'AHMAD HAFIZUL ILMI BIN AHMAD KHAIRI',
                 'email' => 'hafizul@siswa.um.edu.my',
                 'password' => bcrypt('abcd1234'),
                 'user_type' => 'student',
             ]);
             
-            $userstud->profile()->updateOrCreate(['user_id' => $userstud->id], [
-                'user_id' => '2',
-                'profile_no' => '000854429',
+            $userstud1->profile()->updateOrCreate(['user_id' => $userstud1->id], [
+                'user_id' => '4',
+                'profile_no' => '000638236',
                 'status' => $aktif,
                 'ptj' => 
                 [
@@ -117,22 +199,62 @@ class CreateAdminUserSeeder extends Seeder
                         'gender' => 'Male',
                         'race' => 'Malaysian',
                         'hp_no' => '0123456789',
-                        'office_no' => '03654068',
+                        'office_no' => '',
+                    ]
+                ]
+            ]);
+
+            //STUD 2
+
+            $userstud2 = User::create([
+                'name' => 'WAN MUHAMMAD SYAMIL BIN WAN MOHAMAD NOOR',
+                'email' => 'syamil@siswa.um.edu.my',
+                'password' => bcrypt('abcd1234'),
+                'user_type' => 'student',
+            ]);
+            
+            $userstud2->profile()->updateOrCreate(['user_id' => $userstud2->id], [
+                'user_id' => '5',
+                'profile_no' => '000859345',
+                'status' => $aktif,
+                'ptj' => 
+                [
+                    [
+                        'code' => 'FCST',
+                        'desc' => 'Faculty of Accounting' 
+                    ]
+                ],
+                'department' => 
+                [
+                    [
+                        'code' => 'AC',
+                        'desc' => 'Accounting' 
+                    ]
+                ],
+                'meta' => 
+                [
+                    [
+                        'gender' => 'Male',
+                        'race' => 'Malaysian',
+                        'hp_no' => '0129738527',
+                        'office_no' => '',
                     ]
                 ]
             ]);
 
             //---------------------------------------------------------------//
 
-            $userofficer = User::create([
+            //OFFICER 1
+
+            $userofficer1 = User::create([
                 'name' => 'TUN MOHD ALAMIN BIN TUN ABD MANAN',
                 'email' => 'tunamin@um.edu.my',
                 'password' => bcrypt('abcd1234'),
                 'user_type' => 'staff',
             ]);
             
-            $userofficer->profile()->updateOrCreate(['user_id' => $userofficer->id], [
-                'user_id' => '3',
+            $userofficer1->profile()->updateOrCreate(['user_id' => $userofficer1->id], [
+                'user_id' => '6',
                 'profile_no' => '000333429',
                 'status' => $aktif,
                 'department' => 
@@ -147,15 +269,50 @@ class CreateAdminUserSeeder extends Seeder
                     [
                         'gender' => 'Male',
                         'race' => 'Malaysian',
-                        'hp_no' => '013246578',
-                        'office_no' => '03654068',
+                        'hp_no' => '',
+                        'office_no' => '',
+                    ]
+                ]
+            ]);
+
+            //OFFICER 2
+
+            $userofficer2 = User::create([
+                'name' => 'MUHAMMAD NABIL BIN MALIP',
+                'email' => 'nabil@um.edu.my',
+                'password' => bcrypt('abcd1234'),
+                'user_type' => 'staff',
+            ]);
+            
+            $userofficer2->profile()->updateOrCreate(['user_id' => $userofficer2->id], [
+                'user_id' => '7',
+                'profile_no' => '000234515',
+                'status' => $aktif,
+                'department' => 
+                [
+                    [
+                        'code' => 'Section of Psychology Management & Counseling',
+                        'desc' => '-' 
+                    ]
+                ],
+                'meta' => 
+                [
+                    [
+                        'gender' => 'Male',
+                        'race' => 'Malaysian',
+                        'hp_no' => '',
+                        'office_no' => '',
                     ]
                 ]
             ]);
             
-            $userstaff->assignRole([$role->id,config('constants.role.siteAdmin')]);
-            $userstud->assignRole([$role->id,config('constants.role.normalUser')]);
-            $userofficer->assignRole([$role->id,config('constants.role.ewpOfficer')]);
+            $userstaff1->assignRole([$role->id,config('constants.role.siteAdmin')]);
+            $userstaff2->assignRole([$role->id,config('constants.role.normalUser')]);
+            $userstaff3->assignRole([$role->id,config('constants.role.normalUser')]);
+            $userstud1->assignRole([$role->id,config('constants.role.normalUser')]);
+            $userstud2->assignRole([$role->id,config('constants.role.normalUser')]);
+            $userofficer1->assignRole([$role->id,config('constants.role.ewpOfficer')]);
+            $userofficer2->assignRole([$role->id,config('constants.role.ewpOfficer')]);
         // }
     }
 }

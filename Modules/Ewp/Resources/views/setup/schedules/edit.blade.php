@@ -9,15 +9,9 @@
             <div class="col-sm-1 text-bold"> :</div>    
             <div class="col-sm-3">
                 <select class="form-control" name="session">
-                    @if(str_contains($schedules['category'], 'ST'))
-                        <option value="{{ date('Y') }}" {{ (($schedules['session'] == ((date('Y')))) ? 'selected' : '') }}>{{ date('Y') }}</option>
-                        <option value="{{ date('Y')+1 }}" {{ (($schedules['session'] == ((date('Y')+1))) ? 'selected' : '') }}>{{ date('Y')+1 }}</option>
-                        <option value="{{ date('Y')+2 }}" {{ (($schedules['session'] == ((date('Y')+2))) ? 'selected' : '') }}>{{ date('Y')+2 }}</option>
-                    @else
-                        <option value="{{ date('Y')-1 }}/{{ date('Y') }}" {{ (($schedules['session'] == ((date('Y')-1).'/'.(date('Y')))) ? 'selected' : '') }}>{{ date('Y')-1 }}/{{ date('Y') }}</option>
-                        <option value="{{ date('Y') }}/{{ date('Y')+1 }}" {{ (($schedules['session'] == ((date('Y')).'/'.(date('Y')+1))) ? 'selected' : '') }}>{{ date('Y') }}/{{ date('Y')+1 }}</option>
-                        <option value="{{ date('Y')+1 }}/{{ date('Y')+2 }}" {{ (($schedules['session'] == ((date('Y')+1).'/'.(date('Y')+2))) ? 'selected' : '') }}>{{ date('Y')+1 }}/{{ date('Y')+2 }}</option>
-                    @endif
+                    <option value="{{ date('Y') }}" {{ (($schedules['session'] == ((date('Y')))) ? 'selected' : '') }}>{{ date('Y') }}</option>
+                    <option value="{{ date('Y')+1 }}" {{ (($schedules['session'] == ((date('Y')+1))) ? 'selected' : '') }}>{{ date('Y')+1 }}</option>
+                    <option value="{{ date('Y')+2 }}" {{ (($schedules['session'] == ((date('Y')+2))) ? 'selected' : '') }}>{{ date('Y')+2 }}</option>
                 </select>
             </div>
 
@@ -25,7 +19,7 @@
             <div class="col-sm-1 text-bold"> :</div>
             <div class="col-sm-3">
                 <select class="form-control" name="semester">
-                    @for($i = 1;$i <= 5;$i++)
+                    @for($i = 1; $i <= 5; $i++)
                         <option value="{{ $i }}" {{ (($schedules['semester'] == $i) ? 'selected' : '') }}>{{ $i }}</option>
                     @endfor
                 </select>

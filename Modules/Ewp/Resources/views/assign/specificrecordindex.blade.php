@@ -28,19 +28,20 @@
             <div class="card-body"> 
                 <div class="row mb-3">
                     <div class="col-xl-1 text-bold"></div>
-                    <div class="col-xl-5">
-                        {{-- <a> --}}   
-                            <button type="submit" class="btn btn-info">
-                                Student
-                            </button>
-                        {{-- </a> --}}
-                         {{-- <a> --}}
-                            <button type="button" class="btn btn-warning">
-                                Staff
-                            </button>
-                        {{-- </a> --}}
+                    <div class="col-xl-5 text-bold">
+                        <div class="icheck-primary icheck-inline">
+                            <input type="radio" name="usertype" value="alluser" id="alluser" checked /><label for="alluser">All</label>
+                        </div>
+                        <div class="icheck-primary icheck-inline">
+                            <input type="radio" name="usertype" value="student" id="student" /><label for="student">Student</label>
+                        </div>
+                        <div class="icheck-primary icheck-inline">
+                            <input type="radio" name="usertype" value="staff" id="staff" /><label for="staff">Staff</label>
+                        </div>
                     </div>
                 </div>
+
+                <hr>
 
                 <div class="row mb-3">
                     <div class="col-xl-1 text-bold">Pegguna</div>
@@ -126,7 +127,7 @@
                             @if(app()->currentLocale() == 'ms-my')
                                 <th style="min-width:200px"> REKOD KHAS </th>
                             @elseif(app()->currentLocale() == 'en')
-                                <th style="min-width:200px"> SPECIAL RECORD </th>
+                                <th style="min-width:200px"> SPECIFIC RECORD </th>
                             @endif
                         </tr>
                     </thead>
