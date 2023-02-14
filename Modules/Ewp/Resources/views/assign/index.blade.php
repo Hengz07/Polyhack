@@ -132,7 +132,7 @@
                 </table>
             </div>
             
-            <div class="table-responsive">
+            <div class="table-responsive col col-md">
                 <table class="table table-hover table-bordered">
                     <thead class="thead-navy bg-navy">
                         <tr class="text-center">
@@ -262,10 +262,6 @@
                                         <a class="{{ config("adminlte.btn_edit") }} btn showSaringanInfo bg-info" 
                                             data-route="ewp/assign" data-id="{{ $rep->id }}" data-title=" Information" 
                                             data-toggle="modal"><i class="fa fa-id-badge" style="width: 12px;"></i></a>
-                                        
-                                        {{-- <a class="{{ config("adminlte.btn_default") }} btn-sm showSaringanInfo bg-info" id="showinfo"
-                                            data-route="ewp/assign" data-id="{{ $rep['id'] }}" data-title="Saringan Info" 
-                                            data-toggle="modal"><i class="fas fa-id-badge" style="width: 12px;"></i></a>  --}}
 
                                         <a class="{{ config("adminlte.btn_edit") }} btn showSurveyAnswer bg-danger" 
                                             data-route="ewp/assign" data-id="{{ $rep->id }}" data-title=" Answer" 

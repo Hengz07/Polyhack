@@ -229,8 +229,9 @@
                                                 data-route="ewp/assign" data-id="{{ $rep->id }}" data-title="Information" 
                                                 data-toggle="modal"><i class="fa fa-id-badge" style="width: 12px;"></i></a>  
 
-                                            <button type="button" class="btn btn-sm {{ config('adminlte.btn_default') }} bg-danger">
-                                                <i class="fa fa-file"></i></button> 
+                                            <a class="{{ config("adminlte.btn_edit") }} btn showSurveyAnswer bg-danger" 
+                                                data-route="ewp/assign" data-id="{{ $rep->id }}" data-title=" Answer" 
+                                                data-toggle="modal"><i class="fa fa-file" style="width: 12px;"></i></a> 
                                             
                                             <a class="{{ config("adminlte.btn_default") }} btn-sm showSummary bg-warning"
                                                 data-route="ewp/assign" data-title="Summary" 

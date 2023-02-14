@@ -49,7 +49,7 @@
             @endforeach 
         </div> 
 
-        <div id="statcat">
+        <div id="statcat" style="display: none;">
             <label class='text-primary'> Kategori </label> 
 
             <div class="row mb-3"> 
