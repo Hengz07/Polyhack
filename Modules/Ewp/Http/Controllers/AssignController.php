@@ -6,6 +6,9 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
+use App\Exports\ReportsExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 use Modules\Ewp\Entities\{Reports, Schedules, Answers, Assign, Lookups};
 use Modules\Site\Entities\{Profile, User};
 
@@ -219,5 +222,28 @@ class AssignController extends Controller
         $route = $report->id;
         
         return view('ewp::assign.surveyanswer', compact('report', 'question', 'answer', 'route', 'user', 'profile', 'meta'));
+    }
+    
+    public function exportRep()
+    {
+        return Excel::download(new ReportsExport, 'userreport.xlsx');
+    }
+
+    public function exceldata(Request $request)
+    {
+    //     $limit = 10;
+    //     $search = $request->has('q') ? $request->get('q') : null;
+
+        $reports = Reports::with('profile.user')->with('assign')
+        ->orderBy('profile_id', 'asc')
+        ->orderBy('session', 'asc')
+        ->orderBy('sem', 'asc')->get();
+
+        $officers = User::role([5])->get();
+
+        $minmax = Lookups::where('key', 'category')->get();
+
+        return view('ewp::assign.exceldata', compact('reports', 'officers', 'minmax'));
+    
     }
 }

@@ -93,10 +93,12 @@
                 <button type="button" class="btn btn-danger">
                     Reset
                 </button>
-                    
-                <button type="button" class="btn btn-success float-right" title="Click to download report">
-                    <i class="fa fa-file-excel fa-success"></i>
-                </button>
+                 
+                <a href='assign/exportreport'>
+                    <button type="button" class="btn btn-success float-right" title="Click to download report">
+                        <i class="fa fa-file-excel fa-success"></i>
+                    </button>
+                </a>
             </div>
         </form>
     </div>
@@ -154,11 +156,13 @@
                                         <label for="checkboxCheckAll"></label>
                                     </label>
                                     
-                                    <div class="input-group-append">
-                                        <a class="{{ config("adminlte.btn_default") }} btn btn-sm" id="saveall"
-                                            data-route="ewp/assign/create" data-title="Officer" 
-                                            data-toggle="modal"><i class="fa fa-xs fa-share"></i></a> 
-                                    </div>
+                                    {{-- <div class=""> --}}
+                                        
+
+                                        <a class="{{ config("adminlte.btn_default") }} btn bg-warning" id="saveall"
+                                        data-route="ewp/assign/create" data-title="Officer" 
+                                        data-toggle="modal"><i class="fa fa-share" style="width: 12px;"></i></a> 
+                                    {{-- </div> --}}
                                 </div>
                             </th>
                             <th style="width: 10%"> Action </th>
@@ -215,35 +219,42 @@
                                         </td>
                                     @endif
 
-                                    <td class="text-center"> 
-                                        @php
-                                            if ($scale['A']['status']['intervention'] == 'INTERVENSI KHUSUS' || 
-                                                $scale['D']['status']['intervention'] == 'INTERVENSI KHUSUS' || 
-                                                $scale['S']['status']['intervention'] == 'INTERVENSI KHUSUS')
-                                            {
-                                                $intervention = 'INTERVENSI KHUSUS';
-                                            }
-                                            
-                                            else
-                                            {
-                                                $intervention = 'INTERVENSI UMUM';
-                                            }  
-                                        @endphp
-                                        {{ $intervention }}
+                                    @if(isset($scale))
+                                        <td class="text-center"> 
+                                            @php
+                                                if ($scale['A']['status']['intervention'] == 'INTERVENSI KHUSUS' || 
+                                                    $scale['D']['status']['intervention'] == 'INTERVENSI KHUSUS' || 
+                                                    $scale['S']['status']['intervention'] == 'INTERVENSI KHUSUS')
+                                                {
+                                                    $intervention = 'INTERVENSI KHUSUS';
+                                                }
+                                                
+                                                else
+                                                {
+                                                    $intervention = 'INTERVENSI UMUM';
+                                                }  
+                                            @endphp
+                                            {{ $intervention }}
 
-                                    </td>
+                                        </td>
+                                    
+                                    @else  
+                                        <td class="text-center">
+                                            No data available
+                                        </td>
+                                    @endif
                                     <td class="text-center"> {{ date('d/m/Y', strtotime($rep['created_at'])) }} </td>
                                     <td class="text-center">
                                         
-                                        @foreach($officers as $officer)
-                                            @if(isset($assign))
+                                        @if(isset($assign))
+                                            @foreach($officers as $officer)
                                                 @if($assign['officer_id'] == $officer['id'])
                                                     {{ $officer['name'] }}
                                                 @endif
-                                            @else
-                                                {{ '-' }}
-                                            @endif
-                                        @endforeach
+                                            @endforeach
+                                        @else 
+                                            <label>None</label>
+                                        @endif
 
                                     </td>
                                     <td class="text-center">
@@ -254,7 +265,7 @@
                                                 <label for="{{ $rep['id'] }}"></label>
                                             </div>
                                         @else
-                                            --
+                                            
                                         @endif
 
                                     </td>
@@ -266,7 +277,6 @@
                                         <a class="{{ config("adminlte.btn_edit") }} btn showSurveyAnswer bg-danger" 
                                             data-route="ewp/assign" data-id="{{ $rep->id }}" data-title=" Answer" 
                                             data-toggle="modal"><i class="fa fa-file" style="width: 12px;"></i></a>
-
                                     </td> 
                                 </tr>   
                             @endforeach

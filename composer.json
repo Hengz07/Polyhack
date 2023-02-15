@@ -25,6 +25,7 @@
         "laravel/ui": "^3.0",
         "laravelcollective/html": "^6.1",
         "livewire/livewire": "^2.10",
+        "maatwebsite/excel": "^3.1",
         "nwidart/laravel-modules": "8.2",
         "owen-it/laravel-auditing": "^12.1",
         "rap2hpoutre/laravel-log-viewer": "^1.7",

@@ -18,7 +18,6 @@ Route::prefix('dashboards/reports')->group(function() {
     Route::get('create', 'ReportsController@create')->name('ewp.dashboards.reports.create');
 
     Route::post('store', 'ReportsController@store')->name('ewp.dashboards.reports.store');
-
     //
     Route::get('/result', 'ReportsController@getResult')->name('reports.result');
 });
@@ -88,7 +87,11 @@ Route::prefix('assign')->group(function() {
     Route::put('{id}/update', 'AssignController@update')->name('ewp.assign.update');
 
     Route::get('{id}/saringaninfo', 'AssignController@saringaninfo')->name('ewp.assign.saringaninfo');
-    Route::get('{id}/surveyanswer', 'AssignController@surveyanswer')->name('ewp.assign.surveyanswer');
+    Route::get('{id}/surveyanswer', 'AssignController@surveyanswer')->name('ewp.assign.surveyanswer'); 
+    
+    Route::get('/exportreport', 'AssignController@exportRep')->name('ewp.reports.exportRep');
+    Route::get('exceldata', 'AssignController@exceldata')->name('ewp.assign.exceldata');
+    
 
 });  
 

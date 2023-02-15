@@ -8,6 +8,9 @@ use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Fleet\Entities\User as FleetUser;
 
+use App\Exports\UsersExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 use function App\Helpers\camelCase;
 
 class User extends Authenticatable
@@ -77,5 +80,10 @@ class User extends Authenticatable
     ## FLEET 
     public function fleetAdmins() {
         return $this->hasMany(FleetUser::class, 'user_id')->where('role_id', config('constants.role_id.fleetDeptAdmin'));
+    }
+
+    public function export()
+    {
+        return Excel::download(new UsersExport, 'users.xlsx');
     }
 }

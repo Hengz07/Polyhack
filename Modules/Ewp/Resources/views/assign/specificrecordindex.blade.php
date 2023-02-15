@@ -141,17 +141,13 @@
                             <th style="width: 3%"> # </th>
                             <th style="width: 7%"> Session </th>
                             <th style="width: 7%"> ID </th>
-                            <th style="width: 7%"> Name </th>
-                            <th style="width: 7%"> Faculty </th>
+                            <th style="width: 14%"> Name </th>
+                            <th style="width: 14%"> Faculty </th>
                             <th style="width: 7%"> D </th>
                             <th style="width: 7%"> A </th>
                             <th style="width: 7%"> S </th>
                             <th style="width: 7%"> Status </th>
                             <th style="width: 7%"> Assign Date </th>
-                            <th style="width: 8%">  </th>
-                            <th style="width: 7%"> 
-                                
-                            </th>
                             <th style="width: 10%"> Action </th>
                         </tr>
                     </thead>
@@ -217,12 +213,6 @@
 
                                         </td>
                                         <td class="text-center"> {{ date('d/m/Y', strtotime($rep['created_at'])) }} </td>
-                                        <td class="text-center">
-                                            
-                                        </td>
-                                        <td class="text-center">
-                                            
-                                        </td>
                                         <td class="text-center"> 
 
                                             <a class="{{ config("adminlte.btn_edit") }} btn showSaringanInfo bg-info" 
