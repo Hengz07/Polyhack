@@ -69,7 +69,7 @@ class User extends Authenticatable
 
     public function profile()
     {
-        return $this->hasOne('Modules\Site\Entities\Profile', 'user_id', 'id');
+        return $this->hasOne(Profile::class, 'user_id');
     }
 
     public function schedules()

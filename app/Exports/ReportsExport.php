@@ -18,10 +18,9 @@ class ReportsExport implements FromView
     public function view(): View
     {
         return view('ewp::assign.exceldata', [
-            'reports' => Reports::all(), 
+            'reports' => Reports::with('profile.user')->with('assign')->orderBy('profile_id', 'asc')->orderBy('session', 'asc')->orderBy('sem', 'asc')->get(), 
             'minmax' => Lookups::where('key', 'category')->get(),
             'officers' => User::role([5])->get()
-
         ]); 
     }
 }

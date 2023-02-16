@@ -68,6 +68,29 @@ class AssignController extends Controller
         return view('ewp::assign.specificrecordindex', compact('reports', 'officers', 'minmax'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search);
     }
 
+    public function assignsearching(Request $request)
+    {
+        $limit = 10;
+        $search = $request->has('q') ? $request->get('q') : null;
+
+        $reports = Reports::with('profile.user')->with('assign')->where(function ($query) use ($search) {
+            if ($search != null) {
+                $query->where('session', 'like', '%' . $search . '%')
+                      ->orWhere('sem', 'like', '%' . $search . '%');
+            }
+        })
+        ->orderBy('profile_id', 'asc')
+        ->orderBy('session', 'asc')
+        ->orderBy('sem', 'asc')
+        ->paginate($limit);
+
+        $officers = User::role([5])->get();
+
+        $minmax = Lookups::where('key', 'category')->get();
+
+        return view('ewp::assign.assignsearching', compact('reports', 'officers', 'minmax'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search);
+    }
+
     /**
      * Show the form for creating a new resource.
      * @return Renderable

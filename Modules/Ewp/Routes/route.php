@@ -79,6 +79,7 @@ Route::prefix('assign')->group(function() {
 
     Route::get('/', 'AssignController@index')->name('ewp.assign.index');
     Route::get('specificrecordindex', 'AssignController@specificrecordindex')->name('ewp.assign.specificrecordindex');
+    Route::get('assignsearching', 'AssignController@assignsearching')->name('ewp.assign.assignsearching');
 
     Route::get('create', 'AssignController@create')->name('ewp.assign.create');
     Route::post('store', 'AssignController@store')->name('ewp.assign.store');
@@ -117,5 +118,6 @@ Route::prefix('select2')->group(function () {
     Route::post('/faculty', 'SelectController@getFaculty')->name('select2.faculty');
     Route::post('/status', 'SelectController@getStatus')->name('select2.status');
     Route::post('/officer', 'SelectController@getOfficer')->name('select2.officer');
+    
     Route::post('/modalOfficer', 'SelectController@getModalOfficer')->name('select2.modalOfficer');
 });

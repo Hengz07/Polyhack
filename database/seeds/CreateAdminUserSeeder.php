@@ -232,31 +232,31 @@ class CreateAdminUserSeeder extends Seeder
                     ]
                 ],
                 'meta' => 
-                [
-                    [
-                        'gender' => 'Male',
-                        'race' => 'Malaysian',
-                        'hp_no' => '0129738527',
-                        'office_no' => '',
-                    ]
-                ]
-            ]);
+                [ 
+                    [ 
+                        'gender' => 'Male', 
+                        'race' => 'Malaysian', 
+                        'hp_no' => '0129738527', 
+                        'office_no' => '', 
+                    ] 
+                ] 
+            ]); 
 
             //---------------------------------------------------------------//
 
             //OFFICER 1
 
-            $userofficer1 = User::create([
-                'name' => 'TUN MOHD ALAMIN BIN TUN ABD MANAN',
-                'email' => 'tunamin@um.edu.my',
-                'password' => bcrypt('abcd1234'),
-                'user_type' => 'staff',
-            ]);
+            $userofficer1 = User::create([ 
+                'name' => 'TUN MOHD ALAMIN BIN TUN ABD MANAN', 
+                'email' => 'tunamin@um.edu.my', 
+                'password' => bcrypt('abcd1234'), 
+                'user_type' => 'staff', 
+            ]); 
             
             $userofficer1->profile()->updateOrCreate(['user_id' => $userofficer1->id], [
-                'user_id' => '6',
-                'profile_no' => '000333429',
-                'status' => $aktif,
+                'user_id' => '6', 
+                'profile_no' => '00014987', 
+                'status' => $aktif, 
                 'department' => 
                 [
                     [

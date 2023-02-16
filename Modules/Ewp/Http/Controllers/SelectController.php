@@ -40,7 +40,7 @@ class SelectController extends Controller
         
         foreach ($results as $result) {
             $response[] = array(
-                "id" => $result->id,
+                "id"   => $result->id,
                 "text" => $result->value_local,
                 "code" => $result->code,
             );
@@ -50,9 +50,9 @@ class SelectController extends Controller
         exit;
     }
 
+    //Select2 For Searching (Rekod Saringan / Khusus)
     public function getSession(Request $request)
     {
-
         $search = $request->search;
 
         if ($search == '') {
@@ -63,11 +63,12 @@ class SelectController extends Controller
         
         $response = array();
         
-        foreach ($results as $result) {
-            $response[] = array(
-                "session" => $result->session,
-            );
-        }
+        foreach ($results as $result) { 
+            $response[] = array( 
+                "id"      => $result->id, 
+                "session" => $result->session, 
+            ); 
+        } 
 
         echo json_encode($response);
         exit;
@@ -87,6 +88,7 @@ class SelectController extends Controller
         
         foreach ($results as $result) {
             $response[] = array(
+                "id"       => $result->id,
                 "semester" => $result->sem,
             );
         }
@@ -104,11 +106,14 @@ class SelectController extends Controller
         } else {
             $results = Profile::select('ptj')->where('value_local', 'ilike', '%' . $search . '%')->distinct()->get();
         }
+
+        dd($results);
         
         $response = array();
         
         foreach ($results as $result) {
             $response[] = array(
+                "id"      => $result->id,
                 "faculty" => $result['ptj'][0]['code'].' - '.$result['ptj'][0]['desc'],
             );
         }
@@ -133,6 +138,7 @@ class SelectController extends Controller
 
             dd($result['scale']);
             $response[] = array(
+                "id"     => $result->id,
                 "status" => $result['ptj'][0]['code'].' - '.$result['ptj'][0]['desc'],
             );
         }
@@ -155,6 +161,7 @@ class SelectController extends Controller
         
         foreach ($results as $result) {
             $response[] = array(
+                "id"      => $result->id,
                 "officer" => $result['name'],
             );
         }
@@ -163,6 +170,7 @@ class SelectController extends Controller
         exit;
     }
 
+    //Get Officer For Assign Officer Modal
     public function getModalOfficer(Request $request)
     {
         // $test = auth()->user();
