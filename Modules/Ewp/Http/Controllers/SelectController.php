@@ -65,7 +65,7 @@ class SelectController extends Controller
         
         foreach ($results as $result) { 
             $response[] = array( 
-                "id"      => $result->id, 
+                "id"      => $result->session, 
                 "session" => $result->session, 
             ); 
         } 
@@ -88,7 +88,7 @@ class SelectController extends Controller
         
         foreach ($results as $result) {
             $response[] = array(
-                "id"       => $result->id,
+                "id"       => $result->sem,
                 "semester" => $result->sem,
             );
         }
@@ -112,9 +112,10 @@ class SelectController extends Controller
         $response = array();
         
         foreach ($results as $result) {
+            $faculty = $result['ptj'][0]['code'].' - '.$result['ptj'][0]['desc'];
             $response[] = array(
-                "id"      => $result->id,
-                "faculty" => $result['ptj'][0]['code'].' - '.$result['ptj'][0]['desc'],
+                "id"      => $faculty,
+                "faculty" => $faculty,
             );
         }
 
@@ -135,11 +136,9 @@ class SelectController extends Controller
         $response = array();
         
         foreach ($results as $result) {
-
-            dd($result['scale']);
             $response[] = array(
-                "id"     => $result->id,
-                "status" => $result['ptj'][0]['code'].' - '.$result['ptj'][0]['desc'],
+                "id"     => '',
+                "status" => 'test',
             );
         }
 

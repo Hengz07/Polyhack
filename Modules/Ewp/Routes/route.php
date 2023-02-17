@@ -96,19 +96,6 @@ Route::prefix('assign')->group(function() {
 
 });  
 
-// Route::prefix('specificrecord')->group(function() {
-
-//     Route::get('/', 'SpecificRecordController@index')->name('ewp.specificrecord.index');
-//     Route::get('create', 'SpecificRecordController@create')->name('ewp.specificrecord.create');
-//     Route::post('store', 'SpecificRecordController@store')->name('ewp.specificrecord.store');
-    
-//     Route::get('{id}/edit', 'SpecificRecordController@edit')->name('ewp.specificrecord.edit');
-//     Route::put('{id}/update', 'SpecificRecordController@update')->name('ewp.specificrecord.update');
-
-//     // Route::get('summary', 'SpecificRecordController@summary')->name('ewp.specificrecord.summary');
-
-// }); 
-
 Route::prefix('select2')->group(function () {
     
     Route::post('lookups/category', 'SelectController@getCategory')->name('select2.lookups.category');

@@ -61,14 +61,30 @@ class ReportsController extends Controller
         };
 
         //RETRIEVE JSON/JSONB DATA
-        $jsonb_ptj = $profiles['ptj'];
-            foreach ($jsonb_ptj as $jsonb_ptj)
+        // dd($jsonb_ptj);
+        if($profiles['ptj'] != null){
+            $jsonb_ptj = $profiles['ptj'];
+                foreach ($jsonb_ptj as $jsonb_ptj);
+        }
+        else{
+            $json_ptj = null;
+        }
 
-        $jsonb_department = $profiles['department'];
-            foreach ($jsonb_department as $jsonb_department)
+        if($profiles['department'] != null){
+            $jsonb_department = $profiles['department'];
+                foreach ($jsonb_department as $jsonb_department);
+        }
+        else{
+            $json_department = null;
+        }
 
-        $meta = $profiles['meta'];
-            foreach ($meta as $meta)
+        if($profiles['meta'] != null){
+            $meta = $profiles['meta'];
+                foreach ($meta as $meta);
+        }
+        else{
+            $meta = null;
+        }
         //
 
         return view('ewp::dashboards.reports.create', compact('schedules', 'users', 'profiles', 'jsonb_ptj', 'jsonb_department', 'meta'));
@@ -204,12 +220,13 @@ class ReportsController extends Controller
         //REPORT LOOPING TO ACCESS DATA FROM EACH REPORTS
         foreach($reports as $result)
         {
+            
             $dataA = $dataB = $dataC = 0;
             $intervention = '';
             $data = array();
 
             $scaleresults = $result['scale'];
-        
+            
             // dd($scaleresults);
             foreach ($scaleresults as $scaleresult => $sr){
 

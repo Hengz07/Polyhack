@@ -14,14 +14,14 @@ class Profile extends Model
         'profile_no', 
         'ptj', 
         'department', 
-        'status',
+        'status', 
         'position', 
         'grade', 
         'employment_type', 
         'academic', 
-        'meta',
-        'alt_email',
-        'alt_phone'
+        'meta', 
+        'alt_email', 
+        'alt_phone' 
     ];
 
     protected $casts = [
