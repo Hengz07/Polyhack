@@ -74,7 +74,7 @@
     <div class="row">
         <div class="col-sm-6 pl-0"> 
             <div class="card card-body mr-1">
-                <h2> Report </h2> 
+                <h4> Report </h4> 
                 <br><br>
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered">
@@ -152,7 +152,7 @@
         
         <div class="col-sm-6 pr-0">
             <div class="card card-body ml-1">
-                <h2 class="text-center"> Emotional-Wellbeing Profiling Result </h2> <br>
+                <h4 class="text-center"> Emotional-Wellbeing Profiling Result </h4> <br>
                 <div class="col-sm">
                     <figure class="highcharts-figure col-sm">
                         <div id="container"></div>
