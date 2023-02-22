@@ -20,12 +20,14 @@ class QuestionsController extends Controller
         $limit = 10;
         $search = $request->has('q') ? $request->get('q') : null;
 
-        $questions = Lookups::where(function ($query) use ($search) {
+        $questions = Lookups::where('key', 'like', 'questions')
+        ->where(function ($query) use ($search) {
             if ($search != null) {
-                $query->where('value_local', 'like', '%' . $search . '%');
+                $query->where('value_local', 'like', '%' . $search . '%')
+                        ->orWhere('value_translation', 'like', '%' . $search . '%')
+                        ->orWhere('code', 'like', '%' . $search . '%');
             }
         })
-        ->orWhere('key', 'like', 'questions')
         ->orderBy('code', 'asc')
         ->paginate($limit);
         session()->put('url.intended', url()->current());

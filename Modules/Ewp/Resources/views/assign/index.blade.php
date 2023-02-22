@@ -20,6 +20,7 @@
 @section('content')
 <div class="container-fluid">
     
+    @include('ewp::assign.assignsearching')
 
     <div class="{{ config('adminlte.card_default') }}">
         <div class="card-body"> 
@@ -106,7 +107,7 @@
                                     <td class="text-center"> {{ $rep['session'] }} - {{ $rep['sem'] }} </td> 
                                     <td class="text-center"> {{ $profile['profile_no'] }} </td> 
                                     <td class="text-center"> {{ $user['name'] }} </td> 
-                                    <td class="text-center"> {{ $profile['ptj'][0]['desc'] }} </td> 
+                                    <td class="text-center"> {{ $profile['ptj']['desc'] }} </td> 
                                     
                                     @if(isset($scale))
                                         @foreach($minmax as $mm)
@@ -137,30 +138,16 @@
                                         </td>
                                     @endif
 
-                                    @if(isset($scale))
+                                    @if(isset($rep['intervention']))
                                         <td class="text-center"> 
-                                            @php
-                                                if ($scale['A']['status']['intervention'] == 'INTERVENSI KHUSUS' || 
-                                                    $scale['D']['status']['intervention'] == 'INTERVENSI KHUSUS' || 
-                                                    $scale['S']['status']['intervention'] == 'INTERVENSI KHUSUS')
-                                                {
-                                                    $intervention = 'INTERVENSI KHUSUS';
-                                                }
-                                                
-                                                else
-                                                {
-                                                    $intervention = 'INTERVENSI UMUM';
-                                                }  
-                                            @endphp
-                                            {{ $intervention }}
-
-                                        </td>
-                                    
-                                    @else  
-                                        <td class="text-center">
-                                            No data available
+                                            @if(isset($rep['intervention']))
+                                                {{ $rep['intervention'] }}
+                                            @else
+                                                No data available
+                                            @endif
                                         </td>
                                     @endif
+
                                     <td class="text-center"> {{ date('d/m/Y', strtotime($rep['created_at'])) }} </td>
                                     <td class="text-center">
                                         
@@ -177,7 +164,7 @@
                                     </td>
                                     <td class="text-center">
 
-                                        @if ($intervention == 'INTERVENSI KHUSUS')
+                                        @if ($rep['intervention'] == 'INTERVENSI KHUSUS')
                                             <div class="icheck-primary icheck-inline">
                                                 <input type="checkbox" class="chk_box_sub" id="{{ $rep['id'] }}" value="{{ $rep['id'] }}" />
                                                 <label for="{{ $rep['id'] }}"></label>
@@ -213,9 +200,9 @@
 @endsection
 
 @section('js') 
-    <script src="{{ asset('js/modal.js') }}"></script>
+    <script src="{{ asset('js/modal.js') }}"></script>  
     <script src="{{ asset('js/delete.js') }}"></script>
-    <script src="{{ asset('js/assign_index.js') }}"></script>
+    <script src="{{ asset('js/assign.js') }}"></script>
 @endsection
 
 {{-- KERJA --}}

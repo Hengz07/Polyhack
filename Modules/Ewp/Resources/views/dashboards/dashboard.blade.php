@@ -41,7 +41,6 @@
 
                     $teststart = 'Start Test';
                 }
-            
             @endphp
 
             <span class="card-header">
@@ -98,6 +97,15 @@
                             @else
                             
                                 @foreach ($reports as $report => $rep)
+
+                                    @php
+                                        $profile = $rep['profile'];
+                                        $user    = $profile['user'];
+                                        $assign  = $rep['assign'];
+
+                                        $scale = $rep['scale'];
+                                    @endphp
+
                                     <tr>
                                         <td class="text-center">{{ ++$i }}</td>
                                         <td class="text-center">{{ $rep['session'] }} - {{ $rep['sem'] }}</td>
@@ -118,8 +126,16 @@
                                                     </span>
 
                                                     &nbsp; 
-                                                    
-                                                    <a type="button" class="px-2 btn btn-dark btn-sm fa-list-alt fa-2 fas getResult"></a> 
+
+                                                    @if(isset($rep['intervention']))
+                                                        @if($rep['intervention'] == 'INTERVENSI UMUM')
+                                                            <span class="px-2 text-center font-weight-bold bg-primary text-white rounded">{{ $rep['intervention'] }}</span> 
+                                                        @elseif($rep['intervention'] == 'INTERVENSI KHUSUS')
+                                                            <span class="px-2 text-center font-weight-bold bg-danger text-white rounded">{{ $rep['intervention'] }}</span> 
+                                                        @endif
+                                                    @else
+                                                        
+                                                    @endif
                                                 </div> 
                                             @endif
 

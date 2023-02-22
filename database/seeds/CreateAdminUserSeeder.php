@@ -65,26 +65,20 @@ class CreateAdminUserSeeder extends Seeder
                 'status' => $aktif,
                 'ptj' => 
                 [
-                    [
-                        'code' => 'FCS',
-                        'desc' => 'Faculty of Computer Science' 
-                    ]
+                    'code' => 'FCS',
+                    'desc' => 'Faculty of Computer Science' 
                 ],
                 'department' => 
                 [
-                    [
-                        'code' => 'CSAI',
-                        'desc' => 'Computer Science (AI)' 
-                    ]
+                    'code' => 'CSAI',
+                    'desc' => 'Computer Science (AI)' 
                 ],
                 'meta' => 
                 [
-                    [
-                        'gender' => 'Male',
-                        'race' => 'Malaysian',
-                        'hp_no' => '0122894017',
-                        'office_no' => '03456789',
-                    ]
+                    'gender' => 'Male',
+                    'race' => 'Malaysian',
+                    'hp_no' => '0122894017',
+                    'office_no' => '03456789',
                 ]
             ]);
 
@@ -103,26 +97,20 @@ class CreateAdminUserSeeder extends Seeder
                 'status' => $aktif,
                 'ptj' => 
                 [
-                    [
-                        'code' => 'FCS',
-                        'desc' => 'Faculty of Computer Science' 
-                    ]
+                    'code' => 'FCS',
+                    'desc' => 'Faculty of Computer Science' 
                 ],
                 'department' => 
                 [
-                    [
-                        'code' => 'IT',
-                        'desc' => 'Information Technology' 
-                    ]
+                    'code' => 'IT',
+                    'desc' => 'Information Technology' 
                 ],
                 'meta' => 
                 [
-                    [
-                        'gender' => 'Male',
-                        'race' => 'Malaysian',
-                        'hp_no' => '0195749358',
-                        'office_no' => '03854392',
-                    ]
+                    'gender' => 'Male',
+                    'race' => 'Malaysian',
+                    'hp_no' => '0195749358',
+                    'office_no' => '03854392',
                 ]
             ]);
 
@@ -141,26 +129,20 @@ class CreateAdminUserSeeder extends Seeder
                 'status' => $aktif,
                 'ptj' => 
                 [
-                    [
-                        'code' => 'FCS',
-                        'desc' => 'Faculty of Computer Science' 
-                    ]
+                    'code' => 'FCS',
+                    'desc' => 'Faculty of Computer Science' 
                 ],
                 'department' => 
                 [
-                    [
-                        'code' => 'CS',
-                        'desc' => 'Computer Science' 
-                    ]
+                    'code' => 'CS',
+                    'desc' => 'Computer Science' 
                 ],
                 'meta' => 
                 [
-                    [
-                        'gender' => 'Male',
-                        'race' => 'Malaysian',
-                        'hp_no' => '0129584325',
-                        'office_no' => '03895832',
-                    ]
+                    'gender' => 'Male',
+                    'race' => 'Malaysian',
+                    'hp_no' => '0129584325',
+                    'office_no' => '03895832',
                 ]
             ]);
 
@@ -181,26 +163,20 @@ class CreateAdminUserSeeder extends Seeder
                 'status' => $aktif,
                 'ptj' => 
                 [
-                    [
-                        'code' => 'FCST',
-                        'desc' => 'Faculty of Computer Science and Technology' 
-                    ]
+                    'code' => 'FCST',
+                    'desc' => 'Faculty of Computer Science and Technology'
                 ],
                 'department' => 
                 [
-                    [
-                        'code' => 'CSN',
-                        'desc' => 'Computer Science (Netcentric)' 
-                    ]
+                    'code' => 'CSN',
+                    'desc' => 'Computer Science (Netcentric)' 
                 ],
                 'meta' => 
                 [
-                    [
-                        'gender' => 'Male',
-                        'race' => 'Malaysian',
-                        'hp_no' => '0123456789',
-                        'office_no' => '',
-                    ]
+                    'gender' => 'Male',
+                    'race' => 'Malaysian',
+                    'hp_no' => '0123456789',
+                    'office_no' => '',
                 ]
             ]);
 
@@ -219,26 +195,20 @@ class CreateAdminUserSeeder extends Seeder
                 'status' => $aktif,
                 'ptj' => 
                 [
-                    [
-                        'code' => 'FCST',
-                        'desc' => 'Faculty of Accounting' 
-                    ]
+                    'code' => 'FCST',
+                    'desc' => 'Faculty of Accounting' 
                 ],
                 'department' => 
                 [
-                    [
-                        'code' => 'AC',
-                        'desc' => 'Accounting' 
-                    ]
+                    'code' => 'AC',
+                    'desc' => 'Accounting'
                 ],
                 'meta' => 
-                [ 
-                    [ 
-                        'gender' => 'Male', 
-                        'race' => 'Malaysian', 
-                        'hp_no' => '0129738527', 
-                        'office_no' => '', 
-                    ] 
+                [
+                    'gender' => 'Male', 
+                    'race' => 'Malaysian', 
+                    'hp_no' => '0129738527', 
+                    'office_no' => '', 
                 ] 
             ]); 
 
@@ -259,19 +229,15 @@ class CreateAdminUserSeeder extends Seeder
                 'status' => $aktif, 
                 'department' => 
                 [
-                    [
-                        'code' => 'Section of Psychology Management & Counseling',
-                        'desc' => '-' 
-                    ]
+                    'code' => 'Section of Psychology Management & Counseling',
+                    'desc' => '-' 
                 ],
                 'meta' => 
                 [
-                    [
-                        'gender' => 'Male',
-                        'race' => 'Malaysian',
-                        'hp_no' => '',
-                        'office_no' => '',
-                    ]
+                    'gender' => 'Male',
+                    'race' => 'Malaysian',
+                    'hp_no' => '',
+                    'office_no' => '',
                 ]
             ]);
 
@@ -290,19 +256,15 @@ class CreateAdminUserSeeder extends Seeder
                 'status' => $aktif,
                 'department' => 
                 [
-                    [
-                        'code' => 'Section of Psychology Management & Counseling',
-                        'desc' => '-' 
-                    ]
+                    'code' => 'Section of Psychology Management & Counseling',
+                    'desc' => '-'
                 ],
                 'meta' => 
                 [
-                    [
-                        'gender' => 'Male',
-                        'race' => 'Malaysian',
-                        'hp_no' => '',
-                        'office_no' => '',
-                    ]
+                    'gender' => 'Male',
+                    'race' => 'Malaysian',
+                    'hp_no' => '',
+                    'office_no' => '',
                 ]
             ]);
             

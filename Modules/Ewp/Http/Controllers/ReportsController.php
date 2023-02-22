@@ -18,10 +18,13 @@ class ReportsController extends Controller
      */
     public function dashboard(Request $request)
     {
+        //SESSION AND SEM REFER TO USER'S TYPE
+        $profiles  = Profile::where('user_id', auth()->user()->id)->where('status', '"AK"')->first();
+
         $limit = 10;
         $search = $request->has('q') ? $request->get('q') : null;
 
-        $reports = Reports::where(function ($query) use ($search) {
+        $reports = Reports::with('profile.user')->with('assign')->where(function ($query) use ($search) {
             if ($search != null) {
                 $query->where('session', 'like', '%' . $search . '%')
                       ->orWhere('semester', 'like', '%' . $search . '%');
@@ -64,7 +67,6 @@ class ReportsController extends Controller
         // dd($jsonb_ptj);
         if($profiles['ptj'] != null){
             $jsonb_ptj = $profiles['ptj'];
-                foreach ($jsonb_ptj as $jsonb_ptj);
         }
         else{
             $json_ptj = null;
@@ -72,7 +74,6 @@ class ReportsController extends Controller
 
         if($profiles['department'] != null){
             $jsonb_department = $profiles['department'];
-                foreach ($jsonb_department as $jsonb_department);
         }
         else{
             $json_department = null;
@@ -80,7 +81,6 @@ class ReportsController extends Controller
 
         if($profiles['meta'] != null){
             $meta = $profiles['meta'];
-                foreach ($meta as $meta);
         }
         else{
             $meta = null;
@@ -268,7 +268,7 @@ class ReportsController extends Controller
                 'data' => $data,
                 'pointPlacement' => $intervention
             );
-        }       
+        }
 
         return response()->json($fullresult);
     }

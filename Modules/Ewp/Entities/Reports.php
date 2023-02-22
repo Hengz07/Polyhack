@@ -14,7 +14,7 @@ class Reports extends Model
     use HasFactory;
 
     protected $table    = 'ewp_overall_report';
-    protected $fillable = ['session', 'sem', 'profile_id', 'status', 'scale'];     
+    protected $fillable = ['session', 'sem', 'profile_id', 'status', 'scale', 'intervention'];     
 
     protected $casts = [
         'scale' => 'array',

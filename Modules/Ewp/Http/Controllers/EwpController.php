@@ -45,11 +45,10 @@ class EwpController extends Controller
                       ->orWhere('sem', 'like', '%' . $search . '%');
             }
         })
+        ->with('profile.user')->with('assign')
         ->where('profile_id', $profiles['id'])
         ->orderBy('id', 'asc')
         ->paginate($limit);
-
-        // dd($reports);
 
         session()->put('url.intended', url()->current());
 

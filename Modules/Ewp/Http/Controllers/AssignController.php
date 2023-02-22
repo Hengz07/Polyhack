@@ -22,26 +22,48 @@ class AssignController extends Controller
      * @return Renderable
      */
     public function index(Request $request)
-    {
+    {   
         $limit = 10;
         $search = $request->has('q') ? $request->get('q') : null;
+        
+        $s_session = $request->has('session') ? $request->get('session') : null;
+        $s_semester = $request->has('semester') ? $request->get('semester') : null;
+        $s_faculty = $request->has('faculty') ? $request->get('faculty') : null;
+        $s_status = $request->has('status') ? $request->get('status') : null;
+        $s_officer = $request->has('officer') ? $request->get('officer') : null;
 
-        $reports = Reports::with('profile.user')->with('assign')->where(function ($query) use ($search) {
-            if ($search != null) {
-                $query->where('session', 'like', '%' . $search . '%')
-                      ->orWhere('sem', 'like', '%' . $search . '%');
-            }
-        })
+        $usertype = $request->input('status');
+
+        $reports = Reports::with('profile.user')->with('assign')
+            ->where(function ($query) use ($search, $s_session, $s_semester, $s_officer, $s_faculty, $s_status) {
+                if($search != null){
+                    $query->whereHas('profile.user', function($query) use ($search){
+                        $query->where('name', 'like', '%' . $search . '%');
+                    });
+                }
+                // Fix officer searching
+                if($s_officer != null){
+                    $query->whereHas('profile.user', function($query) use ($s_officer){
+                       $query->where('id', $s_officer);
+                    });
+                }
+                if ($s_session != null){
+                    $query->where('session', $s_session);
+                }
+                if ($s_semester != null){
+                    $query->where('sem', $s_semester);
+                }
+            })
         ->orderBy('profile_id', 'asc')
         ->orderBy('session', 'asc')
         ->orderBy('sem', 'asc')
-        ->paginate($limit);
+        ->paginate($limit); 
 
         $officers = User::role([5])->get();
 
         $minmax = Lookups::where('key', 'category')->get();
 
-        return view('ewp::assign.index', compact('reports', 'officers', 'minmax'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search);
+        return view('ewp::assign.index', compact('reports', 'officers', 'minmax', 's_session', 's_semester'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search)->with('officer', $s_officer)->with('faculty', $s_faculty)->with('session', $s_session)->with('semester', $s_semester);
     
     }
 
@@ -219,9 +241,9 @@ class AssignController extends Controller
         $profile = $report['profile'];
         $user = $profile['user'];
         
-        $meta = $profile['meta'][0];
-        $ptj = $profile['ptj'][0];
-        $department = $profile['department'][0];
+        $meta = $profile['meta'];
+        $ptj = $profile['ptj'];
+        $department = $profile['department'];
 
         $route = $report->id;
         

@@ -19,89 +19,8 @@
 
 @section('content')
 <div class="container-fluid">
-    <div class="{{ config('adminlte.card_default') }}">
-        <div class="card-header">
-            Senarai pelajar yang telah membuat saringan
-        </div> 
-
-        <form action="{{ $route??null }}" method="get">
-            <div class="card-body"> 
-                <div class="row mb-3">
-                    <div class="col-xl-1 text-bold"></div>
-                    <div class="col-xl-5 text-bold">
-                        <div class="icheck-primary icheck-inline">
-                            <input type="radio" name="usertype" value="alluser" id="alluser" checked /><label for="alluser">All</label>
-                        </div>
-                        <div class="icheck-primary icheck-inline">
-                            <input type="radio" name="usertype" value="student" id="student" /><label for="student">Student</label>
-                        </div>
-                        <div class="icheck-primary icheck-inline">
-                            <input type="radio" name="usertype" value="staff" id="staff" /><label for="staff">Staff</label>
-                        </div>
-                    </div>
-                </div>
-
-                <hr>
-
-                <div class="row mb-3">
-                    <div class="col-xl-1 text-bold">Pegguna</div>
-                    <div class="col-xl-5">
-                        <div class="input-group mb-3">        
-                            {!! Form::text('q', $q, array(
-                                'placeholder' => __('Carian mengikut nama'),
-                                'class' => 'form-control',
-                            )) !!}
-
-                            <div class="input-group-append"></div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-1 text-bold">Sesi</div>
-                    <div class="col-sm-2">
-                        <select class="form-control" id="selFilterSession" name="session" style="width: 100%;" required></select>
-                    </div>
-
-                    <div class="col-sm-1 text-bold">Semester</div>
-                    <div class="col-sm-2">
-                        <select class="form-control" id="selFilterSemester" name="semester" style="width: 100%;" required></select>
-                    </div>
-                </div>
-                    
-                <div class="row mb-3">
-                    <div class="col-sm-1 text-bold">Fakulti</div>
-                    <div class="col-sm-5">
-                        <select class="form-control selFaculty" id="selFilterFaculty" name="faculty" style="width: 100%;" required></select>
-                    </div>
-
-                    <div class="col-sm-1 text-bold">Status</div>
-                    <div class="col-sm-5">
-                        <select class="form-control selStatus" id="selFilterStatus" name="status" style="width: 100%;" required></select>
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-sm-1 text-bold">Pegawai</div>
-                    <div class="col-sm-5">
-                        <select class="form-control selOfficer" id="selFilterOfficer" name="officer" style="width: 100%;" required></select>
-                    </div>  
-                </div>
-            </div>
-
-            <div class="card-footer">
-                {{-- <a> --}}
-                    <button type="submit" class="btn btn-primary">
-                        Papar
-                    </button>
-                {{-- </a> --}}
-
-                {{-- <a> --}}
-                    <button type="button" class="btn btn-danger">
-                        Reset
-                    </button>
-                {{-- </a> --}}
-            </div>
-        </form>
-    </div>
+    
+    @include('ewp::assign.assignsearching')
 
     <div class="{{ config('adminlte.card_default') }}">
         <div class="card-body"> 
@@ -171,47 +90,40 @@
                                         <td class="text-center"> {{ $rep['session'] }} - {{ $rep['sem'] }} </td> 
                                         <td class="text-center"> {{ $profile['profile_no'] }} </td> 
                                         <td class="text-center"> {{ $user['name'] }} </td> 
-                                        <td class="text-center"> {{ $profile['ptj'][0]['desc'] }} </td> 
+                                        <td class="text-center"> {{ $profile['ptj']['desc'] }} </td> 
                                         @foreach($minmax as $mm)
 
-                                        @php
-                                            $range = json_decode($mm['meta_value'], true);
-                                        @endphp
-
-                                        @foreach($scale as $up => $test)
-                                            @if($mm['code'] == $up)
-                                                <td class="text-center">
-                                                    @foreach($range as $scalestat)
-                                                        @if($scale[$up]['value'] >= $scalestat['min'] && $scale[$up]['value'] <= $scalestat['max']) 
-                                                            @if($scalestat['name'] == 'TERUK' || $scalestat['name'] == 'SANGAT TERUK')
-                                                                <label class="badge badge-danger px-4">{{ $scale[$up]['value'] }}</label>
-                                                            @else
-                                                                <label class="badge badge-success px-4">{{ $scale[$up]['value'] }}</label>
-                                                            @endif
-                                                        @endif
-                                                    @endforeach
-                                                </td> 
-                                            @endif
-                                        @endforeach
-                                    @endforeach
-                                        <td class="text-center"> 
-        
                                             @php
-                                                if ($scale['A']['status']['intervention'] == 'INTERVENSI KHUSUS' || 
-                                                    $scale['D']['status']['intervention'] == 'INTERVENSI KHUSUS' || 
-                                                    $scale['S']['status']['intervention'] == 'INTERVENSI KHUSUS')
-                                                {
-                                                    $intervention = 'INTERVENSI KHUSUS';
-                                                }
-                                                
-                                                else
-                                                {
-                                                    $intervention = 'INTERVENSI UMUM';
-                                                }  
+                                                $range = json_decode($mm['meta_value'], true);
                                             @endphp
-                                            {{ $intervention }}
 
-                                        </td>
+                                            @foreach($scale as $up => $test)
+                                                @if($mm['code'] == $up)
+                                                    <td class="text-center">
+                                                        @foreach($range as $scalestat)
+                                                            @if($scale[$up]['value'] >= $scalestat['min'] && $scale[$up]['value'] <= $scalestat['max']) 
+                                                                @if($scalestat['name'] == 'TERUK' || $scalestat['name'] == 'SANGAT TERUK')
+                                                                    <label class="badge badge-danger px-4">{{ $scale[$up]['value'] }}</label>
+                                                                @else
+                                                                    <label class="badge badge-success px-4">{{ $scale[$up]['value'] }}</label>
+                                                                @endif
+                                                            @endif
+                                                        @endforeach
+                                                    </td> 
+                                                @endif
+                                            @endforeach
+                                        @endforeach
+
+                                        @if(isset($rep['intervention']))
+                                            <td class="text-center"> 
+                                                @if(isset($rep['intervention']))
+                                                    {{ $rep['intervention'] }}
+                                                @else
+                                                    No data available
+                                                @endif
+                                            </td>
+                                        @endif
+
                                         <td class="text-center"> {{ date('d/m/Y', strtotime($rep['created_at'])) }} </td>
                                         <td class="text-center"> 
 
@@ -248,30 +160,8 @@
 @section('js') 
     <script src="{{ asset('js/modal.js') }}"></script>
     <script src="{{ asset('js/select_modal.js') }}"></script>
+    <script src="{{ asset('js/assign.js') }}"></script>
     <script src="{{ asset('js/delete.js') }}"></script>
-    <script type="text/javascript">
-
-        //STATUS ON SUMMARY MODAL
-        function myFunction() {
-            var Rujuk = document.getElementById("Rujuk");
-            var statcat = document.getElementById("statcat");
-
-            var refercheckbox = document.getElementsByName("refer[]");
-            // console.log(refercheckbox);
-            
-            if (Rujuk.checked == true){
-                statcat.style.display = "block";
-            } else {
-                statcat.style.display = "none";
-                refercheckbox.check = false;
-            }
-        }
-
-        
-
-        // myFunction('onloadRujuk');
-
-    </script>
 @endsection
 
 {{-- KERJA --}}

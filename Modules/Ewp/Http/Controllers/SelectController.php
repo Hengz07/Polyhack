@@ -23,8 +23,8 @@ class SelectController extends Controller
     
     public function getCategory(Request $request)
     {
-             
         $search = $request->search;
+        
         if ($search == '') {
             $results = Lookups::select('value_local', 'id','code')
                             ->where('key', 'category')
@@ -58,7 +58,7 @@ class SelectController extends Controller
         if ($search == '') {
             $results = Reports::select('session')->with('profile.user')->with('assign')->distinct()->orderBy('session')->get();
         } else {
-            $results = Reports::select('session')->with('profile.user')->with('assign')->where('value_local', 'ilike', '%' . $search . '%')->distinct()->orderBy('session')->get();
+            $results = Reports::select('session')->with('profile.user')->with('assign')->where('session', 'ilike', '%' . $search . '%')->distinct()->orderBy('session')->get();
         }
         
         $response = array();
@@ -81,7 +81,7 @@ class SelectController extends Controller
         if ($search == '') {
             $results = Reports::select('sem')->with('profile.user')->with('assign')->distinct()->orderBy('sem')->get();
         } else {
-            $results = Reports::select('sem')->with('profile.user')->with('assign')->where('value_local', 'ilike', '%' . $search . '%')->distinct()->orderBy('sem')->get();
+            $results = Reports::select('sem')->with('profile.user')->with('assign')->where('sem', 'ilike', '%' . $search . '%')->distinct()->orderBy('sem')->get();
         }
         
         $response = array();
@@ -104,19 +104,24 @@ class SelectController extends Controller
         if ($search == '') {
             $results = Profile::select('ptj')->distinct()->get();
         } else {
-            $results = Profile::select('ptj')->where('value_local', 'ilike', '%' . $search . '%')->distinct()->get();
+            $results = Profile::whereHas('ptj', function ($query) use ($search) {
+                if ($search != null) {
+                    $query->whereHas('desc', 'like', '%' . $search . '%');
+                }
+            });
         }
-
-        dd($results);
         
         $response = array();
         
         foreach ($results as $result) {
-            $faculty = $result['ptj'][0]['code'].' - '.$result['ptj'][0]['desc'];
-            $response[] = array(
-                "id"      => $faculty,
-                "faculty" => $faculty,
-            );
+            if($result['ptj'] != null){
+                $faculty = $result['ptj']['code'].' - '.$result['ptj']['desc'];
+                
+                $response[] = array(
+                    "id"      => $faculty,
+                    "faculty" => $faculty,
+                );
+            }
         }
 
         echo json_encode($response);
@@ -127,18 +132,18 @@ class SelectController extends Controller
     {
         $search = $request->search;
 
-        if ($search == '') {
-            $results = Reports::select('scale')->distinct()->get();
-        } else {
-            $results = Reports::select('scale')->where('value_local', 'ilike', '%' . $search . '%')->distinct()->get();
-        }
-        
-        $response = array();
-        
-        foreach ($results as $result) {
+        $results = collect(['INTERVENSI KHUSUS', 'INTERVENSI UMUM']);
+
+        // if ($search == '') {
+        //     $results = Profile::select('ptj')->distinct()->get();
+        // } else {
+        //     $results = Profile::select('ptj')->where('value_local', 'ilike', '%' . $search . '%')->distinct()->get();
+        // }
+
+        foreach($results as $result){
             $response[] = array(
-                "id"     => '',
-                "status" => 'test',
+                "id"      => $result,
+                "status"  => $result,
             );
         }
 
@@ -149,11 +154,11 @@ class SelectController extends Controller
     public function getOfficer(Request $request)
     {
         $search = $request->search;
-
+        
         if ($search == '') {
-            $results = User::select('name')->role([5])->distinct()->get();
+            $results = User::select('id','uuid','name')->role([5])->distinct()->get();
         } else {
-            $results = User::select('name')->role([5])->where('value_local', 'ilike', '%' . $search . '%')->distinct()->get();
+            $results = User::select('id','uuid','name')->role([5])->where('name', 'ilike', '%' . $search . '%')->distinct()->get();
         }
         
         $response = array();
@@ -161,9 +166,12 @@ class SelectController extends Controller
         foreach ($results as $result) {
             $response[] = array(
                 "id"      => $result->id,
+                "uuid"    => $result['uuid'],
                 "officer" => $result['name'],
             );
         }
+
+        // dd($response);
 
         echo json_encode($response);
         exit;
@@ -172,11 +180,7 @@ class SelectController extends Controller
     //Get Officer For Assign Officer Modal
     public function getModalOfficer(Request $request)
     {
-        // $test = auth()->user();
-
         $search = $request->search;
-
-        // dd($test);
 
         $users = User::role([5])->where(function ($query) use ($search) {
             if ($search != null) {

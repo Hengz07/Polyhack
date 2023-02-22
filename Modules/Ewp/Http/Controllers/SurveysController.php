@@ -81,7 +81,7 @@ class SurveysController extends Controller
         $reports   = Reports::where('profile_id', $profiles['id'])->where('session', $schedules['session'])->where('sem', $schedules['semester'])->first();
 
         $survey = $request->input();
-        
+
         //UNFINISHED FIX THIS (IF STAFF SESSION BECOMES THE CURRENT YEAR ONLY AND SEMESTER DEFAULT TO 1)
         // if($usertype == 'staff'){
         //     $session    = date('Y');
@@ -105,9 +105,22 @@ class SurveysController extends Controller
         
         $result = $this->calculation($survey);
 
+        if ($result['A']['status']['intervention'] == 'INTERVENSI KHUSUS' || 
+            $result['D']['status']['intervention'] == 'INTERVENSI KHUSUS' || 
+            $result['S']['status']['intervention'] == 'INTERVENSI KHUSUS')
+        {
+            $intervention = 'INTERVENSI KHUSUS';
+        }
+                                                                
+        else 
+        {
+            $intervention = 'INTERVENSI UMUM';
+        } 
+
         $status = [
             'status' => 'C',
             'scale' => $result,
+            'intervention' => $intervention
         ];
 
         $answers = Answers::where('report_id', $reports['id'])->first();
