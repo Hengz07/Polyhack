@@ -34,7 +34,7 @@ class AssignController extends Controller
 
         $usertype = $request->input('status');
 
-        $reports = Reports::with('profile.user')->with('assign')
+        $reports = Reports::with('profile.user', 'assign', 'profile')
             ->where(function ($query) use ($search, $s_session, $s_semester, $s_officer, $s_faculty, $s_status) {
                 if($search != null){
                     $query->whereHas('profile.user', function($query) use ($search){
@@ -43,9 +43,8 @@ class AssignController extends Controller
                 }
                 if($s_faculty != null){
                     $query->whereHas('profile', function($query) use ($s_faculty){
-                        $query->whereHas('ptj', function($query) use ($s_faculty){
-                            $query->where('code', $s_faculty); 
-                        });
+                        // dd($query->get());
+                        $query->where('ptj->code', $s_faculty);
                     });
                 }
                 if($s_officer != null){
@@ -68,6 +67,8 @@ class AssignController extends Controller
         ->orderBy('session', 'asc')
         ->orderBy('sem', 'asc')
         ->paginate($limit); 
+
+        // dd($reports);
 
         $officers = User::role([5])->get();
 

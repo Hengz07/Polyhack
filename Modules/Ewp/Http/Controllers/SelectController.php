@@ -106,7 +106,7 @@ class SelectController extends Controller
         } else {
             $results = Profile::whereHas('ptj', function ($query) use ($search) {
                 if ($search != null) {
-                    $query->whereHas('desc', 'like', '%' . $search . '%');
+                    $query->whereHas('code', 'like', '%' . $search . '%');
                 }
             });
         }
