@@ -103,7 +103,7 @@ Route::prefix('select2')->group(function () {
     Route::post('/session', 'SelectController@getSession')->name('select2.session');
     Route::post('/semester', 'SelectController@getSemester')->name('select2.semester');
     Route::post('/faculty', 'SelectController@getFaculty')->name('select2.faculty');
-    Route::post('/status', 'SelectController@getStatus')->name('select2.status');
+    
     Route::post('/officer', 'SelectController@getOfficer')->name('select2.officer');
     
     Route::post('/modalOfficer', 'SelectController@getModalOfficer')->name('select2.modalOfficer');

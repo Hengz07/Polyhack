@@ -78,7 +78,7 @@
                                     {{-- <div class=""> --}}
                                         
 
-                                        <a class="{{ config("adminlte.btn_default") }} btn bg-warning" id="saveall"
+                                    <a class="{{ config("adminlte.btn_default") }} btn bg-warning" id="saveall"
                                         data-route="ewp/assign/create" data-title="Officer" 
                                         data-toggle="modal"><i class="fa fa-share" style="width: 12px;"></i></a> 
                                     {{-- </div> --}}
@@ -90,7 +90,7 @@
                     
                     <tbody>
                         @if (count($reports) == 0)
-                            <td style="text-align: center" colspan="8">No data availables</td>
+                            <td style="text-align: center" colspan="13">No data availables</td>
                         @else
                             @foreach ($reports as $report => $rep)
                                 

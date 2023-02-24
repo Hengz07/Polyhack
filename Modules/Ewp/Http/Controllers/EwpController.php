@@ -23,20 +23,20 @@ class EwpController extends Controller
         $search = $request->has('q') ? $request->get('q') : null;
 
         $profiles  = Profile::where('user_id', auth()->user()->id)->where('status', '"AK"')->first();
-
+        
         //SCHEDULES RETRIEVE
         $usertype = auth()->user()->user_type;
-
+        
         if($usertype == 'staff'){
-            $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->where('category', 'LIKE', '%ST%')->first();
+            $schedules = Schedules::where('status', 'O')->where('category', 'LIKE', '%ST%')->first();
         }
         elseif($usertype == 'student'){
             //REFER SCHEDULES BASED ON STUDENT TYPE (UG, PG, PASUM)
             //TRY EXPLODE FOR whereIN to work
-            $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->where('category', 'LIKE', '%UG%')
-                                                                                                    ->orWhere('category', 'LIKE', '%PG%')
-                                                                                                    ->orWhere('category', 'LIKE', '%PASUM%')
-                                                                                                    ->first();
+            $schedules = Schedules::where('status', 'O')->where('category', 'LIKE', '%UG%')
+                                                        ->where('category', 'LIKE', '%PG%')
+                                                        ->where('category', 'LIKE', '%PASUM%')
+                                                        ->first();
         };
 
         $reports = Reports::where(function ($query) use ($search) {

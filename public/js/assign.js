@@ -165,12 +165,12 @@ $(document).ready(function() {
                         search: params.term, // search term 
                     };
                 },
-                processResults: function (response) {
-                    return {
-                        results: $.map(response, function (item) {
+                processResults: function (response) { 
+                    return { 
+                        results: $.map(response, function (item) { 
                             return { 
-                                id: item.id,
-                                uuid:item.uuid,
+                                id: item.id, 
+                                uuid:item.uuid, 
                                 text: item.officer, 
                             } 
                         }) 

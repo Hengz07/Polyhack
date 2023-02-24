@@ -73,7 +73,7 @@
                     
                     <tbody>
                         @if (count($reports) == 0)
-                            <td style="text-align: center" colspan="8">No data availables</td>
+                            <td style="text-align: center" colspan="11">No data availables</td>
                         @else
                             @foreach ($reports as $report => $rep)
                                 

@@ -118,33 +118,10 @@ class SelectController extends Controller
                 $faculty = $result['ptj']['code'].' - '.$result['ptj']['desc'];
                 
                 $response[] = array(
-                    "id"      => $faculty,
+                    "id"      => $result['ptj']['code'],
                     "faculty" => $faculty,
                 );
             }
-        }
-
-        echo json_encode($response);
-        exit;
-    }
-    
-    public function getStatus(Request $request)
-    {
-        $search = $request->search;
-
-        $results = collect(['INTERVENSI KHUSUS', 'INTERVENSI UMUM']);
-
-        // if ($search == '') {
-        //     $results = Profile::select('ptj')->distinct()->get();
-        // } else {
-        //     $results = Profile::select('ptj')->where('value_local', 'ilike', '%' . $search . '%')->distinct()->get();
-        // }
-
-        foreach($results as $result){
-            $response[] = array(
-                "id"      => $result,
-                "status"  => $result,
-            );
         }
 
         echo json_encode($response);

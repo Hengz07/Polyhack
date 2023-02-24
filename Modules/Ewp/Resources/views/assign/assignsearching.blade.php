@@ -5,22 +5,23 @@
         </div> 
 
         {{-- <form action="{{ $route??null }}" method="GET">  --}}
-            <div class="card-header"> 
-                <div class="row mb-3"> 
-                    <div class="col-xl-5 text-bold"> 
-                        <div class="icheck-primary icheck-inline"> 
-                            <input type="radio" name="usertype" value="alluser" id="alluser" checked /><label for="alluser">All</label> 
-                        </div> 
-                        <div class="icheck-primary icheck-inline"> 
-                            <input type="radio" name="usertype" value="student" id="student" /><label for="student">Student</label> 
-                        </div> 
-                        <div class="icheck-primary icheck-inline"> 
-                            <input type="radio" name="usertype" value="staff" id="staff" /><label for="staff">Staff</label> 
-                        </div> 
+        <div class="card-header"> 
+            <div class="row mb-3"> 
+                <div class="col-xl-5 text-bold"> 
+                    <div class="icheck-primary icheck-inline"> 
+                        <input type="radio" name="usertype" value="alluser" id="alluser" checked /><label for="alluser">All</label> 
+                    </div> 
+                    <div class="icheck-primary icheck-inline"> 
+                        <input type="radio" name="usertype" value="student" id="student" /><label for="student">Student</label> 
+                    </div> 
+                    <div class="icheck-primary icheck-inline"> 
+                        <input type="radio" name="usertype" value="staff" id="staff" /><label for="staff">Staff</label> 
                     </div> 
                 </div> 
             </div> 
-            <form action="{{ $route??null }}" method="GET">
+        </div> 
+
+        <form action="{{ $route??null }}" method="GET">
             <div class="card-body"> 
                 <div class="row mb-3"> 
                     <div class="col-xl-1 text-bold">Nama</div> 
@@ -63,7 +64,11 @@
 
                     <div class="col-sm-1 text-bold">Status</div> 
                     <div class="col-sm-5"> 
-                        <select class="form-control selFilterStatus" id="status" name="status" style="width: 100%;"></select>
+                        <select class="form-control" id="status" name="status" style="width: 100%;">
+                            <option value='' disabled selected>- Pilih Status -</option>
+                            <option value='INTERVENSI KHUSUS' {{ (($s_status == 'INTERVENSI KHUSUS') ? 'selected' : '') }}>INTERVENSI KHUSUS</option>
+                            <option value='INTERVENSI UMUM' {{ (($s_status == 'INTERVENSI UMUM') ? 'selected' : '') }}>INTERVENSI UMUM</option>
+                        </select>
                     </div>
                 </div>
 
@@ -71,22 +76,32 @@
                     <div class="col-sm-1 text-bold">Pegawai</div>
                     <div class="col-sm-5">
                         <select class="form-control selFilterOfficer" id="officer" name="officer" style="width: 100%;">
-                            
+                            @if(isset($s_officer))
+                                <option value = "{{ $s_officer }}" >
+                                    @foreach($officers as $pegawai)
+                                        @if($s_officer == $pegawai['id'])
+                                            {{ $pegawai['name'] }}
+                                        @endif
+                                    @endforeach    
+                                </option>
+                            @endif
                         </select>
                     </div>  
-                </div>
+                </div> 
             </div>
 
             <div class="card-footer">
-                <button type="submit" class="btn btn-primary" title="">
-                    <i class="fa fa-search"></i>
-                </button>
                 
-                <a href='exportreport'>
-                    <button type="button" class="btn btn-success float-right" title="Click to download report">
+                <a href={{ route('ewp.reports.exportRep') }}>
+                    <button type="button" class="btn btn-success float-left" title="Click to download report">
                         <i class="fa fa-file-excel fa-success"></i>
                     </button>
                 </a>
+
+                <button type="submit" class="btn btn-primary float-right" title="">
+                    <i class="fa fa-search"></i>  Search   
+                </button>
+                
             </div>
         </form>
     </div>
