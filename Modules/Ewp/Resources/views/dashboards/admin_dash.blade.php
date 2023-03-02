@@ -139,7 +139,7 @@
 </style>
 
   <div class="d-flex">
-      <div class="mr-auto p-2"><h1>UM Dashboard</h1></div>
+      <div class="mr-auto p-2"><h1>UM Dashboardd</h1></div>
           <div class="p-1">
               <nav aria-label="breadcrumb">
                   <ol class="breadcrumb">
