@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\Ewp\Entities\Assign;
 use Modules\Fleet\Entities\User as FleetUser;
 
 use function App\Helpers\camelCase;
@@ -78,4 +79,13 @@ class User extends Authenticatable
     public function fleetAdmins() {
         return $this->hasMany(FleetUser::class, 'user_id')->where('role_id', config('constants.role_id.fleetDeptAdmin'));
     }
+
+    public function get_assign(){
+        return $this->hasMany(Assign::class, 'officer_id')->whereIn('status', ['S', 'R', 'B']);
+    }
+
+    public function get_total(){
+        return $this->hasMany(Assign::class, 'user_type')->whereIn('user_type', ['staff','student']);
+    }
+
 }
