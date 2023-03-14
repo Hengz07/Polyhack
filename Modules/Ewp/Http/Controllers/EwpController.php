@@ -61,69 +61,82 @@ class EwpController extends Controller
     public function adminindex(Request $request)
     {   
         $roles = auth()->user()->roles->pluck('id')->toArray();
-
+        $selectedYear = $request->query('year', date('Y'));
     #====================================Pengiraan purata Interview khursus dan Umum================================#
         $results = DB::table('ewp_overall_report')
                         ->selectRaw("scale->'A'->'status'->>'intervention' as intervention")
+                        ->whereYear('created_at', '=', $selectedYear)
                         ->get();
     #===============================================================================================================#                        
 
      #=========================Info Officer based on student=========================#       
-        $assign = User::role([5])->orderBy('name', 'desc')->with('get_assign')->get();
+        $assign = User::role([5])->orderBy('name', 'desc')->with(['get_assign' => function ($query) use ($selectedYear) {
+            $query->whereYear('created_at', $selectedYear);
+        }])->get();
      #===============================================================================#
 
     #-------------------Total Semua User untuk student and staff--------------------#
-        #totaloveralluser
-        $totaloverall = User::select(DB::raw('COUNT(user_type) as count3'))
-                        ->get();
-    
-        #total pelajar
-        $totalsemuapelajar = User::select(DB::raw('COUNT(user_type) as count'))
-                        ->where('user_type','=','student')
-                        ->get();
-        
-        #total staff
-        $totalsemuastaff = User::select(DB::raw('COUNT(user_type) as count2'))
-                        ->where('user_type','=','staff')
-                        ->get();
+        // Get staff survey count for selected year
+        $staffsurvey = DB::table('ewp_overall_report')
+            ->join('users', 'ewp_overall_report.profile_id', '=', 'users.id')
+            ->where('users.user_type', '=', 'staff')
+            ->whereYear('ewp_overall_report.created_at', '=', $selectedYear)
+            ->count();
 
-        foreach($totalsemuapelajar as $put){
+        // Get student survey count for selected year
+        $studentsurvey = DB::table('ewp_overall_report')
+            ->join('users', 'ewp_overall_report.profile_id', '=', 'users.id')
+            ->where('users.user_type', '=', 'student')
+            ->whereYear('ewp_overall_report.created_at', '=', $selectedYear)
+            ->count();
 
-        }
-        foreach($totalsemuastaff as $put2){
-
-        }
-        foreach($totaloverall as $put3){
-
-        }
-
-        $staffsurvey = Reports::join('users','ewp_overall_report.profile_id','=','users.id')
-                                ->select('users.user_type', DB::raw("count(ewp_overall_report.profile_id) as staffcount"))
-                                ->where('users.user_type','=','staff')
-                                ->groupBy('users.user_type')
-                                ->get();
-
-        $studentsurvey = Reports::join('users', 'ewp_overall_report.profile_id', '=', 'users.id')
-        ->select('users.user_type', DB::raw("count(ewp_overall_report.profile_id) as studentcount"))
-        ->where('users.user_type', '=', 'student')
-        ->groupBy('users.user_type')
+        // Get overall survey count for selected year
+        $overallsurvey = Reports::selectRaw('COUNT(profile_id) AS overallcount')
+            ->whereYear('created_at', '=', $selectedYear)
             ->get();
 
-        $overallsurvey = Reports::join('users', 'ewp_overall_report.profile_id', '=', 'users.id')
-        ->select(DB::raw("count(ewp_overall_report.profile_id) as overallcount"))
-        ->get();
 
+            $overall = Profile::join('ewp_overall_report', 'profiles.user_id', '=', 'ewp_overall_report.profile_id')
+            ->leftJoin('users', 'profiles.user_id', '=', 'users.id')
+            ->whereYear('ewp_overall_report.created_at', '=', $selectedYear)
+            ->select(
+                DB::raw("jsonb_array_elements(ptj)->>'desc' as ptj_desc"),
+                DB::raw("count(*) as count"),
+                DB::raw("SUM(CASE WHEN users.user_type = 'student' THEN 1 ELSE 0 END) as student_count"),
+                DB::raw("SUM(CASE WHEN users.user_type = 'staff' THEN 1 ELSE 0 END) as staff_count")
+            )
+            ->groupBy('ptj_desc')
+            ->get();
 
-        $overall = Profile::join('users', 'profiles.user_id', '=', 'users.id')
-        ->select(DB::raw("jsonb_array_elements(ptj)->>'desc' as ptj_desc, count(*) as count"))
-        ->groupBy('ptj_desc')
-        ->get();
     #===============================================================================#
+    
+            #=========================statisic user============================#    
+            $data['total_student'] = $data['total_staff']= $data['total_user']= 0;
+
+            $totalsemuapelajar = User::where('user_type','=','student')
+                                       ->get()
+                                       ->count();
+            if($totalsemuapelajar > 0){
+                $data['total_student'] = $totalsemuapelajar;
+            }
+
+            #total staff
+            $totalsemuastaff = User::where('user_type','=','staff')
+                                    ->get()
+                                    ->count();
+            if($totalsemuastaff > 0){
+                $data['total_staff'] = $totalsemuastaff;
+            }
+
+            $data['total_user'] = $data['total_student'] + $data['total_staff'];
+            #=========================statisic user============================#  
+
+        #============================statisic survey=========================#    
 
 
 
-        if(in_array(1, $roles) || in_array(2, $roles) || in_array(3, $roles)){
-            return view('ewp::dashboards.admin_dash',compact('assign','put','put2','put3','results','overallsurvey','studentsurvey','staffsurvey','overall'));
+        if(in_array(1, $roles) || in_array(2, $roles) || in_array(3, $roles) || in_array(5, $roles)){
+            return view('ewp::dashboards.admin_dash', compact('assign','data', 'results', 'overallsurvey', 'studentsurvey', 'staffsurvey', 'overall', 'data','selectedYear'));
         }
         else{
             return redirect()->to(route('ewp.dashboards.index'));
