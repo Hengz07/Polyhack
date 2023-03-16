@@ -30,12 +30,13 @@ class EwpController extends Controller
         $usertype = auth()->user()->user_type;
 
         if($usertype == 'staff'){
-            $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->where('category', 'LIKE', '%ST%')->first();
+            $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->where('status', 'O')->where('category', 'LIKE', '%ST%')->first();
         }
         elseif($usertype == 'student'){
             //REFER SCHEDULES BASED ON STUDENT TYPE (UG, PG, PASUM)
             //TRY EXPLODE FOR whereIN to work
-            $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->where('category', 'LIKE', '%UG%')
+            $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->where('status', 'O')
+                                                                                                    ->where('category', 'LIKE', '%UG%')
                                                                                                     ->orWhere('category', 'LIKE', '%PG%')
                                                                                                     ->orWhere('category', 'LIKE', '%PASUM%')
                                                                                                     ->first();
@@ -47,11 +48,12 @@ class EwpController extends Controller
                       ->orWhere('sem', 'like', '%' . $search . '%');
             }
         })
+        ->with('profile.user')->with('assign')
         ->where('profile_id', $profiles['id'])
         ->orderBy('id', 'asc')
         ->paginate($limit);
 
-        // dd($reports);
+        //dd($profiles);
 
         session()->put('url.intended', url()->current());
 

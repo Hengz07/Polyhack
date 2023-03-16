@@ -48,48 +48,56 @@ class AppServiceProvider extends ServiceProvider
                 'text' => __('User Dashboard'),
                 'icon' => 'fas fa-fw fa-home',
                 'route' => 'ewp.dashboards.index',
+                'can' => ['user-dashboard'],
             ]);
 
             $event->menu->add([
                 'text' => __('EWP'),
                 'icon' => 'fas fa-fw fa-cogs',
                 'url' => '#',
+                'can' => ['home'],
                 'submenu' => [
                     [
                         'text' => __('Admin Dashboard'),
                         'icon' => 'fas fa-fw fa-file',
                         'route' => 'ewp.dashboards.admin_dash',
                         'active' => [],
+                        'can' => ['admin-dashboard'],
                     ],
                     [
                         'text' => __('Questions'),
                         'icon' => 'fas fa-fw fa-file',
                         'route' => 'ewp.setup.questions',
                         'active' => [],
+                        'can' => ['ewp-question'],
                     ],
                     [
                         'text' => __('Scales'),
                         'icon' => 'fas fa-fw fa-file',
                         'route' => 'setup.scale',
                         'active' => [],
+                        'can' => ['ewp-scale'],
                     ],
                     [
                         'text' => __('Schedules'),
                         'icon' => 'fas fa-fw fa-file',
                         'route' => 'ewp.setup.schedules',
                         'active' => [],
+                        'can' => ['ewp-schedule'],
                     ],
                     [
                         'text' => __('Screening Record'),
                         'icon' => 'fas fa-fw fa-file',
                         'route' => 'ewp.assign.index',
                         'active' => [],
+                        'can' => ['ewp-screening'],
                     ],
                     [
                         'text' => __('Specific Record'),
                         'icon' => 'fas fa-fw fa-file',
                         'route' => 'ewp.assign.specificrecordindex',
                         'active' => [],
+                        'can' => ['ewp-specific'],
                     ]
                 ]
             ]);
@@ -98,6 +106,7 @@ class AppServiceProvider extends ServiceProvider
                 'text' => __('System Configuration'),
                 'icon' => 'fas fa-fw fa-cogs',
                 'url' => '#',
+                'can' => ['config-view'],
                 'submenu' => [
                     [
                         'text' => __('Module'),

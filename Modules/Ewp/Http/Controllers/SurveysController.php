@@ -24,7 +24,7 @@ class SurveysController extends Controller
 
         $uuid = $id;
 
-        $profiles  = Profile::where('user_id', auth()->user()->id)->where('status', 'AK')->first();
+        $profiles  = Profile::where('user_id', auth()->user()->id)->where('status', '"AK"')->first();
         
         $check = Reports::where('uuid', $id)->where('profile_id', $profiles['id'])->first();
         
@@ -60,7 +60,7 @@ class SurveysController extends Controller
     public function store(Request $request)
     {
         //OTHER TABLES
-        $profiles  = Profile::where('user_id', auth()->user()->id)->where('status', 'AK')->first();
+        $profiles  = Profile::where('user_id', auth()->user()->id)->where('status', '"AK"')->first();
 
         //SCHEDULES RETRIEVE
         $usertype  = auth()->user()->user_type;

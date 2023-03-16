@@ -2,7 +2,7 @@
 
 @section('content_header')
 <div class="d-flex">
-    <div class="mr-auto p-2"><h1>Dashboard JOHN</h1></div>
+    <div class="mr-auto p-2"><h1>Dashboard</h1></div>
         <div class="p-2">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
