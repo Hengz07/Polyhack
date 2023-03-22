@@ -171,7 +171,7 @@
         $complete = 'Selesai';
         $reference = 'Rujuk';
         $incomplete = 'Belum Selesai';
-        $total = 'Jumlah';
+        $total = 'Jumlah Yang Ditugaskan';
 
         $title3 = 'Maklumat Saringan';
         $label = 'Institusi Pengajian';
@@ -193,7 +193,7 @@
         $complete = 'Complete';
         $reference = 'Reference';
         $incomplete = 'Incomplete';
-        $total = 'Total';
+        $total = 'Total Assigned';
 
         $title3 = 'Screening Information';
         $label = 'Institution';
@@ -331,7 +331,7 @@
                             <!-- small card -->
                             <div id="mo3" class="small-box shadow p-3 mb-5  rounded" style="">
                               <div class="inner">
-                                <h1>{{$results->count('intervention')}}</h1>
+                                <h1>{{ $totalresult }}</h1>
                                 <p class="mb-4">{{$tvisitor}}</p>
                             </div>
                               <div class="icon">
@@ -341,16 +341,16 @@
                                   <div class="row">
                                     <div class="col-sm-6 border-right">
                                       <div class="description-block">
-                                        <h5 id="focy" class="description-header">{{$results->where('intervention','INTERVENSI KHUSUS')->count()}}</h5>
-                                        <span class="description-text">INTERVENSI KHUSUS</span>
+                                        <h5 id="focy" class="description-header">{{ $results }}</h5>
+                                        <span class="description-text">{{ $stff }}</span>
                                       </div>
                                       <!-- /.description-block -->
                                     </div>
                                     <!-- /.col -->
                                     <div class="col-sm-6">
                                       <div class="description-block">
-                                        <h5 id="focy" class="description-header">{{$results->where('intervention','INTERVENSI UMUM')->count()}}</h5>
-                                        <span class="description-text">INTERVENSI UMUM</span>
+                                        <h5 id="focy" class="description-header">{{ $results2 }}</h5>
+                                        <span class="description-text">{{ $stdnt }}</span>
                                       </div>
                                       <!-- /.description-block -->
                                     </div>
@@ -373,6 +373,11 @@
                 <div class="card shadow-lg rounded">
                   <div class="card-header rounded" style="cursor: move; background: #1D3456; color:white; border-style:solid; border-color:white;">
                     <h3 class="card-title">{{$title2}}</h3>
+                    <form action="{{ route('ewp.dashboards.admin_dash') }}" method="POST">
+    @csrf
+    <button type="submit" class="btn btn-primary" style="float:right;"><i class="fas fa-user-friends"></i>
+                              <span class="badge badge-light" style="position: absolute; top: 10px; right: 15px;">{{ $unassignedCount }}</span></button>
+</form>
                   </div>
                   <!-- /.card-header -->
                   <div class="card-body table-responsive p-3 table-striped " style="border-style:solid; border-color:white;">
@@ -398,7 +403,7 @@
                               <td class="text-center" >{{ $items->get_assign->where('status', 'S')->count() }}</td>
                               <td class="text-center" >{{ $items->get_assign->where('status', 'R')->count() }}</td>
                               <td class="text-center" >{{ $items->get_assign->where('status', 'B')->count() }}</td>
-                              <td class="text-center" >{{ $items ->get_assign->count() }}</td>
+                              <td class="text-center" >{{ $items ->total_assign->first()->total_count }}</td>
                           </tr> 
                           @endforeach
                       </tbody>

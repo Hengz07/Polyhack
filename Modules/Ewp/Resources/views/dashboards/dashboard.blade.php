@@ -2,7 +2,7 @@
 
 @section('content_header')
 <div class="d-flex">
-    <div class="mr-auto p-2"><h1>Dashboard JOHN</h1></div>
+    <div class="mr-auto p-2"><h1>Dashboard</h1></div>
         <div class="p-2">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -44,13 +44,14 @@
             
             @endphp
 
-            <span class="card-header">
                 @if (auth()->user()->hasRole(['SiteAdmin', 'SuperAdmin']))
+                <span class="card-header">
                     <a href="/ewp/dashboards/admin_dash">
                         <button type="button" class="btn btn-info">
                             Admin
                         </button>
                     </a>
+                </span>
                 @endif
                 
                 @foreach ($reports as $report => $rep)
@@ -59,16 +60,17 @@
                 {{-- Start Test --}}
                 @if(isset($schedules))
                     @if(!isset($rep) || $rep['status'] != 'C' || $rep['session'] != $schedules['session'] || $rep['sem'] != $schedules['semester'])
+                    <span class="card-header">
                         <a type="button" class="btn btn-primary showReport" data-route="ewp/dashboards/reports" 
                             id="btn2" data-title="Report" data-toggle="modal" title="Save">{{ $teststart }}</a>
 
                         <label class="float-right text-white">
                             {{ $schedules['session'] }} / {{ $schedules['semester'] }}
                         </label>
+                    </span>
                     @endif
                 @endif
                 {{--  --}}
-            </span>
         </div>
     </div>
 
