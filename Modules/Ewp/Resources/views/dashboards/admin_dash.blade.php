@@ -403,7 +403,7 @@
                               <td class="text-center" >{{ $items->get_assign->where('status', 'S')->count() }}</td>
                               <td class="text-center" >{{ $items->get_assign->where('status', 'R')->count() }}</td>
                               <td class="text-center" >{{ $items->get_assign->where('status', 'B')->count() }}</td>
-                              <td class="text-center" >{{ $items ->total_assign->first()->total_count }}</td>
+                              <td class="text-center" >{{ $items ->total_assign->first()->total_count ?? 0 }}</td>
                           </tr> 
                           @endforeach
                       </tbody>
