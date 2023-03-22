@@ -6,8 +6,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Modules\Ewp\Entities\Assign;
+use Modules\Ewp\Entities\{Assign,Answers};
 use Modules\Fleet\Entities\User as FleetUser;
+use Illuminate\Support\Facades\DB;
 
 use function App\Helpers\camelCase;
 
@@ -83,6 +84,14 @@ class User extends Authenticatable
     public function get_assign(){
         return $this->hasMany(Assign::class, 'officer_id')->whereIn('status', ['S', 'R', 'B']);
     }
+
+    public function total_assign()
+    {
+        return $this->hasMany(Assign::class, 'officer_id')
+        ->select('officer_id', DB::raw('count(*) as total_count'))
+            ->groupBy('officer_id');
+    }
+
 
     public function get_total(){
         return $this->hasMany(Assign::class, 'user_type')->whereIn('user_type', ['staff','student']);

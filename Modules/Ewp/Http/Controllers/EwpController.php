@@ -60,34 +60,106 @@ class EwpController extends Controller
         return view('ewp::dashboards.dashboard', compact('reports', 'schedules'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search);
     }
 
+    public function assignReports()
+    {
+        // Count the number of unassigned reports
+        $unassignedCount = Answers::whereNotExists(function ($query) {
+            $query->select(DB::raw(1))
+                ->from('ewp_assign')
+                ->whereColumn('ewp_assign.report_id', '=', 'ewp_answer.report_id');
+        })->count();
+
+        // If there are no unassigned reports, return a message
+        if ($unassignedCount == 0) {
+            return redirect()->back()->with('toast_error', 'No unassigned reports found.');
+        }
+
+        // Get the number of officers
+        $officerCount = User::role([5])->orderBy('name', 'desc')->count();
+
+        // If there are no officers, return a message
+        if ($officerCount == 0) {
+            return redirect()->back()->with('toast_error', 'No officers found.');
+        }
+
+        // Calculate the number of reports each officer should be assigned
+        $reportsPerOfficer = ceil($unassignedCount / $officerCount);
+
+        // Get a random selection of unassigned reports
+        $unassignedReports = Answers::whereNotExists(function ($query) {
+            $query->select(DB::raw(1))
+                ->from('ewp_assign')
+                ->whereColumn('ewp_assign.report_id', '=', 'ewp_answer.report_id');
+        })->inRandomOrder()->limit($unassignedCount)->get();
+
+        // Assign the reports to officers
+        $officerIndex = 0;
+        foreach ($unassignedReports as $report) {
+            $officer = User::role([5])->orderBy('name', 'desc')->skip($officerIndex)->first();
+            $assign = Assign::updateOrCreate([
+                'report_id' => $report->report_id,
+                'officer_id' => $officer->id,
+            ]);
+            $officerIndex = ($officerIndex + 1) % $officerCount;
+        }
+
+        // Return a success message
+        return redirect()->back()->with('toast_success', 'Reports assigned to officers.');
+    }
+
+
     public function adminindex(Request $request)
     {   
         $roles = auth()->user()->roles->pluck('id')->toArray();
         $selectedYear = $request->query('year', date('Y'));
-    #====================================Pengiraan purata Interview khursus dan Umum================================#
-        $results = DB::table('ewp_overall_report')
-                        ->selectRaw("scale->'A'->'status'->>'intervention' as intervention")
-                        ->whereYear('created_at', '=', $selectedYear)
-                        ->get();
-    #===============================================================================================================#                        
+        #====================================Pengiraan purata Interview khursus dan Umum================================#
+        $results = Reports::join('users', 'ewp_overall_report.profile_id', '=', 'users.id')
+        ->where('users.user_type', '=', 'staff')
+        ->selectRaw("scale->'A'->'status'->>'intervention' as intervention")
+        ->whereRaw("scale->'A'->'status'->>'intervention' = 'INTERVENSI KHUSUS'")
+        ->whereYear('ewp_overall_report.created_at', '=', $selectedYear)
+        ->count();
 
-     #=========================Info Officer based on student=========================#       
-        $assign = User::role([5])->orderBy('name', 'desc')->with(['get_assign' => function ($query) use ($selectedYear) {
+        $results2 = Reports::join('users', 'ewp_overall_report.profile_id', '=', 'users.id')
+        ->where('users.user_type', '=', 'student')
+        ->selectRaw("scale->'A'->'status'->>'intervention' as intervention")
+        ->whereRaw("scale->'A'->'status'->>'intervention' = 'INTERVENSI KHUSUS'")
+        ->whereYear('ewp_overall_report.created_at', '=', $selectedYear)
+        ->count();
+
+        $totalresult = $results + $results2;
+        #===============================================================================================================#  
+
+        $unassignedCount = Answers::whereNotExists(function ($query) {
+            $query->select(DB::raw(1))
+            ->from('ewp_assign')
+            ->whereColumn('ewp_assign.report_id', '=',
+                'ewp_answer.report_id'
+            );
+        })->count();
+
+        #=========================Info Officer based on student=========================#       
+        $assign = User::role([5])
+        ->orderBy('name', 'desc')
+        ->with(['get_assign' => function ($query) use ($selectedYear) {
             $query->whereYear('created_at', $selectedYear);
-        }])->get();
+        }])
+            ->with('total_assign')
+            ->get();
+
+            //dd($assign);
+
      #===============================================================================#
 
     #-------------------Total Semua User untuk student and staff--------------------#
         // Get staff survey count for selected year
-        $staffsurvey = DB::table('ewp_overall_report')
-            ->join('users', 'ewp_overall_report.profile_id', '=', 'users.id')
+        $staffsurvey = Reports::join('users', 'ewp_overall_report.profile_id', '=', 'users.id')
             ->where('users.user_type', '=', 'staff')
             ->whereYear('ewp_overall_report.created_at', '=', $selectedYear)
             ->count();
 
         // Get student survey count for selected year
-        $studentsurvey = DB::table('ewp_overall_report')
-            ->join('users', 'ewp_overall_report.profile_id', '=', 'users.id')
+        $studentsurvey = Reports::join('users', 'ewp_overall_report.profile_id', '=', 'users.id')
             ->where('users.user_type', '=', 'student')
             ->whereYear('ewp_overall_report.created_at', '=', $selectedYear)
             ->count();
@@ -138,7 +210,7 @@ class EwpController extends Controller
 
 
         if(in_array(1, $roles) || in_array(2, $roles) || in_array(3, $roles) || in_array(5, $roles)){
-            return view('ewp::dashboards.admin_dash', compact('assign','data', 'results', 'overallsurvey', 'studentsurvey', 'staffsurvey', 'overall', 'data','selectedYear'));
+            return view('ewp::dashboards.admin_dash', compact('assign','data', 'results', 'results2', 'totalresult', 'overallsurvey', 'studentsurvey', 'staffsurvey', 'overall', 'data','selectedYear', 'unassignedCount'));
         }
         else{
             return redirect()->to(route('ewp.dashboards.index'));
