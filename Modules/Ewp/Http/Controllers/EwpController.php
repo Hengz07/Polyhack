@@ -12,6 +12,7 @@ use Spatie\Permission\Models\Role;
 use Modules\Ewp\Entities\{Reports, Schedules, Answers, Assign};
 use Modules\Site\Entities\{Profile, User};
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class EwpController extends Controller
 {
@@ -60,8 +61,9 @@ class EwpController extends Controller
         return view('ewp::dashboards.dashboard', compact('reports', 'schedules'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search);
     }
 
-    public function assignReports()
+    public function assignReports(Request $request)
     {
+        $selectedYear = $request->query('year', date('Y'));
         // Count the number of unassigned reports
         $unassignedCount = Answers::whereNotExists(function ($query) {
             $query->select(DB::raw(1))
@@ -103,6 +105,67 @@ class EwpController extends Controller
             $officerIndex = ($officerIndex + 1) % $officerCount;
         }
 
+        // Send email to each officer with the count of assigned reports
+        $assignedCounts = User::role([5])
+        ->orderBy('name', 'desc')
+        ->with(['total_assign' => function ($query) use ($selectedYear) {
+            $query->whereYear('created_at', $selectedYear);
+        }])
+        ->get();
+
+        foreach ($assignedCounts as $officer) {
+            $count = $officer->total_assign->first()->total_count;
+            $officerName = $officer->name;
+            $officerEmail = $officer->email;
+
+            Mail::send([], [], function ($message) use ($count,
+                $officerName,
+                $officerEmail
+            ) {
+                $message->to($officerEmail, $officerName)
+                    ->subject('Reports Assigned')
+                    ->setBody(
+                    "<html>
+                <head>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            font-size: 16px;
+                            color: #333;
+                        }
+                        .container {
+                            max-width: 600px;
+                            margin: 0 auto;
+                            padding: 20px;
+                            border: 1px solid #ccc;
+                        }
+                        .header {
+                            background-color: #f2f2f2;
+                            padding: 10px;
+                            margin-bottom: 20px;
+                        }
+                        .content {
+                            line-height: 1.5;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class='container'>
+                        <div class='header'>
+                            <h2>New Reports Assigned</h2>
+                        </div>
+                        <div class='content'>
+                            <p>Hi $officerName,</p>
+                            <p>Dimaklumkan bahawa tuan/puan mempunyai $count rekod untuk urusan intervensi khusus bagi EMOTIONAL WELLBEING PROFILING UNIVERSITI MALAYA bersama pelajar. Sila <a href='http://isiswebv2.um.edu.my'>Click Here</a> untuk urusan selanjutnya. Terima kasih.</p>
+                        </div>
+                    </div>
+                </body>
+            </html>",
+                    'text/html'
+                    );
+            });
+        }
+
         // Return a success message
         return redirect()->back()->with('toast_success', 'Reports assigned to officers.');
     }
@@ -141,10 +204,9 @@ class EwpController extends Controller
         #=========================Info Officer based on student=========================#       
         $assign = User::role([5])
         ->orderBy('name', 'desc')
-        ->with(['get_assign' => function ($query) use ($selectedYear) {
+        ->with(['get_assign','total_assign' => function ($query) use ($selectedYear) {
             $query->whereYear('created_at', $selectedYear);
         }])
-            ->with('total_assign')
             ->get();
 
             //dd($assign);
