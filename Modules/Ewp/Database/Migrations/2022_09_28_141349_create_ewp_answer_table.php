@@ -16,7 +16,7 @@ class CreateEwpAnswerTable extends Migration
         Schema::create('ewp_answer', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid');
-            $table->string('report_id', 100)->nullable();
+            $table->integer('report_id')->nullable();
             $table->string('session', 100)->nullable();
             $table->string('sem', 100)->nullable();
             $table->jsonb('meta')->nullable();
