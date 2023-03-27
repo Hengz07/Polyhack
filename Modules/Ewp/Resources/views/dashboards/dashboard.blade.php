@@ -41,7 +41,7 @@
 
                     $teststart = 'Start Test';
                 }
-
+            
             @endphp
 
             <span class="card-header">
@@ -75,7 +75,7 @@
     <div class="row">
         <div class="col-sm-6 pl-0"> 
             <div class="card card-body mr-1">
-                <h4> Report </h4> 
+                <h2> Report </h2> 
                 <br><br>
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered">
@@ -98,18 +98,13 @@
                             @else
                             
                                 @foreach ($reports as $report => $rep)
-
-                                    @php
-                                        $profile = $rep['profile'];
-                                        $user    = $profile['user'];
-                                        $assign  = $rep['assign'];
-
-                                        $scale = $rep['scale'];
-                                    @endphp
-
                                     <tr>
                                         <td class="text-center">{{ ++$i }}</td>
-                                        <td class="text-center">{{ $rep['session'] }} - {{ $rep['sem'] }}</td>
+                                        @if(auth()->user()->user_type == 'student')
+                                            <td class="text-center">{{ $rep['session'] }} - {{ $rep['sem'] }}</td>
+                                        @else
+                                            <td class="text-center">{{ $rep['session'] }}</td>
+                                        @endif
                                         <td class="text-center">{{ date('d/m/Y', strtotime($rep['created_at'])) }}
                                         <td class="text-center">
                                                                 
@@ -127,16 +122,8 @@
                                                     </span>
 
                                                     &nbsp; 
-
-                                                    @if(isset($rep['intervention']))
-                                                        @if($rep['intervention'] == 'INTERVENSI UMUM')
-                                                            <span class="px-2 text-center font-weight-bold bg-primary text-white rounded">{{ $rep['intervention'] }}</span> 
-                                                        @elseif($rep['intervention'] == 'INTERVENSI KHUSUS')
-                                                            <span class="px-2 text-center font-weight-bold bg-danger text-white rounded">{{ $rep['intervention'] }}</span> 
-                                                        @endif
-                                                    @else
-                                                        
-                                                    @endif
+                                                    
+                                                    <a type="button" class="px-2 btn btn-dark btn-sm fa-list-alt fa-2 fas getResult"></a> 
                                                 </div> 
                                             @endif
 
@@ -153,7 +140,7 @@
         
         <div class="col-sm-6 pr-0">
             <div class="card card-body ml-1">
-                <h4 class="text-center"> Emotional-Wellbeing Profiling Result </h4> <br>
+                <h2 class="text-center"> Emotional-Wellbeing Profiling Result </h2> <br>
                 <div class="col-sm">
                     <figure class="highcharts-figure col-sm">
                         <div id="container"></div>

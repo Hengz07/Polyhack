@@ -64,43 +64,28 @@
 
         <hr>
 
-        {{-- <input type="text" value="{{ $schedules['id'] }}" name="idschedule"> --}}]
+        {{-- <input type="text" value="{{ $schedules['id'] }}" name="idschedule"> --}}
+        
         <label class="text-primary"><i> Enter your alternate informations for contact reasons </i></label>
         <br><br>
         <div class="row mb-3">
             <div class="col-sm-2 text-bold">Email<span style="color: red">*</span></div>
             <div class="col-sm-4">
-                @if(!isset($profiles['alt_email']))
-                    {!! Form::text('alt_email', null, [
-                        'class'       => 'form-control',
-                        'placeholder' => 'Enter email',
-                        'required'    => 'required',
-                    ]) !!}
-                @else
-                    {!! Form::text('alt_email', $profiles['alt_email'], [
-                        'class'       => 'form-control',
-                        'placeholder' => 'Enter email',
-                        'required'    => 'required',
-                    ]) !!}
-                @endif
+                {!! Form::text('alt_email', null, [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Enter email',
+                    'required'    => 'required',
+                ]) !!}
             </div>
         </div>
         <div class="row mb-3">
             <div class="col-sm-2 text-bold">Phone<span style="color: red">*</span></div>
             <div class="col-sm-4"> 
-                @if(!isset($profiles['alt_phone']))
-                    {!! Form::text('alt_phone', null, [
-                        'class'       => 'form-control',
-                        'placeholder' => 'Enter email',
-                        'required'    => 'required',
-                    ]) !!}
-                @else
-                    {!! Form::text('alt_phone', $profiles['alt_phone'], [
-                        'class'       => 'form-control',
-                        'placeholder' => 'Enter email',
-                        'required'    => 'required',
-                    ]) !!}
-                @endif
+                {!! Form::text('alt_phone', null, [
+                    'class'       => 'form-control',
+                    'placeholder' => 'Enter phone contact',
+                    'required'    => 'required',
+                ]) !!}
             </div>
         </div>
     </div>
