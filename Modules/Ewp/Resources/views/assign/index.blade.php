@@ -57,18 +57,18 @@
                 <table class="table table-hover table-bordered">
                     <thead class="thead-navy bg-navy">
                         <tr class="text-center">
-                            <th style="width: 3%"> # </th>
-                            <th style="width: 7%"> Session </th>
-                            <th style="width: 7%"> ID </th>
-                            <th style="width: 7%"> Name </th>
-                            <th style="width: 7%"> Faculty </th>
-                            <th class="text-center" style="width: 7%"> {{ $D = 'D' }} </th>
-                            <th class="text-center" style="width: 7%"> {{ $A = 'A' }} </th>
-                            <th class="text-center" style="width: 7%"> {{ $S = 'S' }} </th>
-                            <th style="width: 7%"> Status </th>
-                            <th style="width: 7%"> Date </th>
+                            <th style="width: 2em"> # </th>
+                            <th style="width: 2em"> Session </th>
+                            <th style="width: 2em"> ID </th>
+                            <th style="width: 2em"> Name </th>
+                            <th style="width: 2em"> Faculty </th>
+                            <th class="text-center" style="width: 2em"> {{ $D = 'D' }} </th>
+                            <th class="text-center" style="width: 2em"> {{ $A = 'A' }} </th>
+                            <th class="text-center" style="width: 2em"> {{ $S = 'S' }} </th>
+                            <th style="width: 2em"> Status </th>
+                            <th style="width: 2em"> Date </th>
                             <th style="width: 8%"> Officer </th>
-                            <th style="width: 7%"> 
+                            <th style="width: 2em"> 
                                 <div class="d-inline-flex input-group justify-content-center">
                                     <label class="icheck-primary icheck-inline">
                                         <input type="checkbox" id="checkboxCheckAll" class="chk-box" />
@@ -95,11 +95,15 @@
                             @foreach ($reports as $report => $rep)
                                 
                                 @php
-                                    $profile = $rep['profile'];
+                                    $profile = $rep['profile']; 
+                                    // dd($profile);
+                                    $desc = $profile['ptj'];
+                                    // dd($desc);
                                     $user    = $profile['user'];
                                     $assign  = $rep['assign'];
 
                                     $scale = $rep['scale'];
+                                    // dd($rep);
                                 @endphp
 
                                 <tr>
@@ -107,8 +111,11 @@
                                     <td class="text-center"> {{ $rep['session'] }} - {{ $rep['sem'] }} </td> 
                                     <td class="text-center"> {{ $profile['profile_no'] }} </td> 
                                     <td class="text-center"> {{ $user['name'] }} </td> 
-                                    {{-- <td class="text-center"> {{ $profile['ptj']['desc'] }} </td>  --}}
+                                    {{-- <td class="text-center"> {{ $desc[0]['desc']}} </td> --}}
+                                    <td class="text-center"> {{$profile['ptj'][0]['desc']}}</td> 
                                     
+                                    
+
                                     @if(isset($scale))
                                         @foreach($minmax as $mm)
 
@@ -138,16 +145,23 @@
                                         </td>
                                     @endif
 
-                                    @if(isset($rep['intervention']))
-                                        <td class="text-center"> 
-                                            @if(isset($rep['intervention']))
-                                                {{ $rep['intervention'] }}
-                                            @else
-                                                No data available
-                                            @endif
-                                        </td>
-                                    @endif
+                                    <td class="text-center"> 
+                                        @php
+                                            if ($scale['A']['status']['intervention'] == 'INTERVENSI KHUSUS' || 
+                                                $scale['D']['status']['intervention'] == 'INTERVENSI KHUSUS' || 
+                                                $scale['S']['status']['intervention'] == 'INTERVENSI KHUSUS')
+                                            {
+                                                $intervention = 'INTERVENSI KHUSUS';
+                                            }
+                                            
+                                            else
+                                            {
+                                                $intervention = 'INTERVENSI UMUM';
+                                            }  
+                                        @endphp
+                                        {{ $intervention }}
 
+                                    </td>
                                     <td class="text-center"> {{ date('d/m/Y', strtotime($rep['created_at'])) }} </td>
                                     <td class="text-center">
                                         

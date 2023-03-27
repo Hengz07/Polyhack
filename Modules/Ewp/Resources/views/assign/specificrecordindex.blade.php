@@ -73,7 +73,7 @@
                     
                     <tbody>
                         @if (count($reports) == 0)
-                            <td style="text-align: center" colspan="11">No data availables</td>
+                            <td style="text-align: center" colspan="8">No data availables</td>
                         @else
                             @foreach ($reports as $report => $rep)
                                 
@@ -90,40 +90,47 @@
                                         <td class="text-center"> {{ $rep['session'] }} - {{ $rep['sem'] }} </td> 
                                         <td class="text-center"> {{ $profile['profile_no'] }} </td> 
                                         <td class="text-center"> {{ $user['name'] }} </td> 
-                                        <td class="text-center"> {{ $profile['ptj']['desc'] }} </td> 
+                                        <td class="text-center"> {{ $profile['ptj'][0]['desc'] }} </td> 
                                         @foreach($minmax as $mm)
 
-                                            @php
-                                                $range = json_decode($mm['meta_value'], true);
-                                            @endphp
+                                        @php
+                                            $range = json_decode($mm['meta_value'], true);
+                                        @endphp
 
-                                            @foreach($scale as $up => $test)
-                                                @if($mm['code'] == $up)
-                                                    <td class="text-center">
-                                                        @foreach($range as $scalestat)
-                                                            @if($scale[$up]['value'] >= $scalestat['min'] && $scale[$up]['value'] <= $scalestat['max']) 
-                                                                @if($scalestat['name'] == 'TERUK' || $scalestat['name'] == 'SANGAT TERUK')
-                                                                    <label class="badge badge-danger px-4">{{ $scale[$up]['value'] }}</label>
-                                                                @else
-                                                                    <label class="badge badge-success px-4">{{ $scale[$up]['value'] }}</label>
-                                                                @endif
+                                        @foreach($scale as $up => $test)
+                                            @if($mm['code'] == $up)
+                                                <td class="text-center">
+                                                    @foreach($range as $scalestat)
+                                                        @if($scale[$up]['value'] >= $scalestat['min'] && $scale[$up]['value'] <= $scalestat['max']) 
+                                                            @if($scalestat['name'] == 'TERUK' || $scalestat['name'] == 'SANGAT TERUK')
+                                                                <label class="badge badge-danger px-4">{{ $scale[$up]['value'] }}</label>
+                                                            @else
+                                                                <label class="badge badge-success px-4">{{ $scale[$up]['value'] }}</label>
                                                             @endif
-                                                        @endforeach
-                                                    </td> 
-                                                @endif
-                                            @endforeach
+                                                        @endif
+                                                    @endforeach
+                                                </td> 
+                                            @endif
                                         @endforeach
+                                    @endforeach
+                                        <td class="text-center"> 
+        
+                                            @php
+                                                if ($scale['A']['status']['intervention'] == 'INTERVENSI KHUSUS' || 
+                                                    $scale['D']['status']['intervention'] == 'INTERVENSI KHUSUS' || 
+                                                    $scale['S']['status']['intervention'] == 'INTERVENSI KHUSUS')
+                                                {
+                                                    $intervention = 'INTERVENSI KHUSUS';
+                                                }
+                                                
+                                                else
+                                                {
+                                                    $intervention = 'INTERVENSI UMUM';
+                                                }  
+                                            @endphp
+                                            {{ $intervention }}
 
-                                        @if(isset($rep['intervention']))
-                                            <td class="text-center"> 
-                                                @if(isset($rep['intervention']))
-                                                    {{ $rep['intervention'] }}
-                                                @else
-                                                    No data available
-                                                @endif
-                                            </td>
-                                        @endif
-
+                                        </td>
                                         <td class="text-center"> {{ date('d/m/Y', strtotime($rep['created_at'])) }} </td>
                                         <td class="text-center"> 
 
@@ -131,9 +138,8 @@
                                                 data-route="ewp/assign" data-id="{{ $rep->id }}" data-title="Information" 
                                                 data-toggle="modal"><i class="fa fa-id-badge" style="width: 12px;"></i></a>  
 
-                                            <a class="{{ config("adminlte.btn_edit") }} btn showSurveyAnswer bg-danger" 
-                                                data-route="ewp/assign" data-id="{{ $rep->id }}" data-title=" Answer" 
-                                                data-toggle="modal"><i class="fa fa-file" style="width: 12px;"></i></a> 
+                                            <button type="button" class="btn btn-sm {{ config('adminlte.btn_default') }} bg-danger">
+                                                <i class="fa fa-file"></i></button> 
                                             
                                             <a class="{{ config("adminlte.btn_default") }} btn-sm showSummary bg-warning"
                                                 data-route="ewp/assign" data-title="Summary" 

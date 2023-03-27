@@ -11,7 +11,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 use Modules\Ewp\Entities\{Reports, Schedules, Answers, Assign, Lookups};
 use Modules\Site\Entities\{Profile, User};
-
+use Illuminate\Support\Facades\DB;
 use Modules\Ewp\Http\Controllers\ReportsController;
 
 class AssignController extends Controller
@@ -32,6 +32,12 @@ class AssignController extends Controller
         $s_status = $request->has('status') ? $request->get('status') : null; 
         $s_officer = $request->has('officer') ? $request->get('officer') : null; 
 
+        $results = DB::table('ewp_overall_report')
+                        ->selectRaw("scale->'A'->'status'->>'intervention' as intervention")
+                        ->get();
+        // dd($results);
+        
+
         $usertype = $request->input('status');
 
         $reports = Reports::with('profile.user', 'assign', 'profile')
@@ -41,10 +47,10 @@ class AssignController extends Controller
                         $query->where('name', 'like', '%' . $search . '%');
                     });
                 }
-                if($s_faculty != null){
-                    $query->whereHas('profile', function($query) use ($s_faculty){
-                        // dd($query->get());
-                        $query->where('ptj->code', $s_faculty);
+                if ($s_faculty != null) {
+                    $query->whereHas('profile', function ($query) use ($s_faculty) {
+                        $query->whereJsonContains('ptj->code', $s_faculty)
+                            ->selectRaw("JSON_EXTRACT(ptj, '$[0].desc') as faculty_name");
                     });
                 }
                 if($s_officer != null){
@@ -67,14 +73,13 @@ class AssignController extends Controller
         ->orderBy('session', 'asc')
         ->orderBy('sem', 'asc')
         ->paginate($limit); 
-
-        // dd($reports);
+        // dd($s_faculty);
 
         $officers = User::role([5])->get();
 
         $minmax = Lookups::where('key', 'category')->get();
 
-        return view('ewp::assign.index', compact('reports', 'officers', 'minmax', 's_session', 's_semester', 's_officer', 's_status', 's_faculty'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search)->with('officer', $s_officer)->with('faculty', $s_faculty)->with('session', $s_session)->with('semester', $s_semester);
+        return view('ewp::assign.index', compact('results','reports', 'officers', 'minmax', 's_session', 's_semester', 's_officer', 's_status', 's_faculty'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search)->with('officer', $s_officer)->with('faculty', $s_faculty)->with('session', $s_session)->with('semester', $s_semester);
     }
 
     public function specificrecordindex(Request $request)
@@ -110,6 +115,12 @@ class AssignController extends Controller
                 }
                 if ($s_semester != null){
                     $query->where('sem', $s_semester);
+                }
+                if($s_faculty != null){
+                    $query->whereHas('profile', function($query) use ($s_faculty){
+                        // dd($query->get());
+                        $query->where('ptj->code', $s_faculty);
+                    });
                 }
             })
         ->orderBy('profile_id', 'asc')

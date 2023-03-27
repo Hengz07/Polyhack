@@ -59,7 +59,11 @@
                 <div class="row mb-3"> 
                     <div class="col-sm-1 text-bold">Fakulti</div> 
                     <div class="col-sm-5"> 
-                        <select class="form-control selFilterFaculty" id="faculty" name="faculty" style="width: 100%;"></select> 
+                        <select class="form-control selFilterFaculty" id="faculty" name="faculty" style="width: 100%;">
+                            @if(isset($s_faculty))
+                                <option value = "{{ $s_faculty }}">{{ $s_faculty }}</option>
+                            @endif
+                        </select> 
                     </div> 
 
                     <div class="col-sm-1 text-bold">Status</div> 
