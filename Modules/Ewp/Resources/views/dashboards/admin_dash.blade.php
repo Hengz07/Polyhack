@@ -498,7 +498,7 @@ var color = [
       label: '{{ $stdnt }}',
       data: [
         @foreach ($overall as $stat)
-          "{{ $stat->student_count }}",
+          "{{ $stat->student_count ?? 0 }}",
         @endforeach
     ],
     borderWidth: 1,
@@ -509,7 +509,7 @@ var color = [
       label: '{{ $stff }}',
       data: [
         @foreach ($overall as $stat)
-          "{{ $stat->staff_count }}",
+          "{{ $stat->staff_count ?? 0 }}",
         @endforeach
     ],
     borderWidth: 1,
@@ -520,7 +520,7 @@ var color = [
       label: '{{ $tsurvey }}',
       data: [
         @foreach ($overall as $stat)
-          "{{ $stat->count }}",
+          "{{ $stat->count ?? 0 }}",
         @endforeach
     ],
     borderWidth: 1,
@@ -569,7 +569,7 @@ data: {
     label: '{{$tsurvey}}',
     data: [
       @foreach ($overall as $stat)
-      "{{ $stat->count }}",
+      "{{ $stat->count ?? 0 }}",
       @endforeach
     ],
     borderWidth: 1,
