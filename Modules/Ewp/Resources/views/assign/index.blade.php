@@ -96,7 +96,8 @@
                                 
                                 @php
                                     $profile = $rep['profile']; 
-                                    // dd($profile);
+                                    
+                                    
                                     $desc = $profile['ptj'];
                                     // dd($desc);
                                     $user    = $profile['user'];
@@ -112,7 +113,7 @@
                                     <td class="text-center"> {{ $profile['profile_no'] }} </td> 
                                     <td class="text-center"> {{ $user['name'] }} </td> 
                                     {{-- <td class="text-center"> {{ $desc[0]['desc']}} </td> --}}
-                                    <td class="text-center"> {{$profile['ptj'][0]['desc']}}</td> 
+                                    <td class="text-center"> {{$profile->ptj[0]['desc']}}</td> 
                                     
                                     
 
