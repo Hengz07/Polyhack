@@ -119,8 +119,7 @@ class SurveysController extends Controller
 
         $status = [
             'status' => 'C',
-            'scale' => $result,
-            'intervention' => $intervention
+            'scale' => $result,$intervention
         ];
 
         $answers = Answers::where('report_id', $reports['id'])->first();

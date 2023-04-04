@@ -126,7 +126,7 @@ class EwpController extends Controller
         ->get();
 
         foreach ($assignedCounts as $officer) {
-            $count = $officer->total_assign->first()->total_count ?? 0;
+            $count = $officer->total_assign->first()->total_count;
             $officerName = $officer->name;
             $officerEmail = $officer->email;
 
