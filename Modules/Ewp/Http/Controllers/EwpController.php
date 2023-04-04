@@ -218,6 +218,7 @@ class EwpController extends Controller
                 DB::raw("SUM(CASE WHEN users.user_type = 'student' THEN 1 ELSE 0 END) as student_count"),
                 DB::raw("SUM(CASE WHEN users.user_type = 'staff' THEN 1 ELSE 0 END) as staff_count")
             )
+            ->whereRaw("jsonb_array_length(ptj) > 0") 
             ->groupBy('ptj_desc')
             ->get();
 
