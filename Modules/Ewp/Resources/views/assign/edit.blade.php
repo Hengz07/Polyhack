@@ -49,7 +49,7 @@
             @endforeach 
         </div> 
 
-        <div id="statcat">
+        <div id="statcat" style="display: none;">
             <label class='text-primary'> Kategori </label> 
 
             <div class="row mb-3"> 
@@ -105,8 +105,8 @@
 
 <hr>
 <center>
-    <a class="btn btn-default" data-dismiss="modal" aria-label="Close">Cancel</a>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <a class="btn btn-default float-right" data-dismiss="modal" aria-label="Close">Cancel</a>
+    <button type="submit" class="btn btn-primary float-right">Submit</button>
 </center>
 
 

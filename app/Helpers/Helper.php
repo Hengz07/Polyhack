@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Hash;
 use Modules\Site\Entities\Department;
 use Modules\Site\Entities\Ptj;
 
+// dd('test');
+
 if (!function_exists('camelCase')) {
     function camelCase($string) {
         $s = strtolower($string);
@@ -84,12 +86,24 @@ if (!function_exists('getUserIdWithCreate'))
             if ($ldap['status']) {
                 $ldapBody = $ldap['body'];
                 $content = getStaff(encryption('encrypt', $ldapBody->staffno));
+
+                //DIFFERENT USER TYPE
+                $user_type = 'null';
+
+                if ($email == 'um.edu.my')
+                    $user_type = 'staff';
+                elseif ($email == 'siswa.um.edu.my')  
+                    $user_type = 'student';
+                else
+                    $user_type = 'none';
+
                 if ($content['status'] == true) {
                     $content = $content['body']->entry;
                     $user = User::firstOrNew(['email' => $email]);
                     $user->password = Hash::make(randomString());
                     $user->name = $content->fullname;
                     $user->email = $email;
+                    $user->user_type = $user_type;
                     $user->save();
 
                     // get ptj id
@@ -142,12 +156,23 @@ if (!function_exists('getUser'))
             if ($ldap['status']) {
                 $ldapBody = $ldap['body'];
                 $content = getStaff(encryption('encrypt', $ldapBody->staffno));
+                //DIFFERENT USER TYPE
+                $user_type = 'null';
+
+                if ($email == 'um.edu.my')
+                    $user_type = 'staff';
+                elseif ($email == 'siswa.um.edu.my')  
+                    $user_type = 'student';
+                else
+                    $user_type = 'none';
+
                 if ($content['status'] == true) {
                     $content = $content['body']->entry;
                     $user = User::firstOrNew(['email' => $email]);
                     $user->password = Hash::make(randomString());
                     $user->name = $content->fullname;
                     $user->email = $email;
+                    $user->user_type = $user_type;
                     $user->save();
                     // get ptj id
                     $ptj = Ptj::where('code', $content->faculty->code)->first();

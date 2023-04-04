@@ -92,8 +92,7 @@
 
 <hr>
 <center>
-    <a class="btn btn-default" data-dismiss="modal" aria-label="Close">Cancel</a>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <a class="btn btn-default float-right" data-dismiss="modal" aria-label="Close">Cancel</a>
 </center>
 
 {!! Form::close() !!}

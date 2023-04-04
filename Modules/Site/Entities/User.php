@@ -8,6 +8,11 @@ use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Ewp\Entities\{Assign,Answers};
 use Modules\Fleet\Entities\User as FleetUser;
+use Modules\Ewp\Entities\Assign;
+use Illuminate\Support\Facades\DB;
+
+use App\Exports\UsersExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\DB;
 
 use function App\Helpers\camelCase;
@@ -19,7 +24,7 @@ class User extends Authenticatable
     use HasFactory;
     
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'user_type',
     ];
 
     protected $hidden = [
@@ -68,7 +73,7 @@ class User extends Authenticatable
 
     public function profile()
     {
-        return $this->hasOne('Modules\Site\Entities\Profile', 'user_id', 'id');
+        return $this->hasOne(Profile::class, 'user_id');
     }
 
     public function schedules()
@@ -79,6 +84,26 @@ class User extends Authenticatable
     ## FLEET 
     public function fleetAdmins() {
         return $this->hasMany(FleetUser::class, 'user_id')->where('role_id', config('constants.role_id.fleetDeptAdmin'));
+    }
+
+    public function export()
+    {
+        return Excel::download(new UsersExport, 'users.xlsx');
+    }
+    
+    public function get_assign(){
+        return $this->hasMany(Assign::class, 'officer_id')->whereIn('status', ['S', 'R', 'B']);
+    }
+
+    public function total_assign()
+    {
+        return $this->hasMany(Assign::class, 'officer_id')
+        ->select('officer_id', DB::raw('count(*) as total_count'))
+            ->groupBy('officer_id');
+    }
+
+    public function get_total(){
+        return $this->hasMany(Assign::class, 'user_type')->whereIn('user_type', ['staff','student']);
     }
 
     public function get_assign(){

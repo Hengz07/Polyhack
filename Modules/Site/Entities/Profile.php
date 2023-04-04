@@ -14,14 +14,14 @@ class Profile extends Model
         'profile_no', 
         'ptj', 
         'department', 
-        'status',
+        'status', 
         'position', 
         'grade', 
         'employment_type', 
         'academic', 
-        'meta',
-        'alt_email',
-        'alt_phone'
+        'meta', 
+        'alt_email', 
+        'alt_phone' 
     ];
 
     protected $casts = [
@@ -49,7 +49,7 @@ class Profile extends Model
      */
     public function user()
     {
-        return $this->belongsTo('Modules\Site\Entities\User', 'id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function reports()

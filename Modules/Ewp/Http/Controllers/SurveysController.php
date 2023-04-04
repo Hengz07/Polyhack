@@ -63,21 +63,25 @@ class SurveysController extends Controller
         $profiles  = Profile::where('user_id', auth()->user()->id)->where('status', '"AK"')->first();
 
         //SCHEDULES RETRIEVE
-        $usertype  = auth()->user()->user_type;
+        $usertype = auth()->user()->user_type;
 
         if($usertype == 'staff'){
-            $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->whereIn('category', ['ST'])->first();
+            $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->where('category', 'LIKE', '%ST%')->first();
         }
         elseif($usertype == 'student'){
             //REFER SCHEDULES BASED ON STUDENT TYPE (UG, PG, PASUM)
-            $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->whereIn('category', ['UG', 'PG', 'PASUM'])->first();
-        }
+            //TRY EXPLODE FOR whereIN to work
+            $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->where('category', 'LIKE', '%UG%')
+                                                                                                    ->orWhere('category', 'LIKE', '%PG%')
+                                                                                                    ->orWhere('category', 'LIKE', '%PASUM%')
+                                                                                                    ->first();
+        };
         //
 
         $reports   = Reports::where('profile_id', $profiles['id'])->where('session', $schedules['session'])->where('sem', $schedules['semester'])->first();
 
         $survey = $request->input();
-        
+
         //UNFINISHED FIX THIS (IF STAFF SESSION BECOMES THE CURRENT YEAR ONLY AND SEMESTER DEFAULT TO 1)
         // if($usertype == 'staff'){
         //     $session    = date('Y');
@@ -101,9 +105,22 @@ class SurveysController extends Controller
         
         $result = $this->calculation($survey);
 
+        if ($result['A']['status']['intervention'] == 'INTERVENSI KHUSUS' || 
+            $result['D']['status']['intervention'] == 'INTERVENSI KHUSUS' || 
+            $result['S']['status']['intervention'] == 'INTERVENSI KHUSUS')
+        {
+            $intervention = 'INTERVENSI KHUSUS';
+        }
+                                                                
+        else 
+        {
+            $intervention = 'INTERVENSI UMUM';
+        } 
+
         $status = [
             'status' => 'C',
             'scale' => $result,
+            'intervention' => $intervention
         ];
 
         $answers = Answers::where('report_id', $reports['id'])->first();

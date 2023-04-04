@@ -65,10 +65,16 @@ class EwpController extends Controller
     {
         $selectedYear = $request->query('year', date('Y'));
         // Count the number of unassigned reports
-        $unassignedCount = Answers::whereNotExists(function ($query) {
+        $unassignedCount = Answers::join('ewp_overall_report', 'ewp_answer.report_id', '=', 'ewp_overall_report.id')
+        ->whereRaw("ewp_overall_report.scale->'A'->'status'->>'intervention' = 'INTERVENSI KHUSUS'")
+        ->whereNotExists(function ($query) {
             $query->select(DB::raw(1))
-                ->from('ewp_assign')
-                ->whereColumn('ewp_assign.report_id', '=', 'ewp_answer.report_id');
+            ->from('ewp_assign')
+            ->whereColumn(
+                'ewp_assign.report_id',
+                '=',
+                'ewp_answer.report_id'
+            );
         })->count();
 
         // If there are no unassigned reports, return a message
@@ -88,10 +94,16 @@ class EwpController extends Controller
         $reportsPerOfficer = ceil($unassignedCount / $officerCount);
 
         // Get a random selection of unassigned reports
-        $unassignedReports = Answers::whereNotExists(function ($query) {
-            $query->select(DB::raw(1))
-                ->from('ewp_assign')
-                ->whereColumn('ewp_assign.report_id', '=', 'ewp_answer.report_id');
+        $unassignedReports = Answers::join('ewp_overall_report', 'ewp_answer.report_id', '=', 'ewp_overall_report.id')
+            ->whereRaw("ewp_overall_report.scale->'A'->'status'->>'intervention' = 'INTERVENSI KHUSUS'")
+            ->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('ewp_assign')
+                    ->whereColumn(
+                        'ewp_assign.report_id',
+                        '=',
+                        'ewp_answer.report_id'
+                    );
         })->inRandomOrder()->limit($unassignedCount)->get();
 
         // Assign the reports to officers
@@ -108,8 +120,8 @@ class EwpController extends Controller
         // Send email to each officer with the count of assigned reports
         $assignedCounts = User::role([5])
         ->orderBy('name', 'desc')
-        ->with(['total_assign' => function ($query) use ($selectedYear) {
-            $query->whereYear('created_at', $selectedYear);
+        ->with(['total_assign' => function ($query) {
+            $query->where('created_at', now());
         }])
         ->get();
 
@@ -124,45 +136,7 @@ class EwpController extends Controller
             ) {
                 $message->to($officerEmail, $officerName)
                     ->subject('Reports Assigned')
-                    ->setBody(
-                    "<html>
-                <head>
-                    <style>
-                        body {
-                            font-family: Arial, sans-serif;
-                            font-size: 16px;
-                            color: #333;
-                        }
-                        .container {
-                            max-width: 600px;
-                            margin: 0 auto;
-                            padding: 20px;
-                            border: 1px solid #ccc;
-                        }
-                        .header {
-                            background-color: #f2f2f2;
-                            padding: 10px;
-                            margin-bottom: 20px;
-                        }
-                        .content {
-                            line-height: 1.5;
-                        }
-                    </style>
-                </head>
-                <body>
-                    <div class='container'>
-                        <div class='header'>
-                            <h2>New Reports Assigned</h2>
-                        </div>
-                        <div class='content'>
-                            <p>Hi $officerName,</p>
-                            <p>Dimaklumkan bahawa tuan/puan mempunyai $count rekod untuk urusan intervensi khusus bagi EMOTIONAL WELLBEING PROFILING UNIVERSITI MALAYA bersama pelajar. Sila <a href='http://isiswebv2.um.edu.my'>Click Here</a> untuk urusan selanjutnya. Terima kasih.</p>
-                        </div>
-                    </div>
-                </body>
-            </html>",
-                    'text/html'
-                    );
+                    ->setBody("Hi $officerName, You have been assigned $count reports.");
             });
         }
 
@@ -193,13 +167,16 @@ class EwpController extends Controller
         $totalresult = $results + $results2;
         #===============================================================================================================#  
 
-        $unassignedCount = Answers::whereNotExists(function ($query) {
+        $unassignedCount = Answers::join('ewp_overall_report', 'ewp_answer.report_id', '=', 'ewp_overall_report.id')
+        ->whereRaw("ewp_overall_report.scale->'A'->'status'->>'intervention' = 'INTERVENSI KHUSUS'")
+        ->whereNotExists(function ($query) {
             $query->select(DB::raw(1))
             ->from('ewp_assign')
             ->whereColumn('ewp_assign.report_id', '=',
                 'ewp_answer.report_id'
             );
         })->count();
+        //dd($unassignedCount);
 
         #=========================Info Officer based on student=========================#       
         $assign = User::role([5])

@@ -18,7 +18,6 @@ Route::prefix('dashboards/reports')->group(function() {
     Route::get('create', 'ReportsController@create')->name('ewp.dashboards.reports.create');
 
     Route::post('store', 'ReportsController@store')->name('ewp.dashboards.reports.store');
-
     //
     Route::get('/result', 'ReportsController@getResult')->name('reports.result');
 });
@@ -74,14 +73,17 @@ Route::prefix('/dashboards')->group(function() {
 
     Route::get('/dashboard', 'EwpController@index')->name('ewp.dashboards.index');
     Route::get('/admin_dash/{year}', 'EwpController@adminindex')->name('ewp.dashboards.admin_dash');
+    Route::get('/admin_dash/{year}', 'EwpController@adminindex')->name('ewp.dashboards.admin_dash');
     Route::get('/admin_dash', 'EwpController@adminindex')->name('ewp.dashboards.admin_dash');
-    Route::post('/admin_dash', 'EwpController@assignReports')->name('ewp.dashboards.admin_dash');
+    Route::post('/admin_dash/assign', 'EwpController@assignReports')->name('ewp.dashboards.admin_dash');
+
 });
 
 Route::prefix('assign')->group(function() {
 
     Route::get('/', 'AssignController@index')->name('ewp.assign.index');
     Route::get('specificrecordindex', 'AssignController@specificrecordindex')->name('ewp.assign.specificrecordindex');
+    Route::get('assignsearching', 'AssignController@assignsearching')->name('ewp.assign.assignsearching');
 
     Route::get('create', 'AssignController@create')->name('ewp.assign.create');
     Route::post('store', 'AssignController@store')->name('ewp.assign.store');
@@ -90,21 +92,13 @@ Route::prefix('assign')->group(function() {
     Route::put('{id}/update', 'AssignController@update')->name('ewp.assign.update');
 
     Route::get('{id}/saringaninfo', 'AssignController@saringaninfo')->name('ewp.assign.saringaninfo');
+    Route::get('{id}/surveyanswer', 'AssignController@surveyanswer')->name('ewp.assign.surveyanswer'); 
+    
+    Route::get('/exportreport', 'AssignController@exportRep')->name('ewp.reports.exportRep');
+    Route::get('exceldata', 'AssignController@exceldata')->name('ewp.assign.exceldata');
+    
 
 });  
-
-// Route::prefix('specificrecord')->group(function() {
-
-//     Route::get('/', 'SpecificRecordController@index')->name('ewp.specificrecord.index');
-//     Route::get('create', 'SpecificRecordController@create')->name('ewp.specificrecord.create');
-//     Route::post('store', 'SpecificRecordController@store')->name('ewp.specificrecord.store');
-    
-//     Route::get('{id}/edit', 'SpecificRecordController@edit')->name('ewp.specificrecord.edit');
-//     Route::put('{id}/update', 'SpecificRecordController@update')->name('ewp.specificrecord.update');
-
-//     // Route::get('summary', 'SpecificRecordController@summary')->name('ewp.specificrecord.summary');
-
-// }); 
 
 Route::prefix('select2')->group(function () {
     
@@ -114,6 +108,8 @@ Route::prefix('select2')->group(function () {
     Route::post('/semester', 'SelectController@getSemester')->name('select2.semester');
     Route::post('/faculty', 'SelectController@getFaculty')->name('select2.faculty');
     Route::post('/status', 'SelectController@getStatus')->name('select2.status');
+
     Route::post('/officer', 'SelectController@getOfficer')->name('select2.officer');
+    
     Route::post('/modalOfficer', 'SelectController@getModalOfficer')->name('select2.modalOfficer');
 });

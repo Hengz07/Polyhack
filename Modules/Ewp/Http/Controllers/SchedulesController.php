@@ -22,33 +22,6 @@ class SchedulesController extends Controller
         $limit = 10;
         $search = $request->has('q') ? $request->get('q') : null;
 
-        //STAFF SESSION AND SEM OVERWRITE
-        $staffschedules = Schedules::whereIn('category', ['ST'])->get();
-
-        foreach ($staffschedules as $staffsch);
-
-        if(isset($staffsch)){
-
-            if($staffsch['session'] == (date('Y')-1).'/'.date('Y'))
-                $session = date('Y');
-
-            elseif($staffsch['session'] == (date('Y')).'/'.date('Y')+1)
-                $session = (date('Y')+1);
-
-            elseif($staffsch['session'] == (date('Y')+1).'/'.date('Y')+2)
-                $session = (date('Y')+2);
-
-            else 
-                $session = $staffsch['session'];
-
-            $usertypesch = [
-                'session'  => $session,
-                'semester' => 1
-            ];
-        
-            Schedules::updateOrCreate(['id' => $staffsch['id']], $usertypesch)->where('id', $staffsch['id']);
-        }
-
         $schedules = Schedules::where(function ($query) use ($search) {
             if ($search != null) {
                 $query->where('session', 'like', '%' . $search . '%')
@@ -84,7 +57,9 @@ class SchedulesController extends Controller
      */
     public function create()
     {
-        return view('ewp::setup.schedules.create');
+        $pasum = 'PASUM';
+
+        return view('ewp::setup.schedules.create', compact('pasum'));
     }
 
     /**

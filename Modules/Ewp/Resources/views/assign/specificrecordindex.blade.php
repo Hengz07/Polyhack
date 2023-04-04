@@ -19,88 +19,8 @@
 
 @section('content')
 <div class="container-fluid">
-    <div class="{{ config('adminlte.card_default') }}">
-        <div class="card-header">
-            Senarai pelajar yang telah membuat saringan
-        </div> 
-
-        <form action="{{ $route??null }}" method="get">
-            <div class="card-body"> 
-                <div class="row mb-3">
-                    <div class="col-xl-1 text-bold"></div>
-                    <div class="col-xl-5">
-                        {{-- <a> --}}   
-                            <button type="submit" class="btn btn-info">
-                                Student
-                            </button>
-                        {{-- </a> --}}
-                         {{-- <a> --}}
-                            <button type="button" class="btn btn-warning">
-                                Staff
-                            </button>
-                        {{-- </a> --}}
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-xl-1 text-bold">Pegguna</div>
-                    <div class="col-xl-5">
-                        <div class="input-group mb-3">        
-                            {!! Form::text('q', $q, array(
-                                'placeholder' => __('Carian mengikut nama'),
-                                'class' => 'form-control',
-                            )) !!}
-
-                            <div class="input-group-append"></div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-1 text-bold">Sesi</div>
-                    <div class="col-sm-2">
-                        <select class="form-control" id="selFilterSession" name="session" style="width: 100%;" required></select>
-                    </div>
-
-                    <div class="col-sm-1 text-bold">Semester</div>
-                    <div class="col-sm-2">
-                        <select class="form-control" id="selFilterSemester" name="semester" style="width: 100%;" required></select>
-                    </div>
-                </div>
-                    
-                <div class="row mb-3">
-                    <div class="col-sm-1 text-bold">Fakulti</div>
-                    <div class="col-sm-5">
-                        <select class="form-control selFaculty" id="selFilterFaculty" name="faculty" style="width: 100%;" required></select>
-                    </div>
-
-                    <div class="col-sm-1 text-bold">Status</div>
-                    <div class="col-sm-5">
-                        <select class="form-control selStatus" id="selFilterStatus" name="status" style="width: 100%;" required></select>
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-sm-1 text-bold">Pegawai</div>
-                    <div class="col-sm-5">
-                        <select class="form-control selOfficer" id="selFilterOfficer" name="officer" style="width: 100%;" required></select>
-                    </div>  
-                </div>
-            </div>
-
-            <div class="card-footer">
-                {{-- <a> --}}
-                    <button type="submit" class="btn btn-primary">
-                        Papar
-                    </button>
-                {{-- </a> --}}
-
-                {{-- <a> --}}
-                    <button type="button" class="btn btn-danger">
-                        Reset
-                    </button>
-                {{-- </a> --}}
-            </div>
-        </form>
-    </div>
+    
+    @include('ewp::assign.assignsearching')
 
     <div class="{{ config('adminlte.card_default') }}">
         <div class="card-body"> 
@@ -126,7 +46,7 @@
                             @if(app()->currentLocale() == 'ms-my')
                                 <th style="min-width:200px"> REKOD KHAS </th>
                             @elseif(app()->currentLocale() == 'en')
-                                <th style="min-width:200px"> SPECIAL RECORD </th>
+                                <th style="min-width:200px"> SPECIFIC RECORD </th>
                             @endif
                         </tr>
                     </thead>
@@ -140,17 +60,13 @@
                             <th style="width: 3%"> # </th>
                             <th style="width: 7%"> Session </th>
                             <th style="width: 7%"> ID </th>
-                            <th style="width: 7%"> Name </th>
-                            <th style="width: 7%"> Faculty </th>
+                            <th style="width: 14%"> Name </th>
+                            <th style="width: 14%"> Faculty </th>
                             <th style="width: 7%"> D </th>
                             <th style="width: 7%"> A </th>
                             <th style="width: 7%"> S </th>
                             <th style="width: 7%"> Status </th>
                             <th style="width: 7%"> Assign Date </th>
-                            <th style="width: 8%">  </th>
-                            <th style="width: 7%"> 
-                                
-                            </th>
                             <th style="width: 10%"> Action </th>
                         </tr>
                     </thead>
@@ -187,9 +103,9 @@
                                                     @foreach($range as $scalestat)
                                                         @if($scale[$up]['value'] >= $scalestat['min'] && $scale[$up]['value'] <= $scalestat['max']) 
                                                             @if($scalestat['name'] == 'TERUK' || $scalestat['name'] == 'SANGAT TERUK')
-                                                                <label class="badge badge-danger px-4">{{ $scale[$up]['value'] }}</label>
+                                                                <label class="badge badge-danger px-3 py-3 w-100 " style="font-size:16px;">{{ $scale[$up]['value'] }}</label>
                                                             @else
-                                                                <label class="badge badge-success px-4">{{ $scale[$up]['value'] }}</label>
+                                                                <label class="badge badge-success px-3 py-3 w-100 " style="font-size:16px;">{{ $scale[$up]['value'] }}</label>
                                                             @endif
                                                         @endif
                                                     @endforeach
@@ -216,12 +132,6 @@
 
                                         </td>
                                         <td class="text-center"> {{ date('d/m/Y', strtotime($rep['created_at'])) }} </td>
-                                        <td class="text-center">
-                                            
-                                        </td>
-                                        <td class="text-center">
-                                            
-                                        </td>
                                         <td class="text-center"> 
 
                                             <a class="{{ config("adminlte.btn_edit") }} btn showSaringanInfo bg-info" 
@@ -256,30 +166,8 @@
 @section('js') 
     <script src="{{ asset('js/modal.js') }}"></script>
     <script src="{{ asset('js/select_modal.js') }}"></script>
+    <script src="{{ asset('js/assign.js') }}"></script>
     <script src="{{ asset('js/delete.js') }}"></script>
-    <script type="text/javascript">
-
-        //STATUS ON SUMMARY MODAL
-        function myFunction() {
-            var Rujuk = document.getElementById("Rujuk");
-            var statcat = document.getElementById("statcat");
-
-            var refercheckbox = document.getElementsByName("refer[]");
-            // console.log(refercheckbox);
-            
-            if (Rujuk.checked == true){
-                statcat.style.display = "block";
-            } else {
-                statcat.style.display = "none";
-                refercheckbox.check = false;
-            }
-        }
-
-        
-
-        // myFunction('onloadRujuk');
-
-    </script>
 @endsection
 
 {{-- KERJA --}}

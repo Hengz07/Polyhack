@@ -27,14 +27,14 @@ class ReportsController extends Controller
         $reports = Reports::with('profile.user')->with('assign')->where(function ($query) use ($search) {
             if ($search != null) {
                 $query->where('session', 'like', '%' . $search . '%')
-                    ->orWhere('semester', 'like', '%' . $search . '%');
-            }
+                      ->orWhere('semester', 'like', '%' . $search . '%');
+            }   
         })
-            ->orderBy('id', 'asc')
-            ->paginate($limit);
-
+        ->orderBy('id', 'asc')
+        ->paginate($limit);
+        
         session()->put('url.intended', url()->current());
-
+        
         return view('ewp::dashboards.dashboard', compact('reports'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search);
     }
 
@@ -46,41 +46,46 @@ class ReportsController extends Controller
     {
         //SESSION AND SEM REFER TO USER'S TYPE
         $profiles  = Profile::where('user_id', auth()->user()->id)->where('status', '"AK"')->first();
-        $users     = User::where('id', $profiles['user_id'])->first();
+        $users     = User::where('id' , $profiles['user_id'])->first();
 
         //SCHEDULES RETRIEVE
         $usertype = auth()->user()->user_type;
 
-        if ($usertype == 'staff') {
+        if($usertype == 'staff'){
             $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->where('category', 'LIKE', '%ST%')->first();
-        } elseif ($usertype == 'student') {
+        }
+        elseif($usertype == 'student'){
             //REFER SCHEDULES BASED ON STUDENT TYPE (UG, PG, PASUM)
             //TRY EXPLODE FOR whereIN to work
             $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->where('category', 'LIKE', '%UG%')
-            ->orWhere('category', 'LIKE', '%PG%')
-            ->orWhere('category', 'LIKE', '%PASUM%')
-            ->first();
+                                                                                                    ->orWhere('category', 'LIKE', '%PG%')
+                                                                                                    ->orWhere('category', 'LIKE', '%PASUM%')
+                                                                                                    ->first();
         };
 
         //RETRIEVE JSON/JSONB DATA
-        if ($profiles['ptj'] != null) {
+        // dd($jsonb_ptj);
+        if($profiles['ptj'] != null){
             $jsonb_ptj = $profiles['ptj'];
-        } else {
-            $jsonb_ptj = null;
+        }
+        else{
+            $json_ptj = null;
         }
 
-        if ($profiles['department'] != null) {
+        if($profiles['department'] != null){
             $jsonb_department = $profiles['department'];
-        } else {
-            $jsonb_department = null;
+        }
+        else{
+            $json_department = null;
         }
 
-        if ($profiles['meta'] != null) {
+        if($profiles['meta'] != null){
             $meta = $profiles['meta'];
-        } else {
+        }
+        else{
             $meta = null;
         }
-        //dd($profiles);
+        //
 
         return view('ewp::dashboards.reports.create', compact('schedules', 'users', 'profiles', 'jsonb_ptj', 'jsonb_department', 'meta'));
     }
@@ -97,15 +102,19 @@ class ReportsController extends Controller
         $users     = User::where('id' , $profiles['user_id'])->first();
 
         //SCHEDULES RETRIEVE
-        $usertype  = auth()->user()->user_type;
+        $usertype = auth()->user()->user_type;
 
         if($usertype == 'staff'){
-            $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->whereIn('category', ['ST'])->first();
+            $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->where('category', 'LIKE', '%ST%')->first();
         }
         elseif($usertype == 'student'){
             //REFER SCHEDULES BASED ON STUDENT TYPE (UG, PG, PASUM)
-            $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->whereIn('category', ['UG', 'PG', 'PASUM'])->first();
-        }
+            //TRY EXPLODE FOR whereIN to work
+            $schedules = Schedules::where('start_date', '<=', now())->where('end_date', '>=', now())->where('category', 'LIKE', '%UG%')
+                                                                                                    ->orWhere('category', 'LIKE', '%PG%')
+                                                                                                    ->orWhere('category', 'LIKE', '%PASUM%')
+                                                                                                    ->first();
+        };
 
         //DECLARE
         $alt_phone = $alt_email = '';
@@ -188,57 +197,62 @@ class ReportsController extends Controller
     }
 
     public function getResult(Request $request)
-    {
+    {   
         $profiles = Profile::where('user_id', auth()->user()->id)->where('status', '"AK"')->first();
-
+        
         $search = $request->search;
-
+        
         if ($search == '') {
             $reports = Reports::where('profile_id', $profiles['id'])
-                ->orderBy('id', 'asc')
-                ->get();
-        } else {
+                            ->orderBy('id', 'asc')
+                            ->get();
+        } 
+        else {
             $reports = Reports::where('profile_id', $profiles['id'])
-                ->where('session', 'ilike', '%' . $search . '%')->orWhere('sem', 'ilike', '%' . $search . '%')
-                ->orderBy('id', 'asc')
-                ->get();
+                            ->where('session', 'ilike', '%' . $search . '%')->orWhere('sem', 'ilike', '%' . $search . '%')
+                            ->orderBy('id', 'asc')
+                            ->get();
         }
 
         //REVISE THESE CODES (DEFINING DATA TO SEND TO JQUERY)
-        $response = array();
+        $fullresult = array();
 
         //REPORT LOOPING TO ACCESS DATA FROM EACH REPORTS
-        foreach ($reports as $result) {
+        foreach($reports as $result)
+        {
+            
             $dataA = $dataB = $dataC = 0;
             $intervention = '';
             $data = array();
 
             $scaleresults = $result['scale'];
-
+            
             // dd($scaleresults);
-            foreach ($scaleresults as $scaleresult => $sr) {
+            foreach ($scaleresults as $scaleresult => $sr){
 
                 //DATA
-                if ($scaleresults['D']) {
+                if ($scaleresults['D']){
                     $dataD = $scaleresults['D']['value'] * 2;
                 }
 
-                if ($scaleresults['A']) {
+                if ($scaleresults['A']){
                     $dataA = $scaleresults['A']['value'] * 2;
                 }
 
-                if ($scaleresults['S']) {
-                    $dataS = $scaleresults['S']['value'] * 2;
+                if ($scaleresults['S']){
+                    $dataS = $scaleresults['S']['value'] * 2; 
+                }
+                
+                //intervention
+                if ($scaleresults['A']['status']['intervention'] == 'INTERVENSI KHUSUS' || 
+                    $scaleresults['D']['status']['intervention'] == 'INTERVENSI KHUSUS' || 
+                    $scaleresults['S']['status']['intervention'] == 'INTERVENSI KHUSUS')
+                {
+                    $intervention = 'INTERVENSI KHUSUS';
                 }
 
-                //intervention
-                if (
-                    $scaleresults['A']['status']['intervention'] == 'INTERVENSI KHUSUS' ||
-                    $scaleresults['D']['status']['intervention'] == 'INTERVENSI KHUSUS' ||
-                    $scaleresults['S']['status']['intervention'] == 'INTERVENSI KHUSUS'
-                ) {
-                    $intervention = 'INTERVENSI KHUSUS';
-                } else {
+                else
+                {
                     $intervention = 'INTERVENSI UMUM';
                 }
             }
@@ -246,9 +260,9 @@ class ReportsController extends Controller
             $data[] = $dataA;
             $data[] = $dataD;
             $data[] = $dataS;
-
-            $sessem = $result->session . ' - ' . $result->sem;
-
+            
+            $sessem = $result->session.' - '.$result->sem;
+                
             $fullresult[] = array(
                 'name' => $sessem,
                 'data' => $data,

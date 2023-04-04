@@ -18,6 +18,7 @@ class CreateEwpAssignTable extends Migration
             $table->uuid('uuid');
             $table->integer('report_id');
             $table->integer('officer_id');
+            $table->json('meta')->nullable();
             $table->jsonb('meta')->nullable();
             $table->string('status', 2)->nullable();
             $table->string('createdby', 100)->nullable();

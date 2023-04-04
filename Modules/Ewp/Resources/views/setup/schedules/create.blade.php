@@ -8,9 +8,9 @@
             <div class="col-sm-1 text-bold"> :</div>    
             <div class="col-sm-3">
                 <select class="form-control" name="session">
-                    <option value="{{ date('Y')-1 }}/{{ date('Y') }}">{{ date('Y')-1 }} / {{ date('Y') }}</option>
-                    <option value="{{ date('Y') }}/{{ date('Y')+1 }}">{{ date('Y') }} / {{ date('Y')+1 }}</option>
-                    <option value="{{ date('Y')+1 }}/{{ date('Y')+2 }}">{{ date('Y')+1 }} / {{ date('Y')+2 }}</option>
+                    <option value="{{ date('Y') }}">{{ date('Y') }}</option>
+                    <option value="{{ date('Y')+1 }}">{{ date('Y')+1 }}</option>
+                    <option value="{{ date('Y')+2 }}">{{ date('Y')+2 }}</option>
                 </select>
             </div>
             
@@ -28,7 +28,7 @@
         <div class="row mb-3">
             <div class="col-sm-2 text-bold">Start Date<span style="color: red">*</span></div>
             <div class="col-sm-1 text-bold"> :</div>
-            <div class="col-sm-3">
+            <div class="col-sm-3 ">
                 {!! Form::date('start_date', null, [
                     'class'       => 'form-control',
                     'placeholder' => 'Enter start date',
@@ -51,16 +51,24 @@
             <div class="col-sm-2 text-bold">Category<span style="color: red">*</span></div>
             <div class="col-sm-1 text-bold"> :</div>
 
-            <div class="col-sm-4"> 
-                {!! Form::checkbox('category[]', 'PASUM', false) !!}
-                <label>
+            <div class="col-sm-4 icheck-primary icheck-inline"> 
+                {!! Form::checkbox('category[]', 'PASUM', false,
+                    array(
+                        'id' => 'PASUM',
+                    )
+                )!!}
+                <label for="PASUM">
                     PASUM - FOUNDATION
                 </label>
             </div>
             <span class="col-sm-1"></span>
-            <div class="col-sm-4"> 
-                {!! Form::checkbox('category[]', 'UG', false) !!}
-                <label>
+            <div class="col-sm-4 icheck-primary icheck-inline"> 
+                {!! Form::checkbox('category[]', 'UG', false,
+                    array(
+                        'id' => 'UG',
+                    )
+                ) !!}
+                <label for="UG">
                     UG - UNDERGRADUATE
                 </label>
             </div>
@@ -69,16 +77,24 @@
         <div class="row mb-3">
             <span class="col-sm-2 text-bold"></span>
             <span class="col-sm-1 text-bold"></span>
-            <div class="col-sm-4"> 
-                {!! Form::checkbox('category[]', 'PG', false) !!}
-                <label>
+            <div class="col-sm-4 icheck-primary icheck-inline"> 
+                {!! Form::checkbox('category[]', 'PG', false,
+                    array(
+                        'id' => 'PG',
+                    )
+                ) !!}
+                <label for="PG">
                     PG - POSTGRADUATE
                 </label>
             </div>
             <span class="col-sm-1 text-bold"></span>
-            <div class="col-sm-4"> 
-                {!! Form::checkbox('category[]', 'ST', false) !!}
-                <label>
+            <div class="col-sm-4 icheck-primary icheck-inline"> 
+                {!! Form::checkbox('category[]', 'ST', false,
+                    array(
+                        'id' => 'ST',
+                    )
+                ) !!}
+                <label for="ST">
                     ST - STAFF
                 </label>
             </div>
