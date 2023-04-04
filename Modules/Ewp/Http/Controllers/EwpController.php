@@ -213,14 +213,15 @@ class EwpController extends Controller
             ->leftJoin('users', 'profiles.user_id', '=', 'users.id')
             ->whereYear('ewp_overall_report.created_at', '=', $selectedYear)
             ->select(
-                DB::raw("jsonb_array_elements(ptj)->>'desc' as ptj_desc"),
+                DB::raw("jsonb_array_elements(COALESCE(ptj, '[]'))->>'desc' as ptj_desc"),
                 DB::raw("count(*) as count"),
                 DB::raw("SUM(CASE WHEN users.user_type = 'student' THEN 1 ELSE 0 END) as student_count"),
                 DB::raw("SUM(CASE WHEN users.user_type = 'staff' THEN 1 ELSE 0 END) as staff_count")
             )
-            ->whereRaw("jsonb_array_length(ptj) > 0") 
             ->groupBy('ptj_desc')
             ->get();
+
+
 
     #===============================================================================#
     
