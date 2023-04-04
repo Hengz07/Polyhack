@@ -103,9 +103,9 @@
                                                     @foreach($range as $scalestat)
                                                         @if($scale[$up]['value'] >= $scalestat['min'] && $scale[$up]['value'] <= $scalestat['max']) 
                                                             @if($scalestat['name'] == 'TERUK' || $scalestat['name'] == 'SANGAT TERUK')
-                                                                <label class="badge badge-danger px-4">{{ $scale[$up]['value'] }}</label>
+                                                                <label class="badge badge-danger px-3 py-3 w-100 " style="font-size:16px;">{{ $scale[$up]['value'] }}</label>
                                                             @else
-                                                                <label class="badge badge-success px-4">{{ $scale[$up]['value'] }}</label>
+                                                                <label class="badge badge-success px-3 py-3 w-100 " style="font-size:16px;">{{ $scale[$up]['value'] }}</label>
                                                             @endif
                                                         @endif
                                                     @endforeach

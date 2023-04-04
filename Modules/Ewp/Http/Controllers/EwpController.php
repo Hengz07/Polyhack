@@ -65,10 +65,16 @@ class EwpController extends Controller
     {
         $selectedYear = $request->query('year', date('Y'));
         // Count the number of unassigned reports
-        $unassignedCount = Answers::whereNotExists(function ($query) {
+        $unassignedCount = Answers::join('ewp_overall_report', 'ewp_answer.report_id', '=', 'ewp_overall_report.id')
+        ->whereRaw("ewp_overall_report.scale->'A'->'status'->>'intervention' = 'INTERVENSI KHUSUS'")
+        ->whereNotExists(function ($query) {
             $query->select(DB::raw(1))
-                ->from('ewp_assign')
-                ->whereColumn('ewp_assign.report_id', '=', 'ewp_answer.report_id');
+            ->from('ewp_assign')
+            ->whereColumn(
+                'ewp_assign.report_id',
+                '=',
+                'ewp_answer.report_id'
+            );
         })->count();
 
         // If there are no unassigned reports, return a message
@@ -88,10 +94,16 @@ class EwpController extends Controller
         $reportsPerOfficer = ceil($unassignedCount / $officerCount);
 
         // Get a random selection of unassigned reports
-        $unassignedReports = Answers::whereNotExists(function ($query) {
-            $query->select(DB::raw(1))
-                ->from('ewp_assign')
-                ->whereColumn('ewp_assign.report_id', '=', 'ewp_answer.report_id');
+        $unassignedReports = Answers::join('ewp_overall_report', 'ewp_answer.report_id', '=', 'ewp_overall_report.id')
+            ->whereRaw("ewp_overall_report.scale->'A'->'status'->>'intervention' = 'INTERVENSI KHUSUS'")
+            ->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('ewp_assign')
+                    ->whereColumn(
+                        'ewp_assign.report_id',
+                        '=',
+                        'ewp_answer.report_id'
+                    );
         })->inRandomOrder()->limit($unassignedCount)->get();
 
         // Assign the reports to officers
@@ -108,8 +120,8 @@ class EwpController extends Controller
         // Send email to each officer with the count of assigned reports
         $assignedCounts = User::role([5])
         ->orderBy('name', 'desc')
-        ->with(['total_assign' => function ($query) use ($selectedYear) {
-            $query->whereYear('created_at', $selectedYear);
+        ->with(['total_assign' => function ($query) {
+            $query->where('created_at', now());
         }])
         ->get();
 
@@ -155,13 +167,16 @@ class EwpController extends Controller
         $totalresult = $results + $results2;
         #===============================================================================================================#  
 
-        $unassignedCount = Answers::whereNotExists(function ($query) {
+        $unassignedCount = Answers::join('ewp_overall_report', 'ewp_answer.report_id', '=', 'ewp_overall_report.id')
+        ->whereRaw("ewp_overall_report.scale->'A'->'status'->>'intervention' = 'INTERVENSI KHUSUS'")
+        ->whereNotExists(function ($query) {
             $query->select(DB::raw(1))
             ->from('ewp_assign')
             ->whereColumn('ewp_assign.report_id', '=',
                 'ewp_answer.report_id'
             );
         })->count();
+        //dd($unassignedCount);
 
         #=========================Info Officer based on student=========================#       
         $assign = User::role([5])

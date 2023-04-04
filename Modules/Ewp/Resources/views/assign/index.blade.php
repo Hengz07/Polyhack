@@ -129,9 +129,9 @@
                                                         @foreach($range as $scalestat)
                                                             @if($scale[$up]['value'] >= $scalestat['min'] && $scale[$up]['value'] <= $scalestat['max']) 
                                                                 @if($scalestat['name'] == 'TERUK' || $scalestat['name'] == 'SANGAT TERUK')
-                                                                    <label class="badge badge-danger px-4">{{ $scale[$up]['value'] }}</label>
+                                                                    <label class="badge badge-danger px-3  py-3 w-100" style="font-size:16px;">{{ $scale[$up]['value'] }}</label>
                                                                 @else
-                                                                    <label class="badge badge-success px-4">{{ $scale[$up]['value'] }}</label>
+                                                                    <label class="badge badge-success px-3 py-3 w-100" style="font-size:16px;">{{ $scale[$up]['value'] }}</label>
                                                                 @endif
                                                             @endif
                                                         @endforeach
@@ -178,24 +178,58 @@
                                     </td>
                                     <td class="text-center">
 
-                                        @if ($rep['intervention'] == 'INTERVENSI KHUSUS')
-                                            <div class="icheck-primary icheck-inline">
-                                                <input type="checkbox" class="chk_box_sub" id="{{ $rep['id'] }}" value="{{ $rep['id'] }}" />
-                                                <label for="{{ $rep['id'] }}"></label>
-                                            </div>
-                                        @else
-                                            
+                                        @if(isset($assign))
+                                            @if ($assign['meta'] == null && $intervention == 'INTERVENSI KHUSUS')
+                                                <div class="icheck-primary icheck-inline">
+                                                    <input type="checkbox" class="chk_box_sub" id="{{ $rep['id'] }}" value="{{ $rep['id'] }}" />
+                                                    <label for="{{ $rep['id'] }}"></label>
+                                                </div>
+                                            @else
+                                                <label>--</label>
+                                            @endif
                                         @endif
 
                                     </td>
-                                    <td class="text-center"> 
-                                        <a class="{{ config("adminlte.btn_edit") }} btn showSaringanInfo bg-info" 
-                                            data-route="ewp/assign" data-id="{{ $rep->id }}" data-title=" Information" 
-                                            data-toggle="modal"><i class="fa fa-id-badge" style="width: 12px;"></i></a>
+                                    <td class="text-center">
+                                        
+                                        @php
 
-                                        <a class="{{ config("adminlte.btn_edit") }} btn showSurveyAnswer bg-danger" 
-                                            data-route="ewp/assign" data-id="{{ $rep->id }}" data-title=" Answer" 
-                                            data-toggle="modal"><i class="fa fa-file" style="width: 12px;"></i></a>
+                                        $ok = 1;
+
+                                        @endphp
+                                        @if(isset($assign))
+                                            @if($assign['status'] == 'S')
+
+                                                <a class="{{ config("adminlte.btn_edit") }} btn showSaringanInfo bg-success" 
+                                                data-route="ewp/assign" data-id="{{ $rep->id }}" data-title=" Information" 
+                                                data-toggle="modal" title="SELESAI" style="display: block; margin-bottom:0.3em;"><i class="fas fa-check-circle px-2 py-2" style="font-size: 18px;" ></i></a>
+
+                                                <a class="{{ config("adminlte.btn_edit") }} btn showSurveyAnswer bg-danger" 
+                                                data-route="ewp/assign" data-id="{{ $rep->id }}" data-title=" Answer" 
+                                                data-toggle="modal" style="display: block; margin-bottom:0.3em;"><i class="fas fa-question-circle px-2 py-2" style="font-size: 18px;" ></i></a>
+                                                
+                                            @elseif($assign['status'] == 'R')
+
+                                                <a class="{{ config("adminlte.btn_edit") }} btn showSaringanInfo bg-warning" 
+                                                data-route="ewp/assign" data-id="{{ $rep->id }}" data-title=" Information" 
+                                                data-toggle="modal" title="RUJUK" style="display: block; margin-bottom:0.3em;" ><i class="fas fa-hospital px-2 py-2" style="font-size: 18px;" ></i></a>
+
+                                                <a class="{{ config("adminlte.btn_edit") }} btn showSurveyAnswer bg-danger" 
+                                                    data-route="ewp/assign" data-id="{{ $rep->id }}" data-title=" Answer" 
+                                                    data-toggle="modal" style="display: block; margin-bottom:0.3em;"><i class="fas fa-question-circle px-2 py-2" style="font-size: 18px;" ></i></a>
+                                                    
+                                            @else
+                                            
+                                                <a class="{{ config("adminlte.btn_edit") }} btn showSaringanInfo bg-info" 
+                                                data-route="ewp/assign" data-id="{{ $rep->id }}" data-title=" Information" 
+                                                data-toggle="modal" style="display: block; margin-bottom:0.3em;"><i class="fas fa-user-circle px-2 py-2" style="font-size: 18px;" ></i></a>
+
+                                                <a class="{{ config("adminlte.btn_edit") }} btn showSurveyAnswer bg-danger" 
+                                                    data-route="ewp/assign" data-id="{{ $rep->id }}" data-title=" Answer" 
+                                                    data-toggle="modal" style="display: block; margin-bottom:0.3em;"><i class="fas fa-question-circle px-2 py-2" style="font-size: 18px;" ></i></a>
+
+                                            @endif
+                                        @endif
                                     </td> 
                                 </tr>   
                             @endforeach

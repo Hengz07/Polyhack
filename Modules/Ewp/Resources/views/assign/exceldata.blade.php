@@ -35,9 +35,9 @@
                 <td>{{ $profile['alt_email'] }}</td>
                 <td>{{ $user['name'] }}</td>
                 <td>{{ $profile['profile_no'] }}</td>
-                <td>{{ $profile['meta']['gender'] }}</td>
-                <td>{{ $profile['meta']['race'] }}</td>
-                <td>{{ $profile['ptj']['code'].' - '.$profile['ptj']['desc'] }}</td>
+                <td>{{ $profile['meta'][0]['gender'] }}</td>
+                <td>{{ $profile['meta'][0]['race'] }}</td>
+                <td>{{ $profile['ptj'][0]['code'].' - '.$profile['ptj'][0]['desc'] }}</td>
                 <td>{{ $profile['alt_phone'] }}</td>
 
                 @if(isset($scale))

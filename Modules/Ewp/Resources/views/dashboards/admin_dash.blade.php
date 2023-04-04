@@ -517,7 +517,7 @@ var color = [
     categoryPercentage: 0.4,
     },
     {
-      label: '{{ $label }}',
+      label: '{{ $tsurvey }}',
       data: [
         @foreach ($overall as $stat)
           "{{ $stat->count }}",
@@ -544,7 +544,7 @@ var color = [
         beginAtZero: true,
         title: {
           display: true,
-          text: '{{ $yaxistext }}',
+          text: '{{ $tsurvey }}',
         }
       },
       x: {
@@ -560,60 +560,50 @@ var color = [
 new Chart(donutChart, {
 type: 'doughnut',
 data: {
-labels: [
-@foreach ($overall as $stat)
-"{{ $stat->ptj_desc }}",
-@endforeach
-],
-datasets: [{
-label: '{{$label}}',
-data: [
-@foreach ($overall as $stat)
-"{{ $stat->count }}",
-@endforeach
-],
-borderWidth: 1,
-backgroundColor: color,
-}]
+  labels: [
+    @foreach ($overall as $stat)
+    "{{ $stat->ptj_desc }}",
+    @endforeach
+  ],
+  datasets: [{
+    label: '{{$tsurvey}}',
+    data: [
+      @foreach ($overall as $stat)
+      "{{ $stat->count }}",
+      @endforeach
+    ],
+    borderWidth: 1,
+    backgroundColor: color,
+  }]
 },
 options: {
-maintainAspectRatio: false,
-plugins: {
-legend: {
-position: 'bottom',
-display: true,
-labels: {
-  fontColor: 'black'
-}
-}
-},
-scales: {
-y: {
-beginAtZero: true,
-title: {
-  display: true,
-  text: '{{$yaxistext}}',
-}
-},
-x: {
-grid: {
-  display: false,
-}
-},
-}
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      position: 'bottom',
+      display: true,
+      labels: {
+        fontColor: 'black'
+      }
+    }
+  },
+  scales: {
+    y: {
+      beginAtZero: true,
+      title: {
+        display: true,
+        text: '{{$tsurvey}}',
+      }
+    },
+    x: {
+      grid: {
+        display: false,
+      }
+    },
+  }
 }
 });
 
-function getRandomColor() {
-  var ok = [
-    '#056608',
-    '#50C878',
-    '#FF2400',
-    '#87CEEB',
-    '#DC143C',
-  ];
-  return ok;
-}
 function updateClock(){
       var now = new Date();
       var dname = now.getDay(),

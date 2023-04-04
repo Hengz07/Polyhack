@@ -17,7 +17,8 @@ class PermissionTableSeeder extends Seeder
             'role', 
             'org-structure',
             'module',
-            'config'
+            'config',
+            'survey'
         ];
 
         foreach ($groups as $group) {
@@ -36,6 +37,7 @@ class PermissionTableSeeder extends Seeder
 
             if ($group == 'user') {
                 Permission::create(['parent_id' => $group_id->id, 'name' => 'user-impersonate']);
+                Permission::create(['parent_id' => $group_id->id, 'name' => 'user-dashboard']);
             }
         }
 
@@ -46,5 +48,14 @@ class PermissionTableSeeder extends Seeder
         Permission::create(['parent_id' => $systemGroup->id, 'name' => 'logged-as']);
         Permission::create(['parent_id' => $systemGroup->id, 'name' => 'system-config']);
         Permission::create(['parent_id' => $systemGroup->id, 'name' => 'search']);
+
+        ## EWP Group 
+        $ewpGroup = Permission::create(['name' => 'ewp']);
+        Permission::create(['parent_id' => $ewpGroup->id, 'name' => 'admin-dashboard']);
+        Permission::create(['parent_id' => $ewpGroup->id, 'name' => 'ewp-question']);
+        Permission::create(['parent_id' => $ewpGroup->id, 'name' => 'ewp-scale']);
+        Permission::create(['parent_id' => $ewpGroup->id, 'name' => 'ewp-schedule']);
+        Permission::create(['parent_id' => $ewpGroup->id, 'name' => 'ewp-screening']);
+        Permission::create(['parent_id' => $ewpGroup->id, 'name' => 'ewp-specific']);
     }
 }

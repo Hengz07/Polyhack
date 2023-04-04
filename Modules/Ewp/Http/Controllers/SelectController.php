@@ -9,7 +9,7 @@ use App\Models\Permission;
 
 use Modules\Ewp\Entities\{Lookups, Reports, Schedules, Answers};
 use Modules\Site\Entities\{Modules, Profile, User};
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class SelectController extends Controller
@@ -102,24 +102,58 @@ class SelectController extends Controller
         $search = $request->search;
 
         if ($search == '') {
-            $results = Profile::select('ptj')->distinct()->get();
+            $results =
+            Profile::join('ewp_overall_report', 'profiles.user_id', '=', 'ewp_overall_report.profile_id')
+            ->select('profiles.ptj')->distinct()->get();
         } else {
-            $results = Profile::whereHas('ptj', function ($query) use ($search) {
-                if ($search != null) {
-                    $query->whereHas('code', 'like', '%' . $search . '%');
-                }
-            });
+            $results = Profile::join('ewp_overall_report', 'profiles.user_id', '=', 'ewp_overall_report.profile_id')
+                ->select('profiles.ptj')->where('profiles.ptj', 'ilike', '%' . $search . '%')
+                ->distinct()->get();
         }
         
         $response = array();
         
         foreach ($results as $result) {
             if($result['ptj'] != null){
-                $faculty = $result['ptj']['code'].' - '.$result['ptj']['desc'];
+                $faculty = $result['ptj'][0]['code'].' - '.$result['ptj'][0]['desc'];
                 
                 $response[] = array(
-                    "id"      => $result['ptj']['code'],
+                    "id"      => $result['ptj'][0]['code'],
                     "faculty" => $faculty,
+                );
+            }
+        }
+
+        echo json_encode($response);
+        exit;
+    }
+
+    public function getStatus(Request $request)
+    {
+        $search = $request->search;
+
+        if (empty($search)) {
+            $results = Reports::selectRaw("scale->'A'->'status'->>'intervention' as interventions")
+            ->groupBy('interventions')->distinct()
+            ->get();
+        } else {
+            $results = Reports::selectRaw("scale->'A'->'status'->>'intervention' as interventions")
+            ->whereRaw("scale->'A'->'status'->>'intervention' ilike ?", ['%' . $search . '%'])
+            ->groupBy('interventions')->distinct()
+            ->get();
+        }
+
+
+
+        $response = array();
+
+        foreach ($results as $result) {
+            if ($result['interventions'] != null) {
+                $status = $result['interventions'];
+
+                $response[] = array(
+                    "id"      => $result['interventions'],
+                    "status" => $status,
                 );
             }
         }

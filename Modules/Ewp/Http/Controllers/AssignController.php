@@ -23,6 +23,8 @@ class AssignController extends Controller
      */
     public function index(Request $request)
     {   
+
+
         $limit = 10;
         $search = $request->has('q') ? $request->get('q') : null;
         
@@ -32,11 +34,7 @@ class AssignController extends Controller
         $s_status = $request->has('status') ? $request->get('status') : null; 
         $s_officer = $request->has('officer') ? $request->get('officer') : null; 
 
-        $results = DB::table('ewp_overall_report')
-                        ->selectRaw("scale->'A'->'status'->>'intervention' as intervention")
-                        ->get();
-        // dd($results);
-        
+
 
         $usertype = $request->input('status');
 
@@ -49,8 +47,7 @@ class AssignController extends Controller
                 }
                 if ($s_faculty != null) {
                     $query->whereHas('profile', function ($query) use ($s_faculty) {
-                        $query->whereJsonContains('ptj->code', $s_faculty)
-                            ->selectRaw("JSON_EXTRACT(ptj, '$[0].desc') as faculty_name");
+                        $query->where('ptj', 'like', '%' . $s_faculty . '%');
                     });
                 }
                 if($s_officer != null){
@@ -59,9 +56,10 @@ class AssignController extends Controller
                     });
                 }
 
-                if($s_status != null){
-                    $query->where('intervention', 'like', '%' . $s_status . '%');
+                if ($s_status != null) {
+                    $query->whereRaw("scale->'A'->'status'->>'intervention' = ?", [$s_status]);
                 }
+                
                 if ($s_session != null){
                     $query->where('session', $s_session);
                 }
@@ -73,13 +71,14 @@ class AssignController extends Controller
         ->orderBy('session', 'asc')
         ->orderBy('sem', 'asc')
         ->paginate($limit); 
-        // dd($s_faculty);
+
+        // dd($reports);
 
         $officers = User::role([5])->get();
 
         $minmax = Lookups::where('key', 'category')->get();
 
-        return view('ewp::assign.index', compact('results','reports', 'officers', 'minmax', 's_session', 's_semester', 's_officer', 's_status', 's_faculty'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search)->with('officer', $s_officer)->with('faculty', $s_faculty)->with('session', $s_session)->with('semester', $s_semester);
+        return view('ewp::assign.index', compact('reports', 'officers', 'minmax', 's_session', 's_semester', 's_officer', 's_status', 's_faculty'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search)->with('officer', $s_officer)->with('faculty', $s_faculty)->with('session', $s_session)->with('semester', $s_semester);
     }
 
     public function specificrecordindex(Request $request)
@@ -107,8 +106,8 @@ class AssignController extends Controller
                        $query->where('officer_id', $s_officer);
                     });
                 }
-                if($s_status != null){
-                    $query->where('intervention', 'like', '%' . $s_status . '%');
+                if ($s_status != null) {
+                    $query->whereRaw("scale->'A'->'status'->>'intervention' = ?", [$s_status]);
                 }
                 if ($s_session != null){
                     $query->where('session', $s_session);
@@ -116,10 +115,9 @@ class AssignController extends Controller
                 if ($s_semester != null){
                     $query->where('sem', $s_semester);
                 }
-                if($s_faculty != null){
-                    $query->whereHas('profile', function($query) use ($s_faculty){
-                        // dd($query->get());
-                        $query->where('ptj->code', $s_faculty);
+                if ($s_faculty != null) {
+                    $query->whereHas('profile', function ($query) use ($s_faculty) {
+                        $query->where('ptj', 'like', '%' . $s_faculty . '%');
                     });
                 }
             })

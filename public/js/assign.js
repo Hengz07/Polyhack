@@ -113,14 +113,15 @@ $(document).ready(function() {
                 },
                 processResults: function (response) {
                     return {
-                        results: $.map(response, function (item) {
-                            return {
-                                id: item.id,
-                                text: item.faculty,
-                            }
-                        })
+                      results: $.map(response, function (item) {
+                        return {
+                          id: item.id,
+                          text: item.faculty,
+                        }
+                      })
                     };
-                },
+                  }
+                  ,
                 cache: true
             }
         })

@@ -215,7 +215,7 @@ class ReportsController extends Controller
         }
 
         //REVISE THESE CODES (DEFINING DATA TO SEND TO JQUERY)
-        $response = array();
+        $fullresult = array();
 
         //REPORT LOOPING TO ACCESS DATA FROM EACH REPORTS
         foreach($reports as $result)
