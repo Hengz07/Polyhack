@@ -21,24 +21,20 @@ class ReportsController extends Controller
         //SESSION AND SEM REFER TO USER'S TYPE
         $profiles  = Profile::where('user_id', auth()->user()->id)->where('status', '"AK"')->first();
 
-        //SESSION AND SEM REFER TO USER'S TYPE
-        $profiles  = Profile::where('user_id', auth()->user()->id)->where('status', '"AK"')->first();
-
         $limit = 10;
         $search = $request->has('q') ? $request->get('q') : null;
 
         $reports = Reports::with('profile.user')->with('assign')->where(function ($query) use ($search) {
-        $reports = Reports::with('profile.user')->with('assign')->where(function ($query) use ($search) {
             if ($search != null) {
                 $query->where('session', 'like', '%' . $search . '%')
-                    ->orWhere('semester', 'like', '%' . $search . '%');
-            }
+                      ->orWhere('semester', 'like', '%' . $search . '%');
+            }   
         })
-            ->orderBy('id', 'asc')
-            ->paginate($limit);
-
+        ->orderBy('id', 'asc')
+        ->paginate($limit);
+        
         session()->put('url.intended', url()->current());
-
+        
         return view('ewp::dashboards.dashboard', compact('reports'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search);
     }
 
@@ -53,7 +49,6 @@ class ReportsController extends Controller
         $users     = User::where('id' , $profiles['user_id'])->first();
 
         //SCHEDULES RETRIEVE
-        $usertype = auth()->user()->user_type;
         $usertype = auth()->user()->user_type;
 
         if($usertype == 'staff'){
@@ -103,7 +98,6 @@ class ReportsController extends Controller
     public function store(Request $request)
     {
         //OTHER TABLES
-        $profiles  = Profile::where('user_id', auth()->user()->id)->where('status', '"AK"')->first();
         $profiles  = Profile::where('user_id', auth()->user()->id)->where('status', '"AK"')->first();
         $users     = User::where('id' , $profiles['user_id'])->first();
 
@@ -207,16 +201,17 @@ class ReportsController extends Controller
         $profiles = Profile::where('user_id', auth()->user()->id)->where('status', '"AK"')->first();
         
         $search = $request->search;
-
+        
         if ($search == '') {
             $reports = Reports::where('profile_id', $profiles['id'])
-                ->orderBy('id', 'asc')
-                ->get();
-        } else {
+                            ->orderBy('id', 'asc')
+                            ->get();
+        } 
+        else {
             $reports = Reports::where('profile_id', $profiles['id'])
-                ->where('session', 'ilike', '%' . $search . '%')->orWhere('sem', 'ilike', '%' . $search . '%')
-                ->orderBy('id', 'asc')
-                ->get();
+                            ->where('session', 'ilike', '%' . $search . '%')->orWhere('sem', 'ilike', '%' . $search . '%')
+                            ->orderBy('id', 'asc')
+                            ->get();
         }
 
         //REVISE THESE CODES (DEFINING DATA TO SEND TO JQUERY)
@@ -233,29 +228,31 @@ class ReportsController extends Controller
             $scaleresults = $result['scale'];
             
             // dd($scaleresults);
-            foreach ($scaleresults as $scaleresult => $sr) {
+            foreach ($scaleresults as $scaleresult => $sr){
 
                 //DATA
-                if ($scaleresults['D']) {
+                if ($scaleresults['D']){
                     $dataD = $scaleresults['D']['value'] * 2;
                 }
 
-                if ($scaleresults['A']) {
+                if ($scaleresults['A']){
                     $dataA = $scaleresults['A']['value'] * 2;
                 }
 
-                if ($scaleresults['S']) {
-                    $dataS = $scaleresults['S']['value'] * 2;
+                if ($scaleresults['S']){
+                    $dataS = $scaleresults['S']['value'] * 2; 
+                }
+                
+                //intervention
+                if ($scaleresults['A']['status']['intervention'] == 'INTERVENSI KHUSUS' || 
+                    $scaleresults['D']['status']['intervention'] == 'INTERVENSI KHUSUS' || 
+                    $scaleresults['S']['status']['intervention'] == 'INTERVENSI KHUSUS')
+                {
+                    $intervention = 'INTERVENSI KHUSUS';
                 }
 
-                //intervention
-                if (
-                    $scaleresults['A']['status']['intervention'] == 'INTERVENSI KHUSUS' ||
-                    $scaleresults['D']['status']['intervention'] == 'INTERVENSI KHUSUS' ||
-                    $scaleresults['S']['status']['intervention'] == 'INTERVENSI KHUSUS'
-                ) {
-                    $intervention = 'INTERVENSI KHUSUS';
-                } else {
+                else
+                {
                     $intervention = 'INTERVENSI UMUM';
                 }
             }
@@ -263,15 +260,14 @@ class ReportsController extends Controller
             $data[] = $dataA;
             $data[] = $dataD;
             $data[] = $dataS;
-
-            $sessem = $result->session . ' - ' . $result->sem;
-
+            
+            $sessem = $result->session.' - '.$result->sem;
+                
             $fullresult[] = array(
                 'name' => $sessem,
                 'data' => $data,
                 'pointPlacement' => $intervention
             );
-        }
         }
 
         return response()->json($fullresult);
