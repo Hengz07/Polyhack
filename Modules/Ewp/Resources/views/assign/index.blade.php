@@ -218,7 +218,7 @@
                                                     data-route="ewp/assign" data-id="{{ $rep->id }}" data-title=" Answer" 
                                                     data-toggle="modal" style="display: block; margin-bottom:0.3em;"><i class="fas fa-question-circle px-2 py-2" style="font-size: 18px;" ></i></a>
                                                     
-                                            @else
+                                            @elseif($assign['status'] == 'B')
                                             
                                                 <a class="{{ config("adminlte.btn_edit") }} btn showSaringanInfo bg-info" 
                                                 data-route="ewp/assign" data-id="{{ $rep->id }}" data-title=" Information" 
@@ -227,8 +227,16 @@
                                                 <a class="{{ config("adminlte.btn_edit") }} btn showSurveyAnswer bg-danger" 
                                                     data-route="ewp/assign" data-id="{{ $rep->id }}" data-title=" Answer" 
                                                     data-toggle="modal" style="display: block; margin-bottom:0.3em;"><i class="fas fa-question-circle px-2 py-2" style="font-size: 18px;" ></i></a>
+                                                    @endif
+                                            @else
+                                            <a class="{{ config("adminlte.btn_edit") }} btn showSaringanInfo bg-info" 
+                                            data-route="ewp/assign" data-id="{{ $rep->id }}" data-title=" Information" 
+                                            data-toggle="modal" style="display: block; margin-bottom:0.3em;"><i class="fas fa-user-circle px-2 py-2" style="font-size: 18px;" ></i></a>
 
-                                            @endif
+                                            <a class="{{ config("adminlte.btn_edit") }} btn showSurveyAnswer bg-danger" 
+                                                data-route="ewp/assign" data-id="{{ $rep->id }}" data-title=" Answer" 
+                                                data-toggle="modal" style="display: block; margin-bottom:0.3em;"><i class="fas fa-question-circle px-2 py-2" style="font-size: 18px;" ></i></a>
+                                            
                                         @endif
                                     </td> 
                                 </tr>   

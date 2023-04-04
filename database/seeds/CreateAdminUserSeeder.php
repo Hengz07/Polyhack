@@ -27,14 +27,15 @@ class CreateAdminUserSeeder extends Seeder
         Module::create(['id' => 1, 'code' => 'SITE', 'name' => 'Site', 'description' => 'Site system configuration']);
 
         // create role 
-        $role = Role::create(['id' => 1, 'module_id' => 1,  'name' => 'Superadmin', 'description' => 'For Developers', 'level' => 0]);
-                Role::create(['id' => 2, 'module_id' => 1, 'name' => 'SiteAdmin', 'description' => 'Site Admin', 'level' => 1]);
-                Role::create(['id' => 3, 'module_id' => 1, 'name' => 'ModuleAdmin', 'description' => 'Specific Module Admin', 'level' => 2]);
-                Role::create(['id' => 4, 'module_id' => 1, 'name' => 'NormalUser', 'description' => 'Public user', 'level' => 999]);
-                Role::create(['id' => 5, 'module_id' => null, 'name' => 'EwpOfficer', 'description' => 'Ewp Officer', 'level' => 5]);
+        $Superadmin = Role::create(['id' => 1, 'module_id' => 1,  'name' => 'Superadmin', 'description' => 'For Developers', 'level' => 0]);
+        $SiteAdmin = Role::create(['id' => 2, 'module_id' => 1, 'name' => 'SiteAdmin', 'description' => 'Site Admin', 'level' => 1]);
+        $ModuleAdmin = Role::create(['id' => 3, 'module_id' => 1, 'name' => 'ModuleAdmin', 'description' => 'Specific Module Admin', 'level' => 2]);
+        $NormalUser = Role::create(['id' => 4, 'module_id' => 1, 'name' => 'NormalUser', 'description' => 'Public user', 'level' => 999]);
+        $EwpOfficer = Role::create(['id' => 5, 'module_id' => null, 'name' => 'EwpOfficer', 'description' => 'Ewp Officer', 'level' => 5]);
         
         $permissions = Permission::pluck('id', 'id')->all();
-        $role->syncPermissions($permissions);
+
+        $Superadmin->syncPermissions($permissions);
 
         // if (env('HAS_CAS')) {
             ## create user haezal
@@ -268,13 +269,13 @@ class CreateAdminUserSeeder extends Seeder
                 ]
             ]);
             
-            $userstaff1->assignRole([$role->id,config('constants.role.siteAdmin')]);
-            $userstaff2->assignRole([$role->id,config('constants.role.normalUser')]);
-            $userstaff3->assignRole([$role->id,config('constants.role.normalUser')]);
-            $userstud1->assignRole([$role->id,config('constants.role.normalUser')]);
-            $userstud2->assignRole([$role->id,config('constants.role.normalUser')]);
-            $userofficer1->assignRole([$role->id,config('constants.role.ewpOfficer')]);
-            $userofficer2->assignRole([$role->id,config('constants.role.ewpOfficer')]);
+            $userstaff1->assignRole([$Superadmin->id,config('constants.role.superAdmin')]);
+            $userstaff2->assignRole([$NormalUser->id,config('constants.role.normalUser')]);
+            $userstaff3->assignRole([$NormalUser->id,config('constants.role.normalUser')]);
+            $userstud1->assignRole([$NormalUser->id,config('constants.role.normalUser')]);
+            $userstud2->assignRole([$NormalUser->id,config('constants.role.normalUser')]);
+            $userofficer1->assignRole([$EwpOfficer->id,config('constants.role.ewpOfficer')]);
+            $userofficer2->assignRole([$EwpOfficer->id,config('constants.role.ewpOfficer')]);
         // }
     }
 }
