@@ -28,7 +28,7 @@
 
             <div class="col-sm-2 text-bold">Gender :</div>
             <div class="col-sm-2">
-                <p class="text-bold text-secondary"> {{ $meta['gender'] }} </p>
+                <p class="text-bold text-secondary"> {{ $profiles['meta'][0]['gender'] ?? '' }}</p>
             </div>
         </div>
 
@@ -51,14 +51,15 @@
         <div class="row mb-3">
             <div class="col-sm-2 text-bold">Faculty :</div>
             <div class="col-sm-4">
-                <p class="text-bold text-secondary"> {{ $jsonb_ptj['code'] }} - {{ $jsonb_ptj['desc'] }} </p>
+                <p class="text-bold text-secondary"> {{ $profiles['ptj'][0]['code'] ?? '' }} - {{ $profiles['ptj'][0]['desc'] ?? '' }} </p>
+
             </div>
    
             <div class="col-sm-1 text-bold"></div>
             
             <div class="col-sm-2 text-bold">Course :</div>
             <div class="col-sm-3">
-                <p class="text-bold text-secondary"> {{ $jsonb_department['code'] }} - {{ $jsonb_department['desc'] }} </p>
+                <p class="text-bold text-secondary"> {{ $profiles['department'][0]['code'] ?? '' }} - {{ $profiles['department'][0]['desc'] ?? '' }} </p>
             </div>
         </div>
 

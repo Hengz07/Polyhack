@@ -73,6 +73,7 @@ Route::prefix('/dashboards')->group(function() {
 
     Route::get('/dashboard', 'EwpController@index')->name('ewp.dashboards.index');
     Route::get('/admin_dash/{year}', 'EwpController@adminindex')->name('ewp.dashboards.admin_dash');
+    Route::get('/admin_dash/{year}', 'EwpController@adminindex')->name('ewp.dashboards.admin_dash');
     Route::get('/admin_dash', 'EwpController@adminindex')->name('ewp.dashboards.admin_dash');
     Route::post('/admin_dash/assign', 'EwpController@assignReports')->name('ewp.dashboards.admin_dash');
 
