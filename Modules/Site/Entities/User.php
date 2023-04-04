@@ -100,6 +100,7 @@ class User extends Authenticatable
             ->groupBy('officer_id');
     }
 
+
     public function get_total(){
         return $this->hasMany(Assign::class, 'user_type')->whereIn('user_type', ['staff','student']);
     }

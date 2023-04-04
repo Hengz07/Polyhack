@@ -1,13 +1,12 @@
 <div class="container-fluid">
     <div class="{{ config('adminlte.card_default') }}"> 
-        <div class="card-header" style="background-color: #001f3f;
-        color: white;"> 
-            <b>SENARAI PELAJAR DAN STAFF YANG TELAH MEMBUAT SARINGAN</b>
+        <div class="card-header"> 
+            Senarai pelajar dan staff yang telah membuat saringan 
         </div> 
 
         {{-- <form action="{{ $route??null }}" method="GET">  --}}
         <div class="card-header"> 
-            <div class="row "> 
+            <div class="row mb-3"> 
                 <div class="col-xl-5 text-bold"> 
                     <div class="icheck-primary icheck-inline"> 
                         <input type="radio" name="usertype" value="alluser" id="alluser" checked /><label for="alluser">All</label> 
@@ -21,10 +20,6 @@
                 </div> 
             </div> 
         </div> 
-
-        @php
-            
-        @endphp
 
         <form action="{{ $route??null }}" method="GET">
             <div class="card-body"> 
@@ -54,13 +49,12 @@
                     <div class="col-sm-1 text-bold">Semester</div> 
                     <div class="col-sm-2"> 
                         <select class="form-control selFilterSemester" id="semester" name="semester" style="width: 100%;">
-                            @if(isset($s_semester))
+                            @if(isset($s_session))
                                 <option value = "{{ $s_semester }}">{{ $s_semester }}</option>
                             @endif
                         </select> 
                     </div> 
                 </div> 
-                
                     
                 <div class="row mb-3"> 
                     <div class="col-sm-1 text-bold">Fakulti</div> 
@@ -75,11 +69,9 @@
                     <div class="col-sm-1 text-bold">Status</div> 
                     <div class="col-sm-5"> 
                         <select class="form-control selFilterStatus" id="status" name="status" style="width: 100%;">
-                        @if(isset($s_status))
-                            <option value = "{{ $s_status }}">{{ $s_status }}</option>
-                        @endif
-                            {{-- <option value='INTERVENSI KHUSUS' {{ (($s_status == 'INTERVENSI KHUSUS') ? 'selected' : '') }}>INTERVENSI KHUSUS</option>
-                            <option value='INTERVENSI UMUM' {{ (($s_status == 'INTERVENSI UMUM') ? 'selected' : '') }}>INTERVENSI UMUM</option> --}}
+                            @if(isset($s_status))
+                                <option value = "{{ $s_status }}">{{ $s_status }}</option>
+                            @endif
                         </select>
                     </div>
                 </div>
@@ -103,15 +95,17 @@
             </div>
 
             <div class="card-footer">
-                
+
                 <button type="submit" class="btn btn-primary float-right" title="">
                     <i class="fa fa-search"></i>  Search   
                 </button>
+
                 <a href={{ route('ewp.reports.exportRep') }}>
-                    <button type="button" class="btn btn-success float-right mr-2" title="Click to download report">
+                    <button type="button" class="btn btn-success float-right" style="margin-right: 20px;" title="Click to download report">
                         <i class="fa fa-file-excel fa-success"></i>
                     </button>
                 </a>
+                
             </div>
         </form>
     </div>

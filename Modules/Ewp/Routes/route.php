@@ -73,7 +73,6 @@ Route::prefix('/dashboards')->group(function() {
 
     Route::get('/dashboard', 'EwpController@index')->name('ewp.dashboards.index');
     Route::get('/admin_dash/{year}', 'EwpController@adminindex')->name('ewp.dashboards.admin_dash');
-    Route::get('/admin_dash/{year}', 'EwpController@adminindex')->name('ewp.dashboards.admin_dash');
     Route::get('/admin_dash', 'EwpController@adminindex')->name('ewp.dashboards.admin_dash');
     Route::post('/admin_dash/assign', 'EwpController@assignReports')->name('ewp.dashboards.admin_dash');
 
@@ -95,7 +94,7 @@ Route::prefix('assign')->group(function() {
     Route::get('{id}/surveyanswer', 'AssignController@surveyanswer')->name('ewp.assign.surveyanswer'); 
     
     Route::get('/exportreport', 'AssignController@exportRep')->name('ewp.reports.exportRep');
-    Route::get('exceldata', 'AssignController@exceldata')->name('ewp.assign.exceldata');
+    Route::get('exceldata', 'AssignController@index')->name('ewp.assign.exceldata');
     
 
 });  
@@ -108,7 +107,7 @@ Route::prefix('select2')->group(function () {
     Route::post('/semester', 'SelectController@getSemester')->name('select2.semester');
     Route::post('/faculty', 'SelectController@getFaculty')->name('select2.faculty');
     Route::post('/status', 'SelectController@getStatus')->name('select2.status');
-
+    
     Route::post('/officer', 'SelectController@getOfficer')->name('select2.officer');
     
     Route::post('/modalOfficer', 'SelectController@getModalOfficer')->name('select2.modalOfficer');
