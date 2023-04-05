@@ -57,18 +57,18 @@
                 <table class="table table-hover table-bordered">
                     <thead class="thead-navy bg-navy">
                         <tr class="text-center">
-                            <th style="width: 2em"> # </th>
-                            <th style="width: 2em"> Session </th>
-                            <th style="width: 2em"> ID </th>
-                            <th style="width: 2em"> Name </th>
-                            <th style="width: 2em"> Faculty </th>
-                            <th class="text-center" style="width: 2em"> {{ $D = 'D' }} </th>
-                            <th class="text-center" style="width: 2em"> {{ $A = 'A' }} </th>
-                            <th class="text-center" style="width: 2em"> {{ $S = 'S' }} </th>
-                            <th style="width: 2em"> Status </th>
-                            <th style="width: 2em"> Date </th>
+                            <th style="width: 7%"> # </th>
+                            <th style="width: 10%"> Session </th>
+                            <th style="width: "> ID </th>
+                            <th style="width: "> Name </th>
+                            {{-- <th style="width: "> Faculty </th> --}}
+                            <th class="text-center" style="width: "> {{ $D = 'D' }} </th>
+                            <th class="text-center" style="width: "> {{ $A = 'A' }} </th>
+                            <th class="text-center" style="width: "> {{ $S = 'S' }} </th>
+                            <th style="width: "> Status </th>
+                            <th style="width: "> Date </th>
                             <th style="width: 8%"> Officer </th>
-                            <th style="width: 2em"> 
+                            <th style="width: "> 
                                 <div class="d-inline-flex input-group justify-content-center">
                                     <label class="icheck-primary icheck-inline">
                                         <input type="checkbox" id="checkboxCheckAll" class="chk-box" />
@@ -110,7 +110,7 @@
                                     <td class="text-center"> {{ ++$i }} </td>
                                     <td class="text-center"> {{ $rep['session'] }} - {{ $rep['sem'] }} </td> 
                                     <td class="text-center"> {{ $profile['profile_no'] }} </td> 
-                                    <td class="text-center"> {{ $user['name'] }} </td> 
+                                    <td class="text-center w-50"> {{ $user['name'] }} </td> 
                                     {{-- <td class="text-center"> {{ $desc[0]['desc']}} </td> --}}
                                     {{-- <td class="text-center"> {{$profile['ptj'][0]['desc']}}</td>  --}}
                                     
@@ -129,9 +129,9 @@
                                                         @foreach($range as $scalestat)
                                                             @if($scale[$up]['value'] >= $scalestat['min'] && $scale[$up]['value'] <= $scalestat['max']) 
                                                                 @if($scalestat['name'] == 'TERUK' || $scalestat['name'] == 'SANGAT TERUK')
-                                                                    <label class="badge badge-danger px-4">{{ $scale[$up]['value'] }}</label>
+                                                                    <label class="badge badge-danger px-3 py-3 w-100 " style="font-size:16px;">{{ $scale[$up]['value'] }}</label>
                                                                 @else
-                                                                    <label class="badge badge-success px-4">{{ $scale[$up]['value'] }}</label>
+                                                                    <label class="badge badge-success px-3 py-3 w-100 " style="font-size:16px;">{{ $scale[$up]['value'] }}</label>
                                                                 @endif
                                                             @endif
                                                         @endforeach
@@ -163,7 +163,7 @@
 
                                     </td>
                                     <td class="text-center"> {{ date('d/m/Y', strtotime($rep['created_at'])) }} </td>
-                                    <td class="text-center">
+                                    <td class="text-center w-50">
                                         
                                         @if(isset($assign))
                                             @foreach($officers as $officer)
@@ -190,15 +190,55 @@
                                         @endif
 
                                     </td>
-                                    <td class="text-center"> 
-                                        <a class="{{ config("adminlte.btn_edit") }} btn showSaringanInfo bg-info" 
-                                            data-route="ewp/assign" data-id="{{ $rep->id }}" data-title=" Information" 
-                                            data-toggle="modal"><i class="fa fa-id-badge" style="width: 12px;"></i></a>
+                                    <td class="text-center">
+                                        
+                                        @php
 
-                                        <a class="{{ config("adminlte.btn_edit") }} btn showSurveyAnswer bg-danger" 
-                                            data-route="ewp/assign" data-id="{{ $rep->id }}" data-title=" Answer" 
-                                            data-toggle="modal"><i class="fa fa-file" style="width: 12px;"></i></a>
-                                    </td> 
+                                        $ok = 1;
+
+                                        @endphp
+                                        @if(isset($assign))
+                                            @if($assign['status'] == 'S')
+
+                                                <a class="{{ config("adminlte.btn_edit") }} btn showSaringanInfo bg-success" 
+                                                data-route="ewp/assign" data-id="{{ $rep->id }}" data-title=" Information" 
+                                                data-toggle="modal" title="SELESAI" style="display: block; margin-bottom:0.3em;"><i class="fas fa-check-circle px-2 py-2" style="font-size: 18px;" ></i></a>
+
+                                                <a class="{{ config("adminlte.btn_edit") }} btn showSurveyAnswer bg-danger" 
+                                                data-route="ewp/assign" data-id="{{ $rep->id }}" data-title=" Answer" 
+                                                data-toggle="modal" style="display: block; margin-bottom:0.3em;"><i class="fas fa-question-circle px-2 py-2" style="font-size: 18px;" ></i></a>
+                                                
+                                            @elseif($assign['status'] == 'R')
+
+                                                <a class="{{ config("adminlte.btn_edit") }} btn showSaringanInfo bg-warning" 
+                                                data-route="ewp/assign" data-id="{{ $rep->id }}" data-title=" Information" 
+                                                data-toggle="modal" title="RUJUK" style="display: block; margin-bottom:0.3em;" ><i class="fas fa-hospital px-2 py-2" style="font-size: 18px;" ></i></a>
+
+                                                <a class="{{ config("adminlte.btn_edit") }} btn showSurveyAnswer bg-danger" 
+                                                    data-route="ewp/assign" data-id="{{ $rep->id }}" data-title=" Answer" 
+                                                    data-toggle="modal" style="display: block; margin-bottom:0.3em;"><i class="fas fa-question-circle px-2 py-2" style="font-size: 18px;" ></i></a>
+                                                    
+                                            @elseif($assign['status'] == 'B')
+                                            
+                                                <a class="{{ config("adminlte.btn_edit") }} btn showSaringanInfo bg-info" 
+                                                data-route="ewp/assign" data-id="{{ $rep->id }}" data-title=" Information" 
+                                                data-toggle="modal" style="display: block; margin-bottom:0.3em;"><i class="fas fa-user-circle px-2 py-2" style="font-size: 18px;" ></i></a>
+
+                                                <a class="{{ config("adminlte.btn_edit") }} btn showSurveyAnswer bg-danger" 
+                                                    data-route="ewp/assign" data-id="{{ $rep->id }}" data-title=" Answer" 
+                                                    data-toggle="modal" style="display: block; margin-bottom:0.3em;"><i class="fas fa-question-circle px-2 py-2" style="font-size: 18px;" ></i></a>
+                                                    @endif
+                                            @else
+                                            <a class="{{ config("adminlte.btn_edit") }} btn showSaringanInfo bg-info" 
+                                            data-route="ewp/assign" data-id="{{ $rep->id }}" data-title=" Information" 
+                                            data-toggle="modal" style="display: block; margin-bottom:0.3em;"><i class="fas fa-user-circle px-2 py-2" style="font-size: 18px;" ></i></a>
+
+                                            <a class="{{ config("adminlte.btn_edit") }} btn showSurveyAnswer bg-danger" 
+                                                data-route="ewp/assign" data-id="{{ $rep->id }}" data-title=" Answer" 
+                                                data-toggle="modal" style="display: block; margin-bottom:0.3em;"><i class="fas fa-question-circle px-2 py-2" style="font-size: 18px;" ></i></a>
+                                            
+                                        @endif
+                                    </td>
                                 </tr>   
                             @endforeach
                         @endif

@@ -127,7 +127,6 @@ class AssignController extends Controller
         ->orderBy('sem', 'asc')
         ->paginate($limit);
         
-        //dd($s_faculty);
 
         $officers = User::role([5])->get();
 
