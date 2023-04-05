@@ -104,7 +104,7 @@ class SelectController extends Controller
         if ($search == '') {
             $results =
             Profile::join('ewp_overall_report', 'profiles.user_id', '=', 'ewp_overall_report.profile_id')
-            ->select('profiles.ptj')->distinct()->get();
+            ->select('profiles.ptj')->distinct()->get(); 
         } else {
             $results = Profile::join('ewp_overall_report', 'profiles.user_id', '=', 'ewp_overall_report.profile_id')
                 ->select('profiles.ptj')->where('profiles.ptj', 'ilike', '%' . $search . '%')
