@@ -90,7 +90,7 @@
                                         <td class="text-center"> {{ $rep['session'] }} - {{ $rep['sem'] }} </td> 
                                         <td class="text-center"> {{ $profile['profile_no'] }} </td> 
                                         <td class="text-center"> {{ $user['name'] }} </td> 
-                                        <td class="text-center"> {{ $profile['ptj'][0]['desc'] }} </td> 
+                                        {{-- <td class="text-center"> {{ $profile['ptj'][0]['desc'] }} </td>  --}}
                                         @foreach($minmax as $mm)
 
                                         @php
