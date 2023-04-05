@@ -491,7 +491,10 @@ var color = [
   data: {
     labels: [
       @foreach ($overall as $stat)
-        "{{ $stat->ptj_desc }}",
+      @php $x = json_decode($stat->ptj_desc);
+      
+      @endphp
+        "{{ $x[0]->desc }}",
       @endforeach
     ],
     datasets: [{
