@@ -208,19 +208,27 @@ class EwpController extends Controller
             ->whereYear('created_at', '=', $selectedYear)
             ->get();
 
+            // $overalls = Profile::join('ewp_overall_report', 'profiles.user_id', '=', 'ewp_overall_report.profile_id')
+            // ->leftJoin('users', 'profiles.user_id', '=', 'users.id')
+            // ->whereYear('ewp_overall_report.created_at', '=', $selectedYear)
+            // ->select(
+            //     DB::raw("jsonb_array_elements(ptj)->>'desc' as ptj_desc"),
+            //     DB::raw("count(*) as count"),
+            //     DB::raw("SUM(CASE WHEN users.user_type = 'student' THEN 1 ELSE 0 END) as student_count"),
+            //     DB::raw("SUM(CASE WHEN users.user_type = 'staff' THEN 1 ELSE 0 END) as staff_count")
+            // )
+            // ->groupBy('ptj_desc')
+            // ->get();
 
-            $overall = Profile::join('ewp_overall_report', 'profiles.user_id', '=', 'ewp_overall_report.profile_id')
+        $overall = Profile::join('ewp_overall_report', 'profiles.user_id', '=', 'ewp_overall_report.profile_id')
             ->leftJoin('users', 'profiles.user_id', '=', 'users.id')
             ->whereYear('ewp_overall_report.created_at', '=', $selectedYear)
-            ->select(
-                DB::raw("jsonb_array_elements(COALESCE(ptj, '[]'))->>'desc' as ptj_desc"),
-                DB::raw("count(*) as count"),
-                DB::raw("SUM(CASE WHEN users.user_type = 'student' THEN 1 ELSE 0 END) as student_count"),
-                DB::raw("SUM(CASE WHEN users.user_type = 'staff' THEN 1 ELSE 0 END) as staff_count")
-            )
+            ->selectRaw("jsonb_array_elements(ptj)->>'desc' as ptj_desc")
+            ->selectRaw("count(profiles.id) as count")
+            ->selectRaw("SUM(CASE WHEN users.user_type = 'student' THEN 1 ELSE 0 END) as student_count")
+            ->selectRaw("SUM(CASE WHEN users.user_type = 'staff' THEN 1 ELSE 0 END) as staff_count")
             ->groupBy('ptj_desc')
             ->get();
-
 
 
     #===============================================================================#
