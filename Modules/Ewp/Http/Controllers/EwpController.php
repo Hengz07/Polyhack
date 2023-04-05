@@ -223,13 +223,14 @@ class EwpController extends Controller
         $overall = Profile::join('ewp_overall_report', 'profiles.user_id', '=', 'ewp_overall_report.profile_id')
             ->leftJoin('users', 'profiles.user_id', '=', 'users.id')
             ->whereYear('ewp_overall_report.created_at', '=', $selectedYear)
-            ->selectRaw("jsonb_array_elements(ptj)->>'desc' as ptj_desc")
+            ->select("ptj as ptj_desc")
             ->selectRaw("count(profiles.id) as count")
             ->selectRaw("SUM(CASE WHEN users.user_type = 'student' THEN 1 ELSE 0 END) as student_count")
             ->selectRaw("SUM(CASE WHEN users.user_type = 'staff' THEN 1 ELSE 0 END) as staff_count")
             ->groupBy('ptj_desc')
             ->get();
-
+        
+        
 
     #===============================================================================#
     
