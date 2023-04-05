@@ -490,11 +490,18 @@ var color = [
   type: 'bar',
   data: {
     labels: [
+     
       @foreach ($overall as $stat)
+     
       @php $x = json_decode($stat->ptj_desc);
       
+        $d[] =$x[0]->desc;
+       
       @endphp
-        "{{ $x[0]->desc }}",
+       
+      @endforeach
+      @foreach($d as $label)
+        '{{ $label }}',
       @endforeach
     ],
     datasets: [{
