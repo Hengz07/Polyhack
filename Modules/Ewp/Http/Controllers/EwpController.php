@@ -204,9 +204,10 @@ class EwpController extends Controller
             ->count();
 
         // Get overall survey count for selected year
-        $overallsurvey = Reports::selectRaw('COUNT(profile_id) AS overallcount')
+        $overallsurvey = Reports::select('profile_id')
             ->whereYear('created_at', '=', $selectedYear)
-            ->get();
+            ->count();
+
 
             // $overalls = Profile::join('ewp_overall_report', 'profiles.user_id', '=', 'ewp_overall_report.profile_id')
             // ->leftJoin('users', 'profiles.user_id', '=', 'users.id')
@@ -229,6 +230,8 @@ class EwpController extends Controller
             ->selectRaw("SUM(CASE WHEN users.user_type = 'staff' THEN 1 ELSE 0 END) as staff_count")
             ->groupBy('ptj_desc')
             ->get();
+
+            //dd($overall);
         
         
 

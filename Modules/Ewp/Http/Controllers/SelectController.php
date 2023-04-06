@@ -104,10 +104,10 @@ class SelectController extends Controller
         if ($search == '') {
             $results =
             Profile::join('ewp_overall_report', 'profiles.user_id', '=', 'ewp_overall_report.profile_id')
-            ->select('profiles.ptj')->distinct()->get(); 
+            ->select('ptj')->distinct()->get(); 
         } else {
             $results = Profile::join('ewp_overall_report', 'profiles.user_id', '=', 'ewp_overall_report.profile_id')
-                ->select('profiles.ptj')->where('profiles.ptj', 'ilike', '%' . $search . '%')
+                ->select('ptj')->where('ptj', 'ilike', '%' . $search . '%')
                 ->distinct()->get();
         }
         
@@ -115,10 +115,10 @@ class SelectController extends Controller
         
         foreach ($results as $result) {
             if($result['ptj'] != null){
-                $faculty = $result['ptj'][0]['code'].' - '.$result['ptj'][0]['desc'];
+                $faculty = $result['ptj']['code'].' - '.$result['ptj']['desc'];
                 
                 $response[] = array(
-                    "id"      => $result['ptj'][0]['code'],
+                    "id"      => $result['ptj']['code'],
                     "faculty" => $faculty,
                 );
             }

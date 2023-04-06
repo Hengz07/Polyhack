@@ -239,15 +239,18 @@ class UserController extends Controller
     public function updateProfile(Request $request)
     {
         $id = auth()->user()->id;
-        $user = auth()->user();
+        $user = User::find($id);
+    
         if (env('HAS_CAS') == true || env('APP_CAS') == true) {
             $this->validate($request, [
                 'hp_no' => 'required',
             ]);
             $input = $request->all();
             $user->profile()->update([
-                'hp_no' => $request->hp_no,
+                'hp_no' => $request->meta->hp_no,
             ]);
+
+            
             // $user = User::find($id);
             // $user->update($input);
 

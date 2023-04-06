@@ -61,7 +61,7 @@
                             <th style="width: 7%"> Session </th>
                             <th style="width: 7%"> ID </th>
                             <th style="width: 14%"> Name </th>
-                            {{-- <th style="width: 14%"> Faculty </th> --}}
+                            <th style="width: 14%"> Faculty </th>
                             <th style="width: 7%"> D </th>
                             <th style="width: 7%"> A </th>
                             <th style="width: 7%"> S </th>
@@ -90,7 +90,7 @@
                                         <td class="text-center"> {{ $rep['session'] }} - {{ $rep['sem'] }} </td> 
                                         <td class="text-center"> {{ $profile['profile_no'] }} </td> 
                                         <td class="text-center"> {{ $user['name'] }} </td> 
-                                        {{-- <td class="text-center"> {{ $profile['ptj'][0]['desc'] }} </td>  --}}
+                                        <td class="text-center"> {{ $profile['ptj']['desc'] }} </td> 
                                         @foreach($minmax as $mm)
 
                                         @php
@@ -134,16 +134,28 @@
                                         <td class="text-center"> {{ date('d/m/Y', strtotime($rep['created_at'])) }} </td>
                                         <td class="text-center"> 
 
+                                        @if(isset($assign))
+                                            @if($assign['meta'] == null)
                                             <a class="{{ config("adminlte.btn_edit") }} btn showSaringanInfo bg-info" 
                                                 data-route="ewp/assign" data-id="{{ $rep->id }}" data-title="Information" 
-                                                data-toggle="modal"><i class="fa fa-id-badge" style="width: 12px;"></i></a>  
+                                                data-toggle="modal"><i class="fa fa-id-badge" style="width: 12px;"></i></a>
+                                            @else
+                                             <a class="{{ config("adminlte.btn_edit") }} btn showSaringanInfo bg-success" 
+                                                data-route="ewp/assign" data-id="{{ $rep->id }}" data-title="Information" 
+                                                data-toggle="modal"><i class="fa fa-id-badge" style="width: 12px;"></i></a>
+                                            @endif 
+                                        @else
+                                        <a class="{{ config("adminlte.btn_edit") }} btn showSaringanInfo bg-info" 
+                                            data-route="ewp/assign" data-id="{{ $rep->id }}" data-title="Information" 
+                                            data-toggle="modal"><i class="fa fa-id-badge" style="width: 12px;"></i></a>
+                                        @endif 
 
                                             <button type="button" class="btn btn-sm {{ config('adminlte.btn_default') }} bg-danger">
                                                 <i class="fa fa-file"></i></button> 
                                             
                                             <a class="{{ config("adminlte.btn_default") }} btn-sm showSummary bg-warning"
                                                 data-route="ewp/assign" data-title="Summary" 
-                                                data-toggle="modal" data-id="{{ $rep['id'] }}"><i class="fas fa-comment"></i></a> 
+                                                data-toggle="modal" data-id="{{ $rep['id'] }}"><i class="fas fa-comment"></i></a>
 
                                         </td> 
                                     </tr> 
