@@ -29,9 +29,9 @@
                         <img src="https://portal.um.edu.my/ihris/gambar_staff/{{ $user->profile->profile_no }}.jpg" alt="" style="width:120px;">
                         <h2>{{ $user->name }}</h2>
                         <div><i class="fa fa-envelope"></i> {{ $user->email }}</div>
-                        <div><i class="fa fa-phone"></i> {{ $user->profile->office_no }}</div>
-                        @if ($user->profile->hp_no)
-                        <div><i class="fa fa-phone"></i> {{ $user->profile->hp_no }}</div>    
+                        <div><i class="fa fa-phone"></i> {{ $user->profile->meta['office_no']}}</div>
+                        @if ($user->profile->meta['hp_no'])
+                        <div><i class="fa fa-phone"></i> {{ $user->profile->meta['hp_no'] }}</div>    
                         @endif
                         
                         {{-- Get role names --}}
@@ -45,8 +45,9 @@
 
                         <hr>
 
-                        <h3>{{ $user->profile->faculty->name }}</h3>
-                        <h5 class="text-muted">{{ $user->profile->department->name }}</h5>
+                        {{-- {{dd($user);}} --}}
+                        <h3>{{ $user->profile->ptj['desc'] }}</h3>
+                        <h5 class="text-muted">{{ $user->profile->department['desc'] }}</h5>
                     </p>
                 </div>
             </div>

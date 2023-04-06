@@ -257,7 +257,7 @@
                       <div id="mo" class="small-box shadow p-3 mb-5  rounded">
                         <div class="inner">
                           <h1>
-                            {{ $overallsurvey[0]->overallcount }}
+                            {{ $overallsurvey }}
                           </h1>
                           <p class="mb-4">{{$tsurvey}}</p>
                         </div>
@@ -491,9 +491,10 @@ var color = [
   data: {
     labels: [
       @foreach ($overall as $stat)
-      @php $x = json_decode($stat->ptj_desc)[0];
-      @endphp
-        "{{ isset($x->desc) ? $x->desc : '';}}",
+        @php
+            $x = json_decode($stat->ptj_desc, true);
+        @endphp
+        "{{ $x['desc'] }}",
       @endforeach
     ],
     datasets: [{
@@ -564,8 +565,11 @@ type: 'doughnut',
 data: {
   labels: [
     @foreach ($overall as $stat)
-    "{{ $stat->ptj_desc }}",
-    @endforeach
+        @php
+            $x = json_decode($stat->ptj_desc, true);
+        @endphp
+        "{{ $x['desc'] }}",
+      @endforeach
   ],
   datasets: [{
     label: '{{$tsurvey}}',

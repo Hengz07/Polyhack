@@ -68,10 +68,10 @@
 
                     <div class="col-sm-1 text-bold">Status</div> 
                     <div class="col-sm-5"> 
-                        <select class="form-control selFilterStatus" id="status" name="status" style="width: 100%;">
-                            @if(isset($s_status))
-                                <option value = "{{ $s_status }}">{{ $s_status }}</option>
-                            @endif
+                        <select class="form-control" id="status" name="status" style="width: 100%;">
+                            <option value='' disabled selected>- Pilih Status -</option>
+                            <option value='INTERVENSI KHUSUS' {{ (($s_status == 'INTERVENSI KHUSUS') ? 'selected' : '') }}>INTERVENSI KHUSUS</option>
+                            <option value='INTERVENSI UMUM' {{ (($s_status == 'INTERVENSI UMUM') ? 'selected' : '') }}>INTERVENSI UMUM</option>
                         </select>
                     </div>
                 </div>

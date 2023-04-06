@@ -61,7 +61,7 @@
                             <th style="width: 10%"> Session </th>
                             <th style="width: "> ID </th>
                             <th style="width: "> Name </th>
-                            {{-- <th style="width: "> Faculty </th> --}}
+                            <th style="width: "> Faculty </th>
                             <th class="text-center" style="width: "> {{ $D = 'D' }} </th>
                             <th class="text-center" style="width: "> {{ $A = 'A' }} </th>
                             <th class="text-center" style="width: "> {{ $S = 'S' }} </th>
@@ -110,9 +110,8 @@
                                     <td class="text-center"> {{ ++$i }} </td>
                                     <td class="text-center"> {{ $rep['session'] }} - {{ $rep['sem'] }} </td> 
                                     <td class="text-center"> {{ $profile['profile_no'] }} </td> 
-                                    <td class="text-center w-50"> {{ $user['name'] }} </td> 
-                                    {{-- <td class="text-center"> {{ $desc[0]['desc']}} </td> --}}
-                                    {{-- <td class="text-center"> {{$profile['ptj'][0]['desc']}}</td>  --}}
+                                    <td class="text-center w-50"> {{ $user['name'] }} </td>
+                                    <td class="text-center"> {{$profile['ptj']['desc']}}</td> 
                                     
                                     
 
@@ -178,8 +177,12 @@
                                     </td>
                                     <td class="text-center">
 
-                                        @if(isset($assign))
-                                            @if ($assign['meta'] == null && $intervention == 'INTERVENSI KHUSUS')
+                                            @if (!isset($assign['officer_id']) && $intervention == 'INTERVENSI KHUSUS')
+                                                <div class="icheck-primary icheck-inline">
+                                                    <input type="checkbox" class="chk_box_sub" id="{{ $rep['id'] }}" value="{{ $rep['id'] }}" />
+                                                    <label for="{{ $rep['id'] }}"></label>
+                                                </div>
+                                            @elseif(isset($assign['officer_id']) && $assign['meta'] == null && $intervention == 'INTERVENSI KHUSUS')
                                                 <div class="icheck-primary icheck-inline">
                                                     <input type="checkbox" class="chk_box_sub" id="{{ $rep['id'] }}" value="{{ $rep['id'] }}" />
                                                     <label for="{{ $rep['id'] }}"></label>
@@ -187,16 +190,10 @@
                                             @else
                                                 <label>--</label>
                                             @endif
-                                        @endif
 
                                     </td>
                                     <td class="text-center">
                                         
-                                        @php
-
-                                        $ok = 1;
-
-                                        @endphp
                                         @if(isset($assign))
                                             @if($assign['status'] == 'S')
 
@@ -227,8 +224,18 @@
                                                 <a class="{{ config("adminlte.btn_edit") }} btn showSurveyAnswer bg-danger" 
                                                     data-route="ewp/assign" data-id="{{ $rep->id }}" data-title=" Answer" 
                                                     data-toggle="modal" style="display: block; margin-bottom:0.3em;"><i class="fas fa-question-circle px-2 py-2" style="font-size: 18px;" ></i></a>
-                                                    @endif
+                                            
                                             @else
+
+                                            <a class="{{ config("adminlte.btn_edit") }} btn showSaringanInfo bg-info" 
+                                            data-route="ewp/assign" data-id="{{ $rep->id }}" data-title=" Information" 
+                                            data-toggle="modal" style="display: block; margin-bottom:0.3em;"><i class="fas fa-user-circle px-2 py-2" style="font-size: 18px;" ></i></a>
+
+                                            <a class="{{ config("adminlte.btn_edit") }} btn showSurveyAnswer bg-danger" 
+                                                data-route="ewp/assign" data-id="{{ $rep->id }}" data-title=" Answer" 
+                                                data-toggle="modal" style="display: block; margin-bottom:0.3em;"><i class="fas fa-question-circle px-2 py-2" style="font-size: 18px;" ></i></a>
+                                            @endif
+                                        @else
                                             <a class="{{ config("adminlte.btn_edit") }} btn showSaringanInfo bg-info" 
                                             data-route="ewp/assign" data-id="{{ $rep->id }}" data-title=" Information" 
                                             data-toggle="modal" style="display: block; margin-bottom:0.3em;"><i class="fas fa-user-circle px-2 py-2" style="font-size: 18px;" ></i></a>

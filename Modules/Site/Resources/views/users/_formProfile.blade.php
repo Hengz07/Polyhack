@@ -65,11 +65,11 @@
             <div class="col-lg-9">
                 <div class="form-group">
                     <label for="selFaculties" class="form-label">Faculty</label>
-                    <div id="showFaculty">{{ (isset($user->profile->faculty->name)) ? $user->profile->faculty->name: null }}</div>
+                    <div id="showFaculty">{{ (isset($user->profile->ptj['desc'])) ? $user->profile->ptj['desc'] : null }}</div>
                 </div>
                 <div class="form-group">
                     <label for="selDepartments" class="form-label">Department</label>
-                    <div id="showDepartment">{{ (isset($user->profile->department->name)) ? $user->profile->department->name: null }}</div>
+                    <div id="showDepartment">{{ (isset($user->profile->department['desc'])) ? $user->profile->department['desc'] : null }}</div>
                 </div>
             </div>
         </div>
@@ -83,12 +83,12 @@
             </div>
             <div class="col-lg-9">
                 <div class="form-group">
-                    <label for="inputPhoneNo">Phone No</label>
-                    <div id="showPhoneNo">{{ (isset($user)) ? $user->profile->office_no:"" }}</div>
+                    <label for="inputPhoneNo">Office No</label>
+                    <div id="showPhoneNo">{{ (isset($user)) ? $user->profile->meta['office_no'] :"" }}</div>
                 </div>
                 <div class="form-group">
                     <label for="inputHandphoneNo">Handphone No</label>
-                    {!! Form::number('hp_no', (isset($user)) ? $user->profile->hp_no:"", array('placeholder' => 'Enter handphone no','class' => 'form-control', 'id' => 'inputHandphoneNo', 'maxlength' => 20, 'required'=>'required')) !!}
+                    {!! Form::number('hp_no', (isset($user)) ? $user->profile->meta['hp_no']:"", array('placeholder' => 'Enter handphone no','class' => 'form-control', 'id' => 'inputHandphoneNo', 'maxlength' => 20, 'required'=>'required')) !!}
                 </div>
             
             </div>
