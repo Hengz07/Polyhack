@@ -101,7 +101,7 @@ class SurveysController extends Controller
             'sem' => $sem
         ];
 
-        $status = $reports['status'];
+        $status = $reports['scale'];
         
         $result = $this->calculation($survey);
 

@@ -45,7 +45,7 @@
             @endphp
 
             <span class="card-header">
-                @if (auth()->user()->hasRole(['SiteAdmin', 'SuperAdmin']))
+                @if (auth()->user()->hasRole(['SiteAdmin', 'Superadmin', 'ModuleAdmin', 'EwpOfficer']))
                     <a href="/ewp/dashboards/admin_dash">
                         <button type="button" class="btn btn-info">
                             Admin
@@ -123,9 +123,74 @@
 
                                                     &nbsp; 
                                                     
-                                                    <a type="button" class="px-2 btn btn-dark btn-sm fa-list-alt fa-2 fas getResult"></a> 
+                                                    <a type="button" id="modal-button" class="px-2 btn btn-dark btn-sm fa-list-alt fa-2 fas getResult"></a> 
                                                 </div> 
                                             @endif
+                                            <dialog id="modal">
+                                                <div class="card direct-chat direct-chat-primary">
+                                                <div class="card-header">
+                                                <h3 class="card-title">Direct Chat</h3>
+                                                <div class="card-tools">
+                                                <span title="3 New Messages" class="badge badge-primary">3</span>
+                                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                <i class="fas fa-minus"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-tool" title="Contacts" data-widget="chat-pane-toggle">
+                                                <i class="fas fa-comments"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-tool" id="modal-close" data-card-widget="remove">
+                                                <i class="fas fa-times"></i>
+                                                </button>
+                                                </div>
+                                                </div>
+
+                                                <div class="card-body">
+
+                                                <div class="direct-chat-messages">
+
+                                                <div class="direct-chat-msg">
+                                                <div class="direct-chat-infos clearfix">
+                                                <span class="direct-chat-name float-left">Alexander Pierce</span>
+                                                <span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>
+                                                </div>
+
+                                                <img class="direct-chat-img" src="dist/img/user1-128x128.jpg" alt="message user image">
+
+                                                <div class="direct-chat-text">
+                                                Is this template really for free? That's unbelievable!
+                                                </div>
+
+                                                </div>
+
+
+                                                <div class="direct-chat-msg right">
+                                                <div class="direct-chat-infos clearfix">
+                                                <span class="direct-chat-name float-right">Sarah Bullock</span>
+                                                <span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span>
+                                                </div>
+
+                                                <img class="direct-chat-img" src="dist/img/user3-128x128.jpg" alt="message user image">
+
+                                                <div class="direct-chat-text">
+                                                You better believe it!
+                                                </div>
+
+                                                </div>
+
+
+                                                <div class="direct-chat-msg">
+                                                <div class="direct-chat-infos clearfix">
+                                                <span class="direct-chat-name float-left">Alexander Pierce</span>
+                                                <span class="direct-chat-timestamp float-right">23 Jan 5:37 pm</span>
+                                                </div>
+
+                                                <img class="direct-chat-img" src="dist/img/user1-128x128.jpg" alt="message user image">
+
+                                                <div class="direct-chat-text">
+                                                Working with AdminLTE on a great new app! Wanna join?
+                                                </div>
+                                                </div>
+                                            </dialog>
 
                                         </td>
                                     </tr> 
@@ -137,6 +202,20 @@
                 </div>
             </div>
         </div>
+
+        <script>
+            const modalButton = document.querySelector('#modal-button');
+            const modal = document.querySelector('#modal');
+            const modalClose = document.querySelector('#modal-close');
+            
+            modalButton.addEventListener('click', () => {
+                modal.showModal();
+            });
+            
+            modalClose.addEventListener('click', () => {
+                modal.close();
+            });
+        </script>
         
         <div class="col-sm-6 pr-0">
             <div class="card card-body ml-1">

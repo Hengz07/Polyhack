@@ -4,24 +4,24 @@
             Senarai pelajar dan staff yang telah membuat saringan 
         </div> 
 
-        {{-- <form action="{{ $route??null }}" method="GET">  --}}
+        <form action="{{ $route??null }}" method="GET"> 
         <div class="card-header"> 
             <div class="row mb-3"> 
                 <div class="col-xl-5 text-bold"> 
                     <div class="icheck-primary icheck-inline"> 
-                        <input type="radio" name="usertype" value="alluser" id="alluser" checked /><label for="alluser">All</label> 
+                        <input type="radio" name="usertype" value='' {{ (($utype == '') ? 'checked' : '') }} id="alluser" checked /><label for="alluser">All</label> 
                     </div> 
                     <div class="icheck-primary icheck-inline"> 
-                        <input type="radio" name="usertype" value="student" id="student" /><label for="student">Student</label> 
+                        <input type="radio" name="usertype" value='student' {{ (($utype == 'student') ? 'checked' : '') }} id="student" /><label for="student">Student</label> 
                     </div> 
                     <div class="icheck-primary icheck-inline"> 
-                        <input type="radio" name="usertype" value="staff" id="staff" /><label for="staff">Staff</label> 
+                        <input type="radio" name="usertype" value='staff' {{ (($utype == 'staff') ? 'checked' : '') }} id="staff" /><label for="staff">Staff</label> 
                     </div> 
                 </div> 
             </div> 
         </div> 
 
-        <form action="{{ $route??null }}" method="GET">
+        {{-- <form action="{{ $route??null }}" method="GET"> --}}
             <div class="card-body"> 
                 <div class="row mb-3"> 
                     <div class="col-xl-1 text-bold">Nama</div> 
@@ -41,10 +41,10 @@
                     <div class="col-sm-2"> 
                         <select class="form-control selFilterSession" id="session" name="session" style="width: 100%;">
                             @if(isset($s_session))
-                                <option value = "{{ $s_session }}">{{ $s_session }}</option>
+                                <option value = "{{ $s_session }}">All Session</option>
                             @endif
                         </select> 
-                    </div> 
+                    </div>
 
                     <div class="col-sm-1 text-bold">Semester</div> 
                     <div class="col-sm-2"> 
@@ -69,13 +69,16 @@
                     <div class="col-sm-1 text-bold">Status</div> 
                     <div class="col-sm-5"> 
                         <select class="form-control" id="status" name="status" style="width: 100%;">
-                            <option value='' disabled selected>- Pilih Status -</option>
+                            <option value='' selected>- Pilih Status -</option>
                             <option value='INTERVENSI KHUSUS' {{ (($s_status == 'INTERVENSI KHUSUS') ? 'selected' : '') }}>INTERVENSI KHUSUS</option>
                             <option value='INTERVENSI UMUM' {{ (($s_status == 'INTERVENSI UMUM') ? 'selected' : '') }}>INTERVENSI UMUM</option>
                         </select>
                     </div>
                 </div>
 
+                @if(isset($specific) && $specific)
+                    @can(['search'])
+                @endif
                 <div class="row mb-3">
                     <div class="col-sm-1 text-bold">Pegawai</div>
                     <div class="col-sm-5">
@@ -92,6 +95,9 @@
                         </select>
                     </div>  
                 </div> 
+                @if(isset($specific) && $specific)
+                    @endcan
+                @endif
             </div>
 
             <div class="card-footer">
