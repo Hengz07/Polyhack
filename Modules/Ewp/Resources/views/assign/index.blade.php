@@ -20,7 +20,11 @@
 @section('content')
 <div class="container-fluid">
     
-    @include('ewp::assign.assignsearching')
+    @if (auth()->user()->hasRole(['Superadmin','ModuleAdmin']))
+    @include('ewp::assign.assignsearching', ['specific' => true])
+    @elseif (auth()->user()->hasRole(['EwpOfficer']))
+    @include('ewp::assign.assignsearching', ['specific' => true])
+    @endif
 
     <div class="{{ config('adminlte.card_default') }}">
         <div class="card-body"> 

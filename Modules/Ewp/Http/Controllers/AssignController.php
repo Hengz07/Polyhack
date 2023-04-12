@@ -25,7 +25,8 @@ class AssignController extends Controller
     {   
         $limit = 10;
         $search = $request->has('q') ? $request->get('q') : null;
-        
+        $utype = $request->has('usertype') ? $request->get('usertype') : null;
+
         $s_session = $request->has('session') ? $request->get('session') : null; 
         $s_semester = $request->has('semester') ? $request->get('semester') : null; 
         $s_faculty = $request->has('faculty') ? $request->get('faculty') : null; 
@@ -39,9 +40,15 @@ class AssignController extends Controller
         
 
         $usertype = $request->input('status');
+        //dd($usertype);
 
         $reports = Reports::with('profile.user', 'assign', 'profile')
-            ->where(function ($query) use ($search, $s_session, $s_semester, $s_officer, $s_faculty, $s_status) {
+            ->where(function ($query) use ($search, $utype, $s_session, $s_semester, $s_officer, $s_faculty, $s_status) {
+                if ($utype != null) {
+                    $query->whereHas('profile.user', function ($query) use ($utype) {
+                        $query->where('user_type', $utype);
+                    });
+                }
                 if($search != null){
                     $query->whereHas('profile.user', function($query) use ($search){
                         $query->where('name', 'like', '%' . $search . '%');
@@ -78,13 +85,14 @@ class AssignController extends Controller
 
         $minmax = Lookups::where('key', 'category')->get();
 
-        return view('ewp::assign.index', compact('results','reports', 'officers', 'minmax', 's_session', 's_semester', 's_officer', 's_status', 's_faculty'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search)->with('officer', $s_officer)->with('faculty', $s_faculty)->with('session', $s_session)->with('semester', $s_semester);
+        return view('ewp::assign.index', compact('results','reports', 'officers', 'minmax', 'utype', 's_session', 's_semester', 's_officer', 's_status', 's_faculty'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search)->with('officer', $s_officer)->with('faculty', $s_faculty)->with('session', $s_session)->with('usertype', $utype)->with('semester', $s_semester);
     }
 
     public function specificrecordindex(Request $request)
     {
         $limit = 10;
         $search = $request->has('q') ? $request->get('q') : null;
+        $utype = $request->has('usertype') ? $request->get('usertype') : null;
         
         $s_session = $request->has('session') ? $request->get('session') : null; 
         $s_semester = $request->has('semester') ? $request->get('semester') : null; 
@@ -93,9 +101,15 @@ class AssignController extends Controller
         $s_officer = $request->has('officer') ? $request->get('officer') : null; 
 
         $usertype = $request->input('status');
+        $profiles  = Profile::where('user_id', auth()->user()->id)->where('status', '"AK"')->first();
 
         $reports = Reports::with('profile.user')->with('assign')
-            ->where(function ($query) use ($search, $s_session, $s_semester, $s_officer, $s_faculty, $s_status) {
+            ->where(function ($query) use ($search, $utype, $s_session, $s_semester, $s_officer, $s_faculty, $s_status) {
+                if ($utype != null) {
+                    $query->whereHas('profile.user', function ($query) use ($utype) {
+                        $query->where('user_type', $utype);
+                    });
+                }
                 if($search != null){
                     $query->whereHas('profile.user', function($query) use ($search){
                         $query->where('name', 'like', '%' . $search . '%');
@@ -122,17 +136,58 @@ class AssignController extends Controller
                     });
                 }
             })
+        ->whereHas('assign', function ($query) use ($profiles) {
+            $query->where('officer_id', $profiles->id);
+        })
         ->orderBy('profile_id', 'asc')
         ->orderBy('session', 'asc')
         ->orderBy('sem', 'asc')
         ->paginate($limit);
+
+        $reportss = Reports::with('profile.user')->with('assign')
+            ->where(function ($query) use ($search, $utype, $s_session, $s_semester, $s_officer, $s_faculty, $s_status) {
+                if ($utype != null) {
+                    $query->whereHas('profile.user', function ($query) use ($utype) {
+                        $query->where('user_type', $utype);
+                    });
+                }
+                if ($search != null) {
+                    $query->whereHas('profile.user', function ($query) use ($search) {
+                        $query->where('name', 'like', '%' . $search . '%');
+                    });
+                }
+                if ($s_officer != null) {
+                    $query->whereHas('assign', function ($query) use ($s_officer) {
+                        $query->where('officer_id', $s_officer);
+                    });
+                }
+                if ($s_status != null) {
+                    $query->whereRaw("scale->'A'->'status'->>'intervention' = ?", [$s_status]);
+                }
+                if ($s_session != null) {
+                    $query->where('session', $s_session);
+                }
+                if ($s_semester != null) {
+                    $query->where('sem', $s_semester);
+                }
+                if ($s_faculty != null) {
+                    $query->whereHas('profile', function ($query) use ($s_faculty) {
+                        // dd($query->get());
+                        $query->where('ptj', $s_faculty);
+                    });
+                }
+            })
+            ->orderBy('profile_id', 'asc')
+            ->orderBy('session', 'asc')
+            ->orderBy('sem', 'asc')
+            ->paginate($limit);
         
 
         $officers = User::role([5])->get();
 
         $minmax = Lookups::where('key', 'category')->get();
 
-        return view('ewp::assign.specificrecordindex', compact('reports', 'officers', 'minmax', 's_session', 's_semester', 's_officer', 's_status', 's_faculty'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search)->with('officer', $s_officer)->with('faculty', $s_faculty)->with('session', $s_session)->with('semester', $s_semester);
+        return view('ewp::assign.specificrecordindex', compact('reports', 'reportss', 'officers', 'minmax', 'utype', 's_session', 's_semester', 's_officer', 's_status', 's_faculty'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search)->with('officer', $s_officer)->with('faculty', $s_faculty)->with('session', $s_session)->with('semester', $s_semester)->with('usertype', $utype);
     }
 
     public function assignsearching(Request $request)
