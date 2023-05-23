@@ -22,6 +22,7 @@ class EwpController extends Controller
      */
     public function index(Request $request)
     {
+        $user = User::role([5])->get();
         $limit = 10;
         $search = $request->has('q') ? $request->get('q') : null;
 
@@ -58,7 +59,7 @@ class EwpController extends Controller
 
         session()->put('url.intended', url()->current());
 
-        return view('ewp::dashboards.dashboard', compact('reports', 'schedules'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search);
+        return view('ewp::dashboards.dashboard', compact('reports', 'schedules', 'user'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search);
     }
 
     public function assignReports(Request $request)
