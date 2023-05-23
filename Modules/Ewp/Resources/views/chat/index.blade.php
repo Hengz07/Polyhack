@@ -276,9 +276,10 @@
                         </div>
                     </div>
                 </header>
-
-                @foreach ($conversations as $conv => $mess)
-                @endforeach
+                @if(!empty($conversation))
+                  @foreach ($conversations as $conv => $mess)
+                  @endforeach
+              
                 @php
                   $chat = $mess['chat'];
                 @endphp
@@ -297,6 +298,7 @@
                       </div>
                     </div>
                   @endif 
+                     @endif
                 </div>
 
                 <form action="#" class="typing-area">
