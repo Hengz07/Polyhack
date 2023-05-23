@@ -18,13 +18,13 @@ class ChatController extends Controller
         $user = User::role([5])->get();
 
         $mainuser = Auth::user();
-        
-        $conversations = Chat::where('sender_userid', 6)
-            ->orWhere('receiver_userid', 6)
-            ->get();
+        $mainuserId = $mainuser->id; // Extract the user ID
 
-        return view('ewp::chat.index',compact('user', 'conversations'));
+        $conversations = Chat::where('sender_userid', $mainuserId)->get();
+
+        return view('ewp::chat.index', compact('user', 'conversations'));
     }
+
 
     // public function sendMessage(Request $request)
     // {

@@ -61,6 +61,13 @@
   color: #fff;
   border-radius: 18px 18px 0 18px;
 }
+.outgoing .details span {
+    font-size: 12px;
+    color: #888;
+    margin-top: 5px;
+    float: right;
+}
+
 .chat-box .incoming{
   display: flex;
   align-items: flex-end;
@@ -78,6 +85,12 @@
   background: #fff;
   color: #333;
   border-radius: 18px 18px 18px 0;
+}
+.incoming .details span {
+    font-size: 12px;
+    color: #888;
+    margin-top: 5px;
+    float: right;
 }
 .typing-area{
   padding: 18px 30px;
@@ -276,30 +289,35 @@
                         </div>
                     </div>
                 </header>
-                @if(!empty($conversation))
+                @if(!empty($conversations))
                   @foreach ($conversations as $conv => $mess)
                   @endforeach
               
-                @php
-                  $chat = $mess['chat'];
-                @endphp
+                  @php
+                    $chat = $mess['chat'];
+                  @endphp
 
-                <div class="chat-box">
-                  @if ($chat['6'])
-                    <div class="chat outgoing">
-                      <div class="details">
-                          <p>{{$chat['6']['message']}}</p>
-                      </div>
-                    </div>
-                    <div class="chat incoming">
-                      <i class="fas fa-user"></i>
-                      <div class="details">
-                          <p>{{$chat['4']['message']}}</p>
-                      </div>
-                    </div>
-                  @endif 
-                     @endif
-                </div>
+                  <div class="chat-box">
+                      @foreach ($chat as $key => $message)
+                          @if (strpos($key, 'sender') !== false)
+                              <div class="chat outgoing">
+                                  <div class="details">
+                                      <p>{{ $message['message'] }}<span class="timestamp">{{ $message['timestamp'] }}</span></p>
+                                  </div>
+                              </div>
+                          @elseif (strpos($key, 'receiver') !== false)
+                              <div class="chat incoming">
+                                  <i class="fas fa-user"></i>
+                                  <div class="details">
+                                      <p>{{ $message['message'] }}<span class="timestamp">{{ $message['timestamp'] }}</span></p>
+                                  </div>
+                              </div>
+                          @endif
+                      @endforeach
+                  </div>
+
+
+                @endif
 
                 <form action="#" class="typing-area">
                     <input type="text" class="incoming_id" name="incoming_id" value="userid" hidden>

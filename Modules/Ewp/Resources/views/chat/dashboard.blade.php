@@ -1,3 +1,5 @@
+{!! Form::open(['route' => 'ewp.chat.store', 'method' => 'POST', 'class' => 'form-horizontal']) !!}
+
 <style>
     /* Users List CSS Start */
 .users{
@@ -123,9 +125,8 @@
   color: #ccc;
 }
 </style>
-
-<div class="col-sm-6 pl-5"> 
-    <div class="card card-body mr-1">
+{{-- @include('setup.question.form') --}}
+<div class="card card-body mr-1">
         <span class="text">Select an officer to chat</span>
         <div class="users-list" style="margin-top: 1em;">
             @foreach ($user as $ewpofficer)
@@ -143,4 +144,11 @@
             @endforeach
         </div>
     </div>
-</div>
+
+<hr>
+<center>
+    <a class="btn btn-default" data-dismiss="modal" aria-label="Close">Cancel</a>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</center>
+
+{!! Form::close() !!}
