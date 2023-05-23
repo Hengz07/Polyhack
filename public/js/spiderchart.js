@@ -30,7 +30,7 @@ $(".getResult").ready(function(){
                 // },
             
                 title: {
-                    text: 'Emotional-Wellbeing Profling Result',
+                    text: '',
                     // x: -70
                 },
             
@@ -56,8 +56,8 @@ $(".getResult").ready(function(){
                 },
             
                 legend: {
-                    align: 'right',
-                    verticalAlign: 'middle',
+                    align: 'center',
+                    verticalAlign: 'bottom',
                     layout: 'vertical'
                 },
             

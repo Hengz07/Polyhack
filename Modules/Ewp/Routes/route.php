@@ -97,7 +97,11 @@ Route::prefix('assign')->group(function() {
     Route::get('exceldata', 'AssignController@index')->name('ewp.assign.exceldata');
     
 
-});  
+});
+
+Route::prefix('chat')->group(function () {
+    Route::get('/', 'ChatController@index')->name('ewp.chat.index');
+});
 
 Route::prefix('select2')->group(function () {
     

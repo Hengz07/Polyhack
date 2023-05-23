@@ -1,11 +1,44 @@
 @extends('adminlte::page')
 
 @section('content_header')
+
+<link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+<style>
+    .btn-primary{
+        color: #fff;
+        background-color: #1D3456;
+        border-color: #1D3456;
+    }
+    .btn-primary:hover{
+        color: #fff;
+        background-color: #346FB3;
+        border-color: #346FB3;
+        box-shadow: rgb(23 24 25 / 50%) -2px 2px 6px 0px, rgb(28 29 30 / 50%) 0px 0px 0px 0px;
+    }
+
+    .tblrep{
+        background: #E3E6EB;
+        color: #192F59;
+    }
+
+    #scrollToTopButton {
+        position: fixed;
+        bottom: 8rem;
+        right: 1.5rem;
+        z-index: 9999;
+        background: red;
+        border:none;
+    }
+
+</style>
+
 <div class="d-flex">
-    <div class="mr-auto p-2"><h1>Dashboard</h1></div>
-        <div class="p-2">
+    <div class="mr-auto p-3 ml-5"><h1>UM Dashboard</h1></div>
+        <div class="p-3 mr-5">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ route('ewp.dashboards.index') }}">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
                 </ol>
             </nav>
         </div>
@@ -14,192 +47,109 @@
 
 @section('content')
 
+@php
+
+    if(app()->currentLocale() == 'ms-my')
+    {
+        $sessem = 'Semester';
+        $year   = 'Tahun Akademik';
+
+        $date   = 'Tarikh Penilaian';
+        $status   = 'Status';
+
+        $teststart = 'Penilaian EWP';
+        $action = 'Tindakan';
+    }
+    
+    elseif(app()->currentLocale() == 'en')
+    {
+        $sessem = 'Semester';
+        $year   = 'Academic Year';
+
+        $date   = 'Assessment Date';
+        $status   = 'Status';
+
+        $teststart = 'EWP Assessment';
+        $action = 'Action';
+    }
+
+@endphp
+
 <div class="container-fluid">
     <div class="row">
-        <div class="card bg-navy col-sm-12">    
-            {{-- TRANSLATION --}}
-            @php
+        <div class="col-sm-12 pl-5 pr-5 my-4"> 
+            <div class="card card-body m-0 p-2 py-3">
+                <div class="row m-0 p-0">
+                    <div class="col-sm-3 card-body my-auto">
+                        <button id="chatButton" class="btn btn-primary p-3 w-100" data-toggle="modal" data-target="#chatModal">Chat with Caunsellor</button>
+                    </div>
 
-                if(app()->currentLocale() == 'ms-my')
-                {
-                    $sessem = 'Sesi / Semester';
-                    $year   = 'Tahun';
-
-                    $date   = 'Tarikh';
-                    $status   = 'Status';
-
-                    $teststart = 'Mulakan Ujian';
-                }
-                
-                elseif(app()->currentLocale() == 'en')
-                {
-                    $sessem = 'Session / Semester';
-                    $year   = 'Year';
-
-                    $date   = 'Date';
-                    $status   = 'Status';
-
-                    $teststart = 'Start Test';
-                }
-            
-            @endphp
-
-            <span class="card-header">
-                @if (auth()->user()->hasRole(['SiteAdmin', 'Superadmin', 'ModuleAdmin', 'EwpOfficer']))
-                    <a href="/ewp/dashboards/admin_dash">
-                        <button type="button" class="btn btn-info">
-                            Admin
-                        </button>
-                    </a>
-                @endif
-                
-                @foreach ($reports as $report => $rep)
-                @endforeach
-
-                {{-- Start Test --}}
-                @if(isset($schedules))
-                    @if(!isset($rep) || $rep['status'] != 'C' || $rep['session'] != $schedules['session'] || $rep['sem'] != $schedules['semester'])
-                        <a type="button" class="btn btn-primary showReport" data-route="ewp/dashboards/reports" 
-                            id="btn2" data-title="Report" data-toggle="modal" title="Save">{{ $teststart }}</a>
-
-                        <label class="float-right text-white">
-                            {{ $schedules['session'] }} / {{ $schedules['semester'] }}
-                        </label>
-                    @endif
-                @endif
-                {{--  --}}
-            </span>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-6 pl-0"> 
-            <div class="card card-body mr-1">
-                <h2> Report </h2> 
-                <br><br>
-                <div class="table-responsive">
-                    <table class="table table-hover table-bordered">
-                        <thead class="thead-navy bg-navy">
-                            <tr class="text-center">
-                                <th style="width:5%" class="text-center"> # </th>
-                                @if(auth()->user()->user_type == 'student')
-                                    <th style="width:15%" class="text-center"> {{ $sessem }} </th>
-                                @else
-                                    <th style="width:15%" class="text-center"> {{ $year }} </th>
-                                @endif
-                                <th style="width:10%" class="text-center"> {{ $date }} </th>
-                                <th style="width:10%" class="text-center"> {{ $status }} </th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            @if (count($reports) == 0)
-                                <td style="text-align: center" colspan="8">No data availables</td>
-                            @else
-                            
-                                @foreach ($reports as $report => $rep)
+                    <div class="col-sm-3 card-body my-auto">
+                        @if(app()->currentLocale() == 'ms-my')
+                                <table>
                                     <tr>
-                                        <td class="text-center">{{ ++$i }}</td>
-                                        @if(auth()->user()->user_type == 'student')
-                                            <td class="text-center">{{ $rep['session'] }} - {{ $rep['sem'] }}</td>
-                                        @else
-                                            <td class="text-center">{{ $rep['session'] }}</td>
-                                        @endif
-                                        <td class="text-center">{{ date('d/m/Y', strtotime($rep['created_at'])) }}
-                                        <td class="text-center">
-                                                                
-                                            @if($rep['status'] != 'C')
-                                                <div class="d-inline-flex row mx-2">
-                                                    <span class="px-2 text-center font-weight-bold bg-secondary text-white rounded">
-                                                        In Progress
-                                                    </span> 
-                                                </div>
-                                                
-                                            @else
-                                                <div class="d-inline-flex mx-2">
-                                                    <span class="px-2 text-center font-weight-bold bg-success text-white rounded">
-                                                        Done
-                                                    </span>
+                                        <td><i class="las la-university pr-3" style="font-size: 40px;"></i></td>
+                                        <td class="mr-2">Seksyen Pengurusan Psikologi & Kaunseling</td>
+                                    </tr>
+                                </table>
+                        @elseif(app()->currentLocale() == 'en')
+                                <table>
+                                    <tr>
+                                        <td><i class="las la-university pr-3" style="font-size: 40px;"></i></td>
+                                        <td>Section of Psychology Management & Counseling</td>
+                                    </tr>
+                                </table>
+                        @endif
+                    </div>
 
-                                                    &nbsp; 
-                                                    
-                                                    <a type="button" id="modal-button" class="px-2 btn btn-dark btn-sm fa-list-alt fa-2 fas getResult"></a> 
-                                                </div> 
-                                            @endif
-                                            <dialog id="modal">
-                                                <div class="card direct-chat direct-chat-primary">
-                                                <div class="card-header">
-                                                <h3 class="card-title">Direct Chat</h3>
-                                                <div class="card-tools">
-                                                <span title="3 New Messages" class="badge badge-primary">3</span>
-                                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                                <i class="fas fa-minus"></i>
-                                                </button>
-                                                <button type="button" class="btn btn-tool" title="Contacts" data-widget="chat-pane-toggle">
-                                                <i class="fas fa-comments"></i>
-                                                </button>
-                                                <button type="button" class="btn btn-tool" id="modal-close" data-card-widget="remove">
-                                                <i class="fas fa-times"></i>
-                                                </button>
-                                                </div>
-                                                </div>
+                    <div class="col-sm-3 card-body my-auto">
+                        @if(app()->currentLocale() == 'ms-my')
+                                <table>
+                                    <tr>
+                                        <td><i class="las la-map-marker-alt pr-3" style="font-size: 40px;"></i></td>
+                                        <td>Blok D Aras 1, Kompleks Peradanasiswa Universiti Malaya.</td>
+                                    </tr>
+                                </table>
+                        @elseif(app()->currentLocale() == 'en')
+                                <table>
+                                    <tr>
+                                        <td><i class="las la-map-marker-alt pr-3" style="font-size: 40px;"></i></td>
+                                        <td>Level 1, Block D, Kompleks Perdanasiswa, Universiti Malaya.</td>
+                                    </tr>
+                                </table>
+                        @endif
+                    </div>
 
-                                                <div class="card-body">
-
-                                                <div class="direct-chat-messages">
-
-                                                <div class="direct-chat-msg">
-                                                <div class="direct-chat-infos clearfix">
-                                                <span class="direct-chat-name float-left">Alexander Pierce</span>
-                                                <span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>
-                                                </div>
-
-                                                <img class="direct-chat-img" src="dist/img/user1-128x128.jpg" alt="message user image">
-
-                                                <div class="direct-chat-text">
-                                                Is this template really for free? That's unbelievable!
-                                                </div>
-
-                                                </div>
-
-
-                                                <div class="direct-chat-msg right">
-                                                <div class="direct-chat-infos clearfix">
-                                                <span class="direct-chat-name float-right">Sarah Bullock</span>
-                                                <span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span>
-                                                </div>
-
-                                                <img class="direct-chat-img" src="dist/img/user3-128x128.jpg" alt="message user image">
-
-                                                <div class="direct-chat-text">
-                                                You better believe it!
-                                                </div>
-
-                                                </div>
-
-
-                                                <div class="direct-chat-msg">
-                                                <div class="direct-chat-infos clearfix">
-                                                <span class="direct-chat-name float-left">Alexander Pierce</span>
-                                                <span class="direct-chat-timestamp float-right">23 Jan 5:37 pm</span>
-                                                </div>
-
-                                                <img class="direct-chat-img" src="dist/img/user1-128x128.jpg" alt="message user image">
-
-                                                <div class="direct-chat-text">
-                                                Working with AdminLTE on a great new app! Wanna join?
-                                                </div>
-                                                </div>
-                                            </dialog>
-
-                                        </td>
-                                    </tr> 
-                                @endforeach
-                                
-                            @endif
-                        </tbody>
-                    </table>
+                    <div class="col-sm-3 card-body my-auto">
+                        <table>
+                            <tr>
+                                <td><i class="las la-phone pr-3" style="font-size: 40px;"></i></td>
+                                <td>03-79673244</br>03-79673322</td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
+
+                <div class="modal" id="chatModal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Chat Session</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Add your chat session content here -->
+                                <p>This is the chat session content.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    
             </div>
         </div>
 
@@ -215,51 +165,141 @@
             modalClose.addEventListener('click', () => {
                 modal.close();
             });
+
+            $(function() {
+                $('#chatButton').click(function() {
+                    $('#chatModal').modal('show');
+                });
+            });
         </script>
         
-        <div class="col-sm-6 pr-0">
-            <div class="card card-body ml-1">
-                <h2 class="text-center"> Emotional-Wellbeing Profiling Result </h2> <br>
-                <div class="col-sm">
-                    <figure class="highcharts-figure col-sm">
-                        <div id="container"></div>
-                        
-                        {{-- <p class="highcharts-description">
-                            A spiderweb chart shows the test results of the Emotional-Wellbeing Profiling (EWP) test that has been answered by users (student/staffs).
-                        </p> --}}
-                    </figure>
+        <div class="col-sm-12 pl-5 pr-5 my-4">
+            <div class="card">
+                <div class="card-header" style="cursor: move; background: #E3E6EB; color:#001f3f;">
+                <h3 class="card-title p-2 text-bold">Emotional-Wellbeing Profiling Record</h3>
                 </div>
+                <!-- /.card-header -->
+                <div class="card-body table-responsive px-5 py-4">
+                
+                <table class="table table-hover text-nowrap mb-2">
+                    <thead>
+                        <tr>
+                            <td colspan="6">
+                                @foreach ($reports as $report => $rep)
+                                @endforeach
+
+                                {{-- Start Test --}}
+                                @if(isset($schedules))
+                                
+                                    @if(!isset($rep) || $rep['status'] != 'C' || $rep['session'] != $schedules['session'] || $rep['sem'] != $schedules['semester'])
+                                        <a type="button" class="btn btn-primary showReport float-right mb-2 p-3 text-wrap" style="width:12rem;" data-route="ewp/dashboards/reports" id="btn2" data-title="Report" data-toggle="modal" title="Save">{{ $teststart }}</a>
+                                    @endif
+                                @endif
+                            </td>
+                        </tr>
+                    </thead>
+
+                    <thead>
+                        <tr>
+                            <th> </th>
+                            <th> {{ $year }} </th>
+                            <th> {{ $sessem }} </th>
+                            <th> {{ $date }} </th>
+                            <th> {{ $status }} </th>
+                            <th><div class="float-right"> {{ $action }} </div></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (count($reports) == 0)
+                            <td style="text-align: center" colspan="6">No data availables</td>
+                        @else
+                        
+                            @foreach ($reports as $report => $rep)
+                                <tr>
+                                    <td>{{ ++$i }}</td>
+                                    <td>{{ $rep['session'] }}</td>
+                                    @if(auth()->user()->user_type == 'student')
+                                        <td>{{ $sessem }} {{ $rep['sem'] }}</td>
+                                    @else
+                                        <td> ~ </td>
+                                    @endif
+                                    <td>{{ date('d/m/Y', strtotime($rep['created_at'])) }}</td>
+                                    <td>
+                                                            
+                                        @if($rep['status'] != 'C')
+                                            Scheduled
+                                        @else
+                                            Done
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <div class="float-right">
+                                            <a type="button" id="modal-button" class="px-2 btn btn-sm getResult p-0 m-0"><i class="las la-eye" style="font-size: 32px;"></i></a>
+                                        </div>
+                                    </td>
+                                </tr> 
+                            @endforeach
+                            
+                        @endif
+                    </tbody>
+                </table>
+                </div>
+                <!-- /.card-body -->
             </div>
+            <!-- /.card -->
         </div>
 
-        <div class="card bg-light col-sm-12">
-            <span class="card-body">
-                @if(app()->currentLocale() == 'ms-my')
-                    <h5 class="font-weight-bold text-dark">
-                        Seksyen Pengurusan Psikologi & Kaunseling
-                    </h5>
-                    <label class="small text-black">
-                        Blok D Aras 1, Kompleks Peradanasiswa Universiti Malaya.
-                    </label>
-
-                @elseif(app()->currentLocale() == 'en')
-                    <h5 class="font-weight-bold text-dark">
-                        Section of Psychology Management & Counseling
-                    </h5>
-                    <label class="small text-black">
-                        Level 1, Block D, Kompleks Perdanasiswa, Universiti Malaya.
-                    </label>
-                @endif
-
-                <br><br>
-
-                <i class="fa fa-phone" aria-hidden="true"></i>
-                <label class="font-weight-bold text-black">&nbsp; 03-79673244 / 3322</label>
+        <div class="col-sm-12 pl-5 pr-5 my-4">
+            <div class="card">
+                <div class="card-header" style="cursor: move; background: #E3E6EB; color:#001f3f;">
+                <h3 class="card-title p-2 text-bold">Emotional-Wellbeing Profiling Result</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body table-responsive px-5 py-4">
                 
-            </span>
+                    <div class="row">
+
+                        <div class="col-sm-4 my-auto">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        </div>
+                        
+                        <div class="col-sm-8 my-auto">
+                            <figure class="highcharts-figure col-sm">
+                                <div id="container"></div>
+                                
+                                {{-- <p class="highcharts-description">
+                                    A spiderweb chart shows the test results of the Emotional-Wellbeing Profiling (EWP) test that has been answered by users (student/staffs).
+                                </p> --}}
+                            </figure>
+                        </div>
+                    </div>
+                
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
         </div>
     </div>
 </div>
+
+<button id="scrollToTopButton" class="btn btn-primary float-right"><i class="las la-angle-up"></i></button>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const scrollToTopButton = document.getElementById('scrollToTopButton');
+
+    scrollToTopButton.addEventListener('click', function() {
+        scrollToTop();
+    });
+
+    // Function to scroll the page to the top
+    function scrollToTop() {
+        // Scroll smoothly to the top of the page
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    });
+</script>
+
 @include('layouts.delete')
 @include('layouts.modal')
 
