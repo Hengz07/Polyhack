@@ -1,6 +1,7 @@
 @extends('adminlte::page')
 
 @section('content_header')
+<link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/font-awesome-line-awesome/css/all.min.css"> 
 <style>
   *{
     
@@ -42,76 +43,7 @@
   td{
     padding:10em;
   }
-  .small-box{
-  border-block-start-style: solid;
-  border-block-start-color: #001f3f;
-  transform: translateY(3px);
-  animation: wavyText 10s ease-in-out infinite;
-  
-}
-#focy{
-  animation: wavyText2 10s ease-in-out infinite;
-}
-#mo{
-  animation-delay: 1s;
-}
 
-#mo2 {
-  animation-delay: 2s;
-}
-
-#mo3 {
-  animation-delay: 3s;
-}
-
-
-@keyframes wavyText {
-  0%{
-    
-  }
-  20%{
-    background: #1D3456;
-    color: white;
-    
-  }
-  40%{
-    background: #1D3456;
-    color: white;
-    
-  }
-  60% {
-    background: #1D3456;
-    color: white;
-    
-  }
-  80% {
-    background: #1D3456;
-    color: white;
-    
-  }
-  100% {
-  }
-}
-
-@keyframes wavyText2 {
-  0%{
-    
-  }
-  20%{
-    color: white;
-  }
-  40%{
-    color: white;
-  }
-  60% {
-    color: white;
-  }
-  80% {
-    color: white;
-  }
-  100% {
-  }
-}
 
   @media(max-width: 424px){
     .contoh{
@@ -134,26 +66,69 @@
       border-style: solid;
       border-color: black
     }
+    .johnnys{
+      width: 100%;
+      margin-inline: 0.5em;
+    }
+    
   }
   #johns{
     background: #1D3456;
     color: #FFFFFF; 
     width: 100%;
   }
-  .date{
-    text-shadow: 0 1px 0 #CCCCCC, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 
-    0 5px 0 #aaa, 0 6px 1px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.3), 
-    0 3px 5px rgba(0,0,0,.2), 0 5px 10px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.2), 0 20px 20px rgba(0,0,0,.15);
-    font-weight: bold
+  .container-fluid{
+    width: 97%;
+  }
+  .mr-2{
+    margin-right: -2em;
+  }
+  .p-4{
+    padding: 1.5rem !important;
+  }
+  table,th,td{
+    padding: 0.9rem !important;
+  }
+  #scrollToTopButton {
+  position: fixed;
+  bottom: 8rem;
+  right: 1.2rem;
+  z-index: 9999;
+  background: red;
+  border: none;
+  display: block; /* Initially show the button */
+  transition: opacity 0.3s ease-in-out; /* Add transition effect */
+  opacity: 1; /* Initially fully visible */
 }
 
-.time{
-  text-shadow: 0 1px 0 #CCCCCC, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 
-    0 5px 0 #aaa, 0 6px 1px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.3), 
-    0 3px 5px rgba(0,0,0,.2), 0 5px 10px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.2), 0 20px 20px rgba(0,0,0,.15);
-  font-weight: bold
+#scrollToTopButton.hidden {
+  opacity: 0; /* Make the button transparent when hidden */
+  pointer-events: none; /* Disable button clicks when hidden */
 }
 </style>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+  const scrollToTopButton = document.getElementById('scrollToTopButton');
+
+  scrollToTopButton.addEventListener('click', function() {
+    scrollToTop();
+  });
+
+  window.addEventListener('scroll', function() {
+    if (window.pageYOffset > 0) {
+      scrollToTopButton.classList.remove('hidden'); // Show the button
+    } else {
+      scrollToTopButton.classList.add('hidden'); // Hide the button
+    }
+  });
+
+  // Function to scroll the page to the top
+  function scrollToTop() {
+    // Scroll smoothly to the top of the page
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}); 
+</script>
 @php
 
     if(app()->currentLocale() == 'ms-my')
@@ -161,7 +136,7 @@
         $title = 'Dashboard UM';
         $tsurvey = 'Jumlah Tinjauan';
         $tuser = 'Jumlah Pengguna';
-        $tvisitor = 'Jumlah Intervensi Khusus';
+        $tvisitor = 'Jumlah Intervensi<br>Khusus';
 
         $stff = 'Staf';
         $stdnt = 'Pelajar';
@@ -183,7 +158,7 @@
         $title = 'UM Dashboard';
         $tsurvey = 'Total Survey';
         $tuser = 'Total User';
-        $tvisitor = 'Total Special Intervention ';
+        $tvisitor = 'Total Special<br>Intervention';
 
         $stff = 'Staff';
         $stdnt = 'Student';
@@ -201,29 +176,15 @@
     }
 
 @endphp
-  <div class="d-flex">
-      <div class="mr-auto p-2" style="text-shadow: 0 1px 0 #CCCCCC, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.3), 0 3px 5px rgba(0,0,0,.2), 0 5px 10px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.2), 0 20px 20px rgba(0,0,0,.15);" ><h1>{{$title}}</h1></div>
-      <div class="p-1">
+  <div class="johnnys" style="display:flex; flex-wrap: wrap; gap:6px; width:96%;">
+      <div class="ml-5 p-2" ><h1>{{$title}}</h1></div>
+      <div class="ml-auto p-2">
               <nav aria-label="breadcrumb">
                   <ol class="breadcrumb">
                       <li class="breadcrumb-item"><a href="{{ route('ewp.dashboards.index') }}">Home</a></li>
-                      <li class="breadcrumb-item active" aria-current="page">Admin Dashboard</li>
+                      <li class="breadcrumb-item active" aria-current="page" style="color:#1D3456; font-weight:bold;">Admin Dashboard</li>
                   </ol>
               </nav>
-              <div class="datetime">
-                <div class="date">
-                  <span id="dayname">Day</span>,
-                  <span id="month">Month</span>
-                  <span id="daynum">00</span>,
-                  <span id="year">Year</span>
-                </div>
-                <div class="time">
-                  <span id="hour">00</span>:
-                  <span id="minutes">00</span>:
-                  <span id="seconds">00</span>
-                  <span id="period">AM</span>
-                </div>
-              </div>  
           </div>
       </div>
 @stop
@@ -235,9 +196,8 @@
     <body onload="initClock()">
         <section class="ftco-section">
             {{-- Header/Title & Manual/Start Test Button Section --}}
-            <div class="card-header">
-    
-              <div class="card-tools shadow-lg rounded">
+            <div class="card-header" style="border-style:solid; border-color:transparent;">
+              <div class="card-tools shadow-sm rounded">
                   <div class="input-group-append">
                     <form action="{{ route('ewp.dashboards.admin_dash', ['year' => $selectedYear]) }}" method="GET">
                       <select class="form-control" name="year" id="year" onchange="this.form.submit()">
@@ -250,38 +210,38 @@
                 </div>
               </div>
               {{-- @if($selectedYear == date('Y')) --}}
-              <div class="col-md-12">
+              <div class="col-md-20" style="display: inline-flexbox;">
                 <div class="row">
                     <div class="col-md-4 col-15">
                       <!-- small card -->
                       <div id="mo" class="small-box shadow p-3 mb-5  rounded">
                         <div class="inner">
-                          <h1>
+                          <h1 style="font-weight:bold;">
                             {{ $overallsurvey }}
                           </h1>
-                          <p class="mb-4">{{$tsurvey}}</p>
+                          <p class="mb-5" style="font-weight:bold; font-size:20px; display:block;">{{$tsurvey}}</p>
                         </div>
                         <div class="icon">
-                          <i class="fas fa-school"></i>
+                          <i class='fas fa-file-alt' style='font-size:86px; color:#001f3f;'></i>
                         </div>
-                        <div class="card-footer">
+                        <div class="card-footer" style="background: transparent;">
                           <div class="row">
                             <div class="col-sm-6 border-right">
                               <div class="description-block">
-                                <h5 id="focy" class="description-header">
+                                <h5 id="focy" class="description-header" style="font-weight:bold;">
                                   {{$staffsurvey}}
                                 </h5>
-                                <span class="description-text">{{$stff}}</span>
+                                <span class="description-text" style="font-weight:bold; ">{{$stff}}</span>
                               </div>
                               <!-- /.description-block -->
                             </div>
                             <!-- /.col -->
                             <div class="col-sm-6">
                               <div class="description-block">
-                                <h5 id="focy" class="description-header">
+                                <h5 id="focy" class="description-header" style="font-weight:bold;">
                                   {{$studentsurvey}}
                                 </h5>
-                                <span class="description-text">{{$stdnt}}</span>
+                                <span class="description-text" style="font-weight:bold;">{{$stdnt}}</span>
                               </div>
                               <!-- /.description-block -->
                             </div>
@@ -292,31 +252,32 @@
                       </div>
                     </div>
                         
-                          <div class="col-md-4 col-12">
+                          <div class="col-md-4 col-15">
                             <!-- small card -->
-                            <div id="mo2" class="small-box shadow p-3 mb-5  rounded" style="">
+                            <div id="mo2" class="small-box shadow p-3 mb-5 rounded" style="">
                               <div class="inner">
-                                <h1>{{$data['total_user']}}</h1>
+                                <h1 style="font-weight:bold;">{{$data['total_user']}}</h1>
 
-                                <p class="mb-4">{{$tuser}}</p>
+                                <p class="mb-5"style="font-weight:bold; font-size:20px; display:block;">{{$tuser}}</p>
                               </div>
                               <div class="icon">
-                                <i class="fas fa-user-tie"></i>
+                                {{-- <i class="fas fa-user-tie"></i> --}}
+                                <i class='far fa-user-circle' style='color:#001f3f; font-size:86px;'></i>
                               </div>
-                              <div class="card-footer">
+                              <div class="card-footer" style="background: transparent;">
                                 <div class="row">
                                   <div class="col-sm-6 border-right">
                                     <div class="description-block">
-                                      <h5 id="focy" class="description-header">{{ $data['total_student'] }}</h5>
-                                      <span class="description-text">{{$stff}}</span>
+                                      <h5 id="focy" class="description-header" style="font-weight:bold; display:block;">{{ $data['total_student'] }}</h5>
+                                      <span class="description-text" style="font-weight:bold;">{{$stff}}</span>
                                     </div>
                                     <!-- /.description-block -->
                                   </div>
                                   <!-- /.col -->
                                   <div class="col-sm-6">
                                     <div class="description-block">
-                                      <h5 id="focy" class="description-header">{{ $data['total_staff'] }}</h5>
-                                      <span class="description-text">{{$stdnt}}</span>
+                                      <h5 id="focy" class="description-header" style="font-weight:bold;">{{ $data['total_staff'] }}</h5>
+                                      <span class="description-text" style="font-weight:bold;">{{$stdnt}}</span>
                                     </div>
                                     <!-- /.description-block -->
                                   </div>
@@ -331,26 +292,26 @@
                             <!-- small card -->
                             <div id="mo3" class="small-box shadow p-3 mb-5  rounded" style="">
                               <div class="inner">
-                                <h1>{{$results + $results2}}</h1>
-                                <p class="mb-4">{{$tvisitor}}</p>
+                                <h1 style="font-weight:bold;">{{$results + $results2}}</h1>
+                                <p class="mb-3" style="font-weight:bold; font-size:20.7px; text-align:;">{!! $tvisitor !!}</p>
                             </div>
                               <div class="icon">
-                                <i class="fas fa-chart-pie"></i>
+                                <i class="fa fa-comment-medical" style="font-size:86px; color:#001f3f;"></i>
                               </div>
-                                <div class="card-footer">
+                                <div class="card-footer" style="background: transparent;">
                                   <div class="row">
                                     <div class="col-sm-6 border-right">
                                       <div class="description-block">
-                                        <h5 id="focy" class="description-header">{{$results}}</h5>
-                                        <span class="description-text">{{$stff}}</span>
+                                        <h5 id="focy" class="description-header" style="font-weight:bold;">{{$results}}</h5>
+                                        <span class="description-text" style="font-weight:bold;">{{$stff}}</span>
                                       </div>
                                       <!-- /.description-block -->
                                     </div>
                                     <!-- /.col -->
                                     <div class="col-sm-6">
                                       <div class="description-block">
-                                        <h5 id="focy" class="description-header">{{$results2}}</h5>
-                                        <span class="description-text">{{$stdnt}}</span>
+                                        <h5 id="focy" class="description-header" style="font-weight:bold;">{{$results2}}</h5>
+                                        <span class="description-text" style="font-weight:bold;">{{$stdnt}}</span>
                                       </div>
                                       <!-- /.description-block -->
                                     </div>
@@ -364,37 +325,47 @@
                     </div>
                 </div>
 
-                
+                {{-- <button id="scrollToTopButton" class="btn btn-primary float-right"><i class="fas fa-angle-up"></i></button> --}}
+                <button id="scrollToTopButton" class="btn btn-primary float-right"><i class="fas fa-angle-up"></i></button>
                 {{-- @endif --}}
             <!--------TABLE INFO-------->
             
             <div class="row">         
               <div class="col-12">
                 <div class="card shadow-lg rounded">
-                  <div class="card-header rounded" style="cursor: move; background: #1D3456; color:white; border-style:solid; border-color:white;">
-                    <h3 class="card-title">{{$title2}}</h3>
-                        <form action="{{ route('ewp.dashboards.admin_dash') }}" method="POST">
-                          @csrf
-                          <button type="submit" class="btn btn-primary" style="float:right;"><i class="fas fa-user-friends"></i>
-                                                    <span class="badge badge-light" style="position: absolute; top: 10px; right: 15px;">{{ $unassignedCount }}</span></button>
-                      </form>
+                  <div class="card-header rounded" style="cursor: move; background: #E3E6EB; color:#001f3f;">
+                    <h3 class="card-title p-2 text-bold">{{$title2}}</h3>
                   </div>
-                  <script>
-                    function split() {
-                        alert("Button clicked!");
-                    }
-                    </script>
                   <!-- /.card-header -->
-                  <div class="card-body table-responsive p-3 table-striped " style="border-style:solid; border-color:white;">
-                    <table class="table table-head-fixed text-nowrap table-bordered table-hover shadow rounded">
+                  
+                  <div class="card-body table-responsive px-5">
+                    {{-- <form class="form-inline float-right mb-3" action="{{ route('ewp.dashboards.admin_dash') }}" method="POST">
+                      @csrf
+                      <button type="submit" class="btn btn-secondary">
+                        Unassigned Report <span class="badge badge-light">{{ $unassignedCount }}</span>
+                      </button>
+                    </form> --}}
+                    <table class="table text-nowrap  mb-2" >
                       <thead>
+                      <tr>
+                        <td colspan="6">
+                        <form class="form-inline d-flex justify-content-end" action="{{ route('ewp.dashboards.admin_dash') }}" method="POST">
+                          @csrf
+                          <button type="submit" class="btn" style="color:#001f3f; background:#E3E6EB; font-weight:bold;">
+                            Unassigned Report <span class="badge badge-light" style="color:#001f3f;">{{ $unassignedCount }}</span>
+                          </button>
+                        </form>    
+                      
+                      </td>
+                    </tr>
+                    
                         <tr>
-                          <th class="text-center" style="background:#1D3456; color:white;">#</th>
-                          <th style="background:#1D3456; color:white;" >{{$name}}</th>
-                          <th class="text-center" style="background:#1D3456; color:white;">{{$complete}}</th>
-                          <th class="text-center" style="background:#1D3456; color:white;">{{$reference}}</th>
-                          <th class="text-center" style="background:#1D3456; color:white;">{{$incomplete}}</th>
-                          <th class="text-center" style="background:#1D3456; color:white;">{{$total}}</th>
+                          <th class=""></th>
+                          <th >{{$name}}</th>
+                          <th class="">{{$complete}}</th>
+                          <th class="">{{$reference}}</th>
+                          <th class="">{{$incomplete}}</th>
+                          <th class="">{{$total}}</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -405,10 +376,10 @@
                               <tr>
                                   <td class="text-center">{{ ++$i }}.</td>
                                   <td>{{ $items->name }}</td>
-                                  <td class="text-center">{{ $items->get_assign->where('status', 'S')->count() }}</td>
-                                  <td class="text-center">{{ $items->get_assign->where('status', 'R')->count() }}</td>
-                                  <td class="text-center">{{ $items->get_assign->where('status', 'B')->count() }}</td>
-                                  <td class="text-center">{{ $items->total_assign->first()->total_count ?? 0 }}</td>
+                                  <td class="">{{ $items->get_assign->where('status', 'S')->count() }}</td>
+                                  <td class="">{{ $items->get_assign->where('status', 'R')->count() }}</td>
+                                  <td class="">{{ $items->get_assign->where('status', 'B')->count() }}</td>
+                                  <td class="">{{ $items->total_assign->first()->total_count ?? 0 }}</td>
                               </tr>
                           @endforeach
                           
@@ -422,247 +393,129 @@
               </div>
             </div>
             <!-- /.row -->
+
+            <div class="card shadow-lg rounded">
+              <div class="card-header ui-sortable-handle" style="cursor: move; background: #E3E6EB; color:#001f3f;">
+              <h3 class="card-title p-1" style="font-weight:bold; ">
+              {{$title3}}
+              </h3>
+              <div class="card-tools">
+              <ul class="nav nav-pills ml-auto">
+              {{-- <li class="nav-item">
+              <a class="nav-link active" href="#revenue-chart" style="color: white;" data-toggle="tab">Area</a>
+              </li>
+              <li class="nav-item">
+              <a class="nav-link" href="#sales-chart" style="color: white;" data-toggle="tab">Donut</a>
+              </li> --}}
+              </ul>
+              </div>
+              </div>
+              <div class="card-body">
+              <div class="tab-content p-0">
+                {{-- <canvas id="myChart"></canvas> --}}
+              <div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 500px;"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+              <canvas id="revenue-chart-canvas" height="300" style="height: 300px; display: block; width: 503px;" width="503" class="chartjs-render-monitor"></canvas>
+              </div>
+              {{-- <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 500px;">
+              <canvas id="sales-chart-canvas" height="300" style="height: 300px; display: block; width: 503px;" width="503" class="chartjs-render-monitor" width="0"></canvas>
+              </div> --}}
+              </div>
+              </div>
+              </div>
           <!--------TABLE INFO-------->
-          <div class="card shadow-lg rounded">
-            <div class="card-header ui-sortable-handle" style="cursor: move; background: #1D3456; color:white">
-            <h3 class="card-title">
-            {{$title3}}
-            </h3>
-            <div class="card-tools">
-            <ul class="nav nav-pills ml-auto">
-            <li class="nav-item">
-            <a class="nav-link active" href="#revenue-chart" style="color: white;" data-toggle="tab">Area</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="#sales-chart" style="color: white;" data-toggle="tab">Donut</a>
-            </li>
-            </ul>
-            </div>
-            </div>
-            <div class="card-body">
-            <div class="tab-content p-0">
+          
             
-            <div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 500px;"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
-            <canvas id="revenue-chart-canvas" height="300" style="height: 300px; display: block; width: 503px;" width="503" class="chartjs-render-monitor"></canvas>
-            </div>
-            <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 500px;">
-            <canvas id="sales-chart-canvas" height="300" style="height: 300px; display: block; width: 503px;" width="503" class="chartjs-render-monitor" width="0"></canvas>
-            </div>
-            </div>
-            </div>
-            </div>
         
     </div>
 </section>
 </body>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 
 <script>
+      // setup 
+      const monthlyCounts = {!! $monthly !!}.map(item => item.count);
+      const data = {
+  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+  datasets: [
+    {
+      label: 'Students',
+      data: <?php echo json_encode($student_counts); ?>,
+      backgroundColor: ['rgba(53, 111, 179, 0.7)'],
+      borderWidth: 1,
+      borderRadius: 7,
+    },
+    {
+      label: 'Staff',
+      data: <?php echo json_encode($staff_counts); ?>,
+      backgroundColor: ['rgba(99, 138, 211, 0.5)'],
+      borderWidth: 1,
+      borderRadius: 7,
+    },
+  ],
+};
 
-const areaChart = document.getElementById('revenue-chart-canvas');
-const donutChart = document.getElementById('sales-chart-canvas');
-var color = [
-    '#0c172b',
-    '#15274a',
-    '#2e335a',
-    '#192F59',
-    '#223f78',
-    '#2a4f95',
-    '#264787',
-    '#2f4369',
-    '#2f57a6',
-    '#233067',
-    '#346FB3',
-    '#4472cb',
-    '#46587a',
-    '#638ad3',
-    '#7295D7',
-    '#1a3e66',
-    '#82a1dc',
-    '#A0B8E4',
-    '#bfcfed',
-    '#DDE6F6',
-  ];
-
-  new Chart(areaChart, {
+// Chart configuration
+const config = {
   type: 'bar',
-  data: {
-    labels: [
-      @foreach ($overall as $stat)
-        @php
-            $x = json_decode($stat->ptj_desc, true);
-        @endphp
-        "{{ $x['desc'] }}",
-      @endforeach
-    ],
-    datasets: [{
-      label: '{{ $stdnt }}',
-      data: [
-        @foreach ($overall as $stat)
-          "{{ $stat->student_count ?? 0 }}",
-        @endforeach
-    ],
-    borderWidth: 1,
-    backgroundColor: 'rgba(168, 62, 50, 1)',
-    categoryPercentage: 0.4,
-    },
-    {
-      label: '{{ $stff }}',
-      data: [
-        @foreach ($overall as $stat)
-          "{{ $stat->staff_count ?? 0 }}",
-        @endforeach
-    ],
-    borderWidth: 1,
-    backgroundColor: 'rgba(4, 143, 55, 1)',
-    categoryPercentage: 0.4,
-    },
-    {
-      label: '{{ $tsurvey }}',
-      data: [
-        @foreach ($overall as $stat)
-          "{{ $stat->count ?? 0 }}",
-        @endforeach
-    ],
-    borderWidth: 1,
-    backgroundColor: color,
-    grouped: false,
-    }]
-  },
+  data,
   options: {
+    interaction: {
+      mode: 'index',
+    },
     maintainAspectRatio: false,
     plugins: {
       legend: {
         position: 'bottom',
         display: true,
         labels: {
-          fontColor: 'black'
-        }
-      }
+          usePointStyle: true,
+        },
+      },
     },
     scales: {
+      x: {
+        stacked: true,
+        grid: {
+          display: false, // Remove x-axis gridlines
+          drawBorder: false
+        },
+      },
       y: {
         beginAtZero: true,
+        stacked: true,
         title: {
           display: true,
-          text: '{{ $tsurvey }}',
-        }
-      },
-      x: {
+          text: 'Total',
+        },
         grid: {
-          display: false,
-        }
+          display: true,
+          borderColor: 'rgba(0, 0, 0, 0.1)', // Set gridline color
+          borderDash: [5, 5], // Set border dash pattern (5 pixels dashed, 5 pixels gap)
+          drawBorder: false
+        },
+        ticks: {
+          stepSize: 1, // Adjust the step size as needed
+          callback: function (value, index, values) {
+            return value.toString(); // Display the tick value as a string
+          },
       },
-    }
-  }
-});
-
-
-new Chart(donutChart, {
-type: 'doughnut',
-data: {
-  labels: [
-    @foreach ($overall as $stat)
-        @php
-            $x = json_decode($stat->ptj_desc, true);
-        @endphp
-        "{{ $x['desc'] }}",
-      @endforeach
-  ],
-  datasets: [{
-    label: '{{$tsurvey}}',
-    data: [
-      @foreach ($overall as $stat)
-      "{{ $stat->count ?? 0 }}",
-      @endforeach
-    ],
-    borderWidth: 1,
-    backgroundColor: color,
-  }]
-},
-options: {
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      position: 'bottom',
-      display: true,
-      labels: {
-        fontColor: 'black'
-      }
-    }
+    },
+    },
   },
-  scales: {
-    y: {
-      beginAtZero: true,
-      title: {
-        display: true,
-        text: '{{$tsurvey}}',
-      }
-    },
-    x: {
-      grid: {
-        display: false,
-      }
-    },
-  }
-}
-});
+};
 
-function updateClock(){
-      var now = new Date();
-      var dname = now.getDay(),
-          mo = now.getMonth(),
-          dnum = now.getDate(),
-          yr = now.getFullYear(),
-          hou = now.getHours(),
-          min = now.getMinutes(),
-          sec = now.getSeconds(),
-          pe = "AM";
-		  
-          if(hou >= 12){
-            pe = "PM";
-          }
-          if(hou == 0){
-            hou = 12;
-          }
-          if(hou > 12){
-            hou = hou - 12;
-          }
+    // render init block
+    const myChart = new Chart(
+      document.getElementById('revenue-chart-canvas'),
+      config
+    );
 
-          Number.prototype.pad = function(digits){
-            for(var n = this.toString(); n.length < digits; n = 0 + n);
-            return n;
-          }
-
-          var months = ["January", "February", "March", "April", "May", "June", "July", "Augest", "September", "October", "November", "December"];
-          var week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-          var ids = ["dayname", "month", "daynum", "year", "hour", "minutes", "seconds", "period"];
-          var values = [week[dname], months[mo], dnum.pad(2), yr, hou.pad(2), min.pad(2), sec.pad(2), pe];
-          for(var i = 0; i < ids.length; i++)
-          document.getElementById(ids[i]).firstChild.nodeValue = values[i];
-    }
-
-    function initClock(){
-      updateClock();
-      window.setInterval("updateClock()", 1);
-    }
-/*
-      #056608
-      #50C878
-      #FF2400
-      #87CEEB
-      #DC143C
-  
-var r = Math.random();
-var g = Math.random();
-var b = Math.random();
-var a = Math.random();
-
-return 'rgba(' + r + ', ' + g + ', ' + b + ', ' + a + ')';
-*/
+    // Instantly assign Chart.js version
+    const chartVersion = document.getElementById('chartVersion');
+    chartVersion.innerText = Chart.version;
 </script>
+
         </section>
     </body>
 </div>

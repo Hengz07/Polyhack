@@ -3,6 +3,7 @@
 @section('title', $title ?? "")
 
 @section('content_header')
+
 <div class="d-flex">    
     <div class="mr-auto p-2"><h1>Rekod Saringan</h1></div>
     <div class="p-2">

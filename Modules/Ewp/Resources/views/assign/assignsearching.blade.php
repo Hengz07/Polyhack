@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/font-awesome-line-awesome/css/all.min.css"> 
 <div class="container-fluid">
     <div class="{{ config('adminlte.card_default') }}"> 
         <div class="card-header"> 

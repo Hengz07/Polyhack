@@ -208,18 +208,70 @@ class EwpController extends Controller
             ->whereYear('created_at', '=', $selectedYear)
             ->count();
 
+    
+        $staffsurvey2 = Reports::join('users', 'ewp_overall_report.profile_id', '=', 'users.id')
+            ->where('users.user_type', '=', 'staff')
+            ->whereMonth('ewp_overall_report.created_at', '=', date('m'))
+            ->count();
+        // Get student survey count for current month
+        $studentsurvey2 = Reports::join('users', 'ewp_overall_report.profile_id', '=', 'users.id')
+            ->where('users.user_type', '=', 'student')
+            ->whereMonth('ewp_overall_report.created_at', '=', date('m'))
+            ->count();
+        
+        // Get overall survey count for current month
+        $overallsurvey2 = Reports::select('profile_id')
+            ->whereMonth('created_at', '=', date('m'))
+            ->count();
 
-            // $overalls = Profile::join('ewp_overall_report', 'profiles.user_id', '=', 'ewp_overall_report.profile_id')
-            // ->leftJoin('users', 'profiles.user_id', '=', 'users.id')
-            // ->whereYear('ewp_overall_report.created_at', '=', $selectedYear)
-            // ->select(
-            //     DB::raw("jsonb_array_elements(ptj)->>'desc' as ptj_desc"),
-            //     DB::raw("count(*) as count"),
-            //     DB::raw("SUM(CASE WHEN users.user_type = 'student' THEN 1 ELSE 0 END) as student_count"),
-            //     DB::raw("SUM(CASE WHEN users.user_type = 'staff' THEN 1 ELSE 0 END) as staff_count")
-            // )
-            // ->groupBy('ptj_desc')
-            // ->get();
+        // $monthly = Reports::join('users', 'ewp_overall_report.profile_id', '=', 'users.id')
+        //     ->selectRaw('EXTRACT(MONTH FROM ewp_overall_report.created_at) as month, COUNT(*) as count')
+        //     ->whereYear('ewp_overall_report.created_at', '=', $selectedYear)
+        //     ->groupBy('month')
+        //     ->orderBy('month')
+        //     ->get();
+        
+        $monthly = Reports::join('users', 'ewp_overall_report.profile_id', '=', 'users.id')
+    ->selectRaw('EXTRACT(MONTH FROM ewp_overall_report.created_at) as month, 
+        SUM(CASE WHEN users.user_type = \'student\' THEN 1 ELSE 0 END) as student_count, 
+        SUM(CASE WHEN users.user_type = \'staff\' THEN 1 ELSE 0 END) as staff_count')
+    ->whereYear('ewp_overall_report.created_at', '=', $selectedYear)
+    ->groupBy('month')
+    ->orderBy('month')
+    ->get();
+        
+    
+
+    $data2 = array();
+    foreach ($monthly as $month) {
+        $data2[$month->month] = array(
+            'student_count' => $month->student_count,
+            'staff_count' => $month->staff_count
+        );
+    }
+    
+    // Add missing months with a count of 0
+    for ($month = 1; $month <= 12; $month++) {
+        if (!isset($data2[$month])) {
+            $data2[$month] = array(
+                'student_count' => 0,
+                'staff_count' => 0
+            );
+        }
+    }
+    
+    // Sort the data by month number
+    ksort($data2);
+    
+    // Convert the data to an array of counts for each month
+    $student_counts = array();
+    $staff_counts = array();
+    foreach ($data2 as $month_data) {
+        $student_counts[] = $month_data['student_count'];
+        $staff_counts[] = $month_data['staff_count'];
+    }
+
+    // dd($student_counts);
 
         $overall = Profile::join('ewp_overall_report', 'profiles.user_id', '=', 'ewp_overall_report.profile_id')
             ->leftJoin('users', 'profiles.user_id', '=', 'users.id')
@@ -233,8 +285,6 @@ class EwpController extends Controller
 
             //dd($overall);
         
-        
-
     #===============================================================================#
     
             #=========================statisic user============================#    
@@ -263,7 +313,7 @@ class EwpController extends Controller
 
 
         if(in_array(1, $roles) || in_array(2, $roles) || in_array(3, $roles) || in_array(5, $roles)){
-            return view('ewp::dashboards.admin_dash', compact('assign','data', 'results', 'results2', 'totalresult', 'overallsurvey', 'studentsurvey', 'staffsurvey', 'overall', 'data','selectedYear', 'unassignedCount'));
+            return view('ewp::dashboards.admin_dash', compact('data2','student_counts','staff_counts','monthly','assign','data', 'results', 'results2', 'totalresult', 'overallsurvey', 'studentsurvey', 'staffsurvey', 'overall', 'data','selectedYear', 'unassignedCount','overallsurvey2', 'studentsurvey2', 'staffsurvey2',));
         }
         else{
             return redirect()->to(route('ewp.dashboards.index'));
