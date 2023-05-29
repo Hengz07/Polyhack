@@ -1,7 +1,6 @@
 @extends('adminlte::page')
 
 @section('content_header')
-<link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/font-awesome-line-awesome/css/all.min.css"> 
 <div class="d-flex">
     <div class="mr-auto p-2"><h1>Dashboard</h1></div>
         <div class="p-2">
