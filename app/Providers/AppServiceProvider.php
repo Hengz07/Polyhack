@@ -59,42 +59,71 @@ class AppServiceProvider extends ServiceProvider
                 'submenu' => [
                     [
                         'text' => __('Admin Dashboard'),
-                        'icon' => 'fas fa-fw fa-file',
+                        'icon' => 'fas fa-tachometer-alt',
                         'route' => 'ewp.dashboards.admin_dash',
                         'active' => [],
                         'can' => ['admin-dashboard'],
                     ],
                     [
-                        'text' => __('Questions'),
-                        'icon' => 'fas fa-fw fa-file',
-                        'route' => 'ewp.setup.questions',
-                        'active' => [],
-                        'can' => ['ewp-question'],
+                            'text' => __('Settings'),
+                            'icon' => 'fas fa-wrench',
+                            'url' => '#',
+                            'can' => ['home'],
+                            'submenu' => [
+                                [
+                                    'text' => __('Questions'),
+                                    'icon' => 'fas fa-question-circle',
+                                    'route' => 'ewp.setup.questions',
+                                    'active' => [],
+                                    'can' => ['ewp-question'],
+                                ],
+                                [
+                                    'text' => __('Scales'),
+                                    'icon' => 'fas fa-balance-scale',
+                                    'route' => 'setup.scale',
+                                    'active' => [],
+                                    'can' => ['ewp-scale'],
+                                ],
+                                [
+                                    'text' => __('Schedules'),
+                                    'icon' => 'fas fa-calendar',
+                                    'route' => 'ewp.setup.schedules',
+                                    'active' => [],
+                                    'can' => ['ewp-schedule'],
+                                ]
+                            ]
                     ],
-                    [
-                        'text' => __('Scales'),
-                        'icon' => 'fas fa-fw fa-file',
-                        'route' => 'setup.scale',
-                        'active' => [],
-                        'can' => ['ewp-scale'],
-                    ],
-                    [
-                        'text' => __('Schedules'),
-                        'icon' => 'fas fa-fw fa-file',
-                        'route' => 'ewp.setup.schedules',
-                        'active' => [],
-                        'can' => ['ewp-schedule'],
-                    ],
+                    // [
+                    //     'text' => __('Questions'),
+                    //     'icon' => 'fas fa-question-circle',
+                    //     'route' => 'ewp.setup.questions',
+                    //     'active' => [],
+                    //     'can' => ['ewp-question'],
+                    // ],
+                    // [
+                    //     'text' => __('Scales'),
+                    //     'icon' => 'fas fa-balance-scale',
+                    //     'route' => 'setup.scale',
+                    //     'active' => [],
+                    //     'can' => ['ewp-scale'],
+                    // ],
+                    // [
+                    //     'text' => __('Schedules'),
+                    //     'icon' => 'fas fa-calendar',
+                    //     'route' => 'ewp.setup.schedules',
+                    //     'active' => [],
+                    //     'can' => ['ewp-schedule'],
+                    // ],
                     [
                         'text' => __('Screening Record'),
-                        'icon' => 'fas fa-fw fa-file',
+                        'icon' => 'fas fa-file-archive',
                         'route' => 'ewp.assign.index',
                         'active' => [],
                         'can' => ['ewp-screening'],
                     ],
                     [
                         'text' => __('Specific Record'),
-                        'icon' => 'fas fa-fw fa-file',
+                        'icon' => 'fas fa-file-alt',
                         'route' => 'ewp.assign.specificrecordindex',
                         'active' => [],
                         'can' => ['ewp-specific'],
@@ -154,7 +183,7 @@ class AppServiceProvider extends ServiceProvider
 
             $event->menu->add([
                 'text' => __('Help'),
-                'icon' => 'fas fa-fw fa-question', 
+                'icon' => 'fas fa-question-circle', 
                 'url' => '#', 
                 
                 'topnav_right' => true,

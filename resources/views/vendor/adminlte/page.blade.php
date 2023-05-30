@@ -55,13 +55,13 @@
     </div>
     
     {{-- Footer --}}
-    <footer class="main-footer text-sm">
+    {{-- <footer class="main-footer text-sm">
         <strong>Copyright © {{ date('Y') }} <a href="https://adminlte.io">Pusat Teknologi Maklumat</a>.</strong>
         All rights reserved.
         <div class="float-right d-none d-sm-inline-block">
             <b>Version</b> 1.0.0
         </div>
-    </footer>
+    </footer> --}}
     
     {{-- Right Control Sidebar --}}
     @if(config('adminlte.right_sidebar'))
