@@ -9,7 +9,7 @@ use Auth;
 use Facade\FlareClient\Report;
 use Spatie\Permission\Models\Role;
 
-use Modules\Ewp\Entities\{Reports, Schedules, Answers, Assign};
+use Modules\Ewp\Entities\{Reports, Schedules, Answers, Assign, Chat};
 use Modules\Site\Entities\{Profile, User};
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -23,6 +23,15 @@ class EwpController extends Controller
     public function index(Request $request)
     {
         $user = User::role([5])->get();
+
+        $authen = auth()->user();
+
+        if($authen->hasRole([5])){
+            $userchat = Chat::where('receiver_userid', auth()->user()->id)->with('user')->get();
+        }else{
+            $userchat = Chat::where('sender_userid', auth()->user()->id)->with('user')->get();
+        }
+
         $limit = 10;
         $search = $request->has('q') ? $request->get('q') : null;
 
@@ -59,7 +68,7 @@ class EwpController extends Controller
 
         session()->put('url.intended', url()->current());
 
-        return view('ewp::dashboards.dashboard', compact('reports', 'schedules', 'user'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search);
+        return view('ewp::dashboards.dashboard', compact('reports', 'schedules', 'user', 'userchat'))->with('i', ($request->input('page', 1) - 1) * $limit)->with('q', $search);
     }
 
     public function assignReports(Request $request)

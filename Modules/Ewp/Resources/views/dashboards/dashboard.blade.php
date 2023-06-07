@@ -137,12 +137,12 @@
   color: #67676a;
 }
 .users-list a .status-dot{
-  font-size: 12px;
-  color: #468669;
+  font-size: 20px;
+  color: #f60808;
   padding-left: 10px;
 }
 .users-list a .status-dot.offline{
-  color: #ccc;
+  color: #fc0303;
 }
 
     #scrollToTopButton {
@@ -266,22 +266,82 @@
                             <div class="modal-body">
                                 <!-- Add your chat session content here -->
                                 <div class="card card-body mr-1">
-                                    <span class="text">Select an officer to chat</span>
-                                    <div class="users-list" style="margin-top: 1em;">
-                                        @foreach ($user as $ewpofficer)
-                                            <a href="#" class="">
-                                                <div class="content">
-                                                    <i class="icon-user fas fa-user"></i>
-                                                    <div class="details">
-                                                        <span>{{$ewpofficer->name}}</span>
-                                                        <p>testing chat dulu</p>
+                                    @if(auth()->user()->hasRole([5]))
+                                        <span class="text">Inbox</span>
+                                        <div class="users-list" style="margin-top: 1em;">
+                                            @foreach ($userchat as $uchat)
+                                                @php
+                                                    $lastMessage = $uchat->chat;
+                                                    $unread = 0;
+                                                @endphp
+                                                @if($lastMessage != null)
+                                                    @foreach ($lastMessage as $key => $lmess)
+                                                        @php
+                                                            if (strpos($key, 'sender') === 0 && $lmess['status'] === null) {
+                                                                $unread++;
+                                                            }
+                                                        @endphp
+                                                    @endforeach
+                                                    <a href="{{ route('chat', ['receiver_id' => $uchat->sender_userid]) }}" class="">
+                                                        <div class="content">
+                                                            <i class="icon-user fas fa-user"></i>
+                                                            <div class="details">
+                                                                <span>{{$uchat->user->name}}</span>
+                                                                <p>{{ $lmess['message'] }}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="status-dot">
+                                                            @if ($unread != 0)
+                                                                <span class="badge badge-danger" style="color:#ffffff;">{{ $unread }}</span>
+                                                            @endif
+                                                        </div>
+                                                    </a>
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    @else
+                                        <span class="text">Select an officer to chat</span>
+                                        <div class="users-list" style="margin-top: 1em;">
+                                            @foreach ($user as $ewpofficer)
+                                            @php
+                                                $unread = 0;
+                                            @endphp
+                                                <a href="{{ route('chat', ['receiver_id' => $ewpofficer->id]) }}" class="">
+                                                    <div class="content" id="content-{{ $ewpofficer->id }}">
+                                                        <i class="icon-user fas fa-user"></i>
+                                                        <div class="details">
+                                                            <span>{{$ewpofficer->name}}</span>
+                                                            @foreach ($userchat as $uchat)
+                                                                @if ($uchat->receiver_userid == $ewpofficer->id)
+                                                                    @php
+                                                                        $lastMessage = $uchat->chat;
+                                                                    @endphp
+                                                                    @break
+                                                                @endif
+                                                            @endforeach
+                                                            @if (isset($lastMessage))
+                                                                @foreach ($lastMessage as $key => $lmess)
+                                                                     @php
+                                                                        if (strpos($key, 'receiver') === 0 && $lmess['status'] === null) {
+                                                                            $unread++;
+                                                                        }
+                                                                    @endphp
+                                                                @endforeach
+                                                                <p>{{ $lmess['message'] }}</p>
+                                                            @else
+                                                                <p>Click to chat</p>
+                                                            @endif
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="status-dot"><i class="fas fa-circle"></i>
-                                                </div>
-                                            </a>
-                                        @endforeach
-                                    </div>
+                                                    <div class="status-dot">
+                                                        @if (isset($lastMessage) && $unread != 0)
+                                                            <span class="badge badge-danger" style="color:#ffffff;">{{ $unread }}</span>
+                                                        @endif
+                                                    </div>
+                                                </a>
+                                            @endforeach
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                             <div class="modal-footer">

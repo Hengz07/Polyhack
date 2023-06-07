@@ -100,7 +100,10 @@ Route::prefix('assign')->group(function() {
 });
 
 Route::prefix('chat')->group(function () {
-    Route::get('/', 'ChatController@index')->name('ewp.chat.index');
+    Route::get('/{receiver_id}', 'ChatController@chat')->name('chat');
+    Route::get('/c/{receiver_id}', 'ChatController@auth')->name('auth');
+    Route::get('/c/conversation/{uuid}', 'ChatController@conversation')->name('conversation');
+    Route::post('/c/conversation/{uuid}/send', 'ChatController@send')->name('conversation.send');
 });
 
 Route::prefix('select2')->group(function () {

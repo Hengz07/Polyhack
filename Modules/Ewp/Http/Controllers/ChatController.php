@@ -13,46 +13,218 @@ use Illuminate\Support\Facades\DB;
 
 class ChatController extends Controller
 {
-    public function index()
+
+    public function chat($receiver_id)
     {
-        $user = User::role([5])->get();
+        $authen = auth()->user();
 
-        $mainuser = Auth::user();
-        $mainuserId = $mainuser->id; // Extract the user ID
+        if($authen->hasRole([5])){
+            // Retrieve the authenticated user
+            $sender_id = auth()->id();
 
-        $conversations = Chat::where('sender_userid', $mainuserId)->get();
+            // Find the existing chat session between the sender and receiver
+            $chat = Chat::where('receiver_userid', $sender_id)
+                ->where('sender_userid', $receiver_id)
+                ->first();
+        }else{
+            // Retrieve the authenticated user
+            $sender_id = auth()->id();
 
-        return view('ewp::chat.index', compact('user', 'conversations'));
+            // Find the existing chat session between the sender and receiver
+            $chat = Chat::where('sender_userid', $sender_id)
+                ->where('receiver_userid', $receiver_id)
+                ->first();
+
+            // If no existing chat session, create a new one
+            if (!$chat) {
+                $chat = new Chat();
+                $chat->sender_userid = $sender_id;
+                $chat->receiver_userid = $receiver_id;
+                $chat->chat = null;
+                $chat->save();
+            }
+        }
+
+        return redirect()->route('auth', ['receiver_id' => $receiver_id]);
     }
 
+    public function auth($receiver_id){
 
-    // public function sendMessage(Request $request)
-    // {
-    //     $user = Auth::user();
-    //     $chat = new Chat();
-    //     $chat->sender_userid = $user->id;
-    //     $chat->receiver_userid = $request->input('receiver_userid');
-    //     $chat->chat = json_encode(['message' => $request->input('message'), 'sender' => $user->id]);
-    //     $chat->save();
+        $authen = auth()->user();
 
-    //     return redirect()->back();
-    // }
+        if ($authen->hasRole([5])) {
+            // Retrieve the authenticated user
+            $sender_id = auth()->id();
 
-    // public function getConversation(Request $request)
-    // {
-    //     $user = Auth::user();
-    //     $receiver_userid = $request->input('receiver_userid');
-    //     $conversations = Chat::where(function ($query) use ($user, $receiver_userid) {
-    //         $query->where('sender_userid', $user->id)
-    //             ->where('receiver_userid', $receiver_userid);
-    //     })->orWhere(function ($query) use ($user, $receiver_userid) {
-    //         $query->where('sender_userid', $receiver_userid)
-    //             ->where('receiver_userid', $user->id);
-    //     })->orderBy('created_at', 'asc')
-    //     ->get();
+            // Find the existing chat session between the sender and receiver
+            $chat = Chat::where('receiver_userid', $sender_id)
+                ->where('sender_userid', $receiver_id)
+                ->first();
+        } else {
+            // Retrieve the authenticated user
+            $sender_id = auth()->id();
 
-    //     return response()->json($conversations);
-    // }
+            // Find the existing chat session between the sender and receiver
+            $chat = Chat::where('sender_userid', $sender_id)
+                ->where('receiver_userid', $receiver_id)
+                ->first();
+        }
+
+        return redirect()->route('conversation', ['uuid' => $chat->uuid]);
+    }
+
+    public function conversation($uuid)
+    {
+        $authen = auth()->user();
+
+        $validation = Chat::where('uuid', $uuid)->first();
+
+        if ($authen->hasRole([5])) {
+            // Retrieve the authenticated user
+            $sender_id = auth()->id();
+
+            $receiver_id = $validation->sender_userid;
+
+            // Find the receiver user
+            $receiver = User::findOrFail($receiver_id);
+
+            // Find the existing chat session between the sender and receiver
+            $chat = Chat::where('receiver_userid', $sender_id)
+                ->where('sender_userid', $receiver_id)
+                ->first();
+
+            $status = $chat->chat;
+            foreach ($status as $key => $chatData) {
+                if (strpos($key, 'sender') === 0) {
+                    $status[$key]['status'] = 'read';
+                }
+            }
+
+            // Update the chat session in the database
+            $chat->chat = $status;
+            $chat->save();
+
+            // Retrieve the conversations from the chat session
+            $conversations = $chat->chat;
+            $uuid = $chat->uuid;
+        } else {
+            // Retrieve the authenticated user
+            $sender_id = auth()->id();
+
+            $receiver_id = $validation->receiver_userid;
+
+            // Find the receiver user
+            $receiver = User::findOrFail($receiver_id);
+
+            // Find the existing chat session between the sender and receiver
+            $chat = Chat::where('sender_userid', $sender_id)
+                ->where('receiver_userid', $receiver_id)
+                ->first();
+
+            // If no existing chat session, create a new one
+            if (!$chat) {
+                $chat = new Chat();
+                $chat->sender_userid = $sender_id;
+                $chat->receiver_userid = $receiver_id;
+                $chat->chat = null;
+                $chat->save();
+            }
+
+            $status = $chat->chat;
+            if($status != null){
+                foreach ($status as $key => $chatData) {
+                    if (strpos($key, 'receiver') === 0) {
+                        $status[$key]['status'] = 'read';
+                    }
+                }
+
+                // Update the chat session in the database
+                $chat->chat = $status;
+                $chat->save();
+            }
+
+            // Retrieve the conversations from the chat session
+            $conversations = $chat->chat;
+            $uuid = $chat->uuid;
+        }
+
+        return view('ewp::chat.index', compact('receiver', 'receiver_id', 'conversations', 'uuid'));
+    }
+
+    public function send(Request $request, $uuid)
+    {
+        $authen = auth()->user();
+
+        $validation = Chat::where('uuid', $uuid)->first();
+
+        if ($authen->hasRole([5])) {
+
+            $receiver_id = $validation->sender_userid;
+
+            $chat = Chat::where('receiver_userid', auth()->id())
+                ->where('sender_userid', $receiver_id)
+                ->first();
+
+            // Retrieve the chat data as an array
+            $chatData = $chat->chat;
+
+            // Determine the number of existing senders
+            $senderCount = count($chatData);
+
+            // Increment the sender value by one
+            $sender = 'receiver' . ($senderCount + 1);
+
+            $message = [
+                'message' => $request->message,
+                'timestamp' => now()->format('H:i'),
+                'status' => null,
+            ];
+
+            // Add the new message under the incremented sender
+            $chatData[$sender] = $message;
+
+            // Update the chat data in the model
+            $chat->chat = $chatData;
+            $chat->save();
+        }else{
+
+            $receiver_id = $validation->receiver_userid;
+
+            $chat = Chat::where('sender_userid', auth()->id())
+                ->where('receiver_userid', $receiver_id)
+                ->first();
+
+            // Retrieve the chat data as an array
+            $chatData = $chat->chat;
+
+            if($chatData == null){
+                // Increment the sender value by one
+                $sender = 'sender' . (1);
+            }else{
+                // Determine the number of existing senders
+                $senderCount = count($chatData);
+
+                // Increment the sender value by one
+                $sender = 'sender' . ($senderCount + 1);
+            }
+
+            $message = [
+                'message' => $request->message,
+                'timestamp' => now()->format('H:i'),
+                'status' => null,
+            ];
+
+            // Add the new message under the incremented sender
+            $chatData[$sender] = $message;
+
+            // Update the chat data in the model
+            $chat->chat = $chatData;
+            $chat->save();
+        }
+
+        return redirect()->route('conversation', ['uuid' => $uuid])->with('toast_success', 'Message sent successfully');
+    }
+
 }
 
 ?>

@@ -7,6 +7,7 @@ use App\Http\Traits\HomeTrait;
 use App\Mail\MailMeetingCancellation;
 use Illuminate\Support\Facades\Mail;
 use Spatie\GoogleCalendar\Event;
+use Modules\Ewp\Http\Controllers\EwpController;
 
 class HomeController extends Controller
 {
@@ -19,7 +20,7 @@ class HomeController extends Controller
     {
         if (!auth()->guest()) {
             
-            return view('home');
+            return app(EwpController::class)->index(request());
         }
         return view('welcome');
     } ## END function index()

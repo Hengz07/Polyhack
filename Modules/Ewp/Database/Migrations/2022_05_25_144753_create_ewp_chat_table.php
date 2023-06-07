@@ -15,6 +15,7 @@ class CreateEwpChatTable extends Migration
     {
         Schema::create('ewp_chat', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid');
             $table->integer('sender_userid');
             $table->integer('receiver_userid');
             $table->json('chat')->nullable();

@@ -17,4 +17,9 @@ class Chat extends Model
     protected $casts = [
         'chat' => 'array',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'sender_userid');
+    }
 }

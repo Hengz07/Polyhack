@@ -54,7 +54,7 @@
 }
 .chat-box .outgoing .details{
   margin-left: auto;
-  max-width: calc(100% - 130px);
+  max-width: calc(60% - 130px);
 }
 .outgoing .details p{
   background: #333;
@@ -79,7 +79,7 @@
 .chat-box .incoming .details{
   margin-right: auto;
   margin-left: 10px;
-  max-width: calc(100% - 130px);
+  max-width: calc(60% - 130px);
 }
 .incoming .details p{
   background: #fff;
@@ -115,7 +115,7 @@
   font-size: 19px;
   cursor: pointer;
   opacity: 0.7;
-  pointer-events: none;
+  pointer-events: auto;
   border-radius: 0 5px 5px 0;
   transition: all 0.3s ease;
 }
@@ -247,84 +247,120 @@
 .users-list a .status-dot.offline{
   color: #ccc;
 }
-</style>
 
-    <div class="row">
-        <div class="col-sm-6 pl-5"> 
-            <div class="card card-body mr-1">
-                <span class="text">Select an officer to chat</span>
-                <div class="users-list" style="margin-top: 1em;">
-                    @foreach ($user as $ewpofficer)
-                        <a href="#" class="">
-                            <div class="content">
-                                <i class="icon-user fas fa-user"></i>
-                                <div class="details">
-                                    <span>{{$ewpofficer->name}}</span>
-                                    <p>testing chat dulu</p>
-                                </div>
-                            </div>
-                            <div class="status-dot"><i class="fas fa-circle"></i>
-                            </div>
-                        </a>
-                    @endforeach
+.chat-box div .cnull{
+  background: #ccc;
+  border-radius: 10px;
+}
+
+.timestamp{
+  margin-left: 10px;
+}
+</style>
+        
+<div class="col-sm-12">
+    <div class="card card-body p-0">
+        <header class="chat-head" style="background: #E3E6EB">
+            <div class="row">
+                <div class="ml-5 align-self-center">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="col ml-5" style="margin-top: 10px;">
+                    <div class="details">
+                    <span>{{$receiver->name}}</span>
+                    <p>Online</p>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        
-        
-        <div class="col-sm-6 pr-5">
-            <div class="card card-body ml-1 p-0">
-                <header class="chat-head" style="background: #E3E6EB">
-                    <div class="row">
-                        <div class="ml-3 col-1 align-self-center">
-                            <a href="#" class="back-icon"><i class="fas fa-arrow-left"></i></a>
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="col ml-2" style="margin-top: 10px;">
-                            <div class="details">
-                            <span>{{$ewpofficer->name}}</span>
-                            <p>Online</p>
-                            </div>
+        </header>
+        <div class="chat-box" id="chat-messages">
+          @if(empty($conversations))
+            <div class="px-auto align-center">
+              <p class="mx-auto w-50 text-center cnull"> no chat availables </p>
+            </div>
+          @else
+            @foreach ($conversations as $key => $message)
+              @if(auth()->user()->hasRole([5]))
+                @if (strpos($key, 'receiver') !== false)
+                    <div class="chat outgoing">
+                        <div class="details">
+                            <p>{{ $message['message'] }}<span class="timestamp">{{ $message['timestamp'] }}</span></p>
                         </div>
                     </div>
-                </header>
-                @if(!empty($conversations))
-                  @foreach ($conversations as $conv => $mess)
-                  @endforeach
-              
-                  @php
-                    $chat = $mess['chat'];
-                  @endphp
-
-                  <div class="chat-box">
-                      @foreach ($chat as $key => $message)
-                          @if (strpos($key, 'sender') !== false)
-                              <div class="chat outgoing">
-                                  <div class="details">
-                                      <p>{{ $message['message'] }}<span class="timestamp">{{ $message['timestamp'] }}</span></p>
-                                  </div>
-                              </div>
-                          @elseif (strpos($key, 'receiver') !== false)
-                              <div class="chat incoming">
-                                  <i class="fas fa-user"></i>
-                                  <div class="details">
-                                      <p>{{ $message['message'] }}<span class="timestamp">{{ $message['timestamp'] }}</span></p>
-                                  </div>
-                              </div>
-                          @endif
-                      @endforeach
-                  </div>
-
-
+                @elseif (strpos($key, 'sender') !== false)
+                    <div class="chat incoming">
+                        <i class="fas fa-user"></i>
+                        <div class="details">
+                            <p>{{ $message['message'] }}<span class="timestamp">{{ $message['timestamp'] }}</span></p>
+                        </div>
+                    </div>
                 @endif
-
-                <form action="#" class="typing-area">
-                    <input type="text" class="incoming_id" name="incoming_id" value="userid" hidden>
-                    <input type="text" name="message" class="input-field" placeholder="Type a message here..." autocomplete="off">
-                    <button><i class="fab fa-telegram-plane"></i></button>
-                </form>
-            </div>
+              @else
+                @if (strpos($key, 'sender') !== false)
+                    <div class="chat outgoing">
+                        <div class="details">
+                            <p>{{ $message['message'] }}<span class="timestamp">{{ $message['timestamp'] }}</span></p>
+                        </div>
+                    </div>
+                @elseif (strpos($key, 'receiver') !== false)
+                    <div class="chat incoming">
+                        <i class="fas fa-user"></i>
+                        <div class="details">
+                            <p>{{ $message['message'] }}<span class="timestamp">{{ $message['timestamp'] }}</span></p>
+                        </div>
+                    </div>
+                @endif
+              @endif
+            @endforeach
+          @endif
         </div>
+
+        <form action="{{ route('conversation.send', ['uuid' => $uuid]) }}" class="typing-area" method="POST">
+            @csrf
+            <input type="text" class="incoming_id" name="incoming_id" value="{{ $uuid }}" hidden>
+            <input type="text" name="message" class="input-field" placeholder="Type a message here..." autocomplete="off">
+            <button type="submit"><i class="fab fa-telegram-plane"></i></button>
+        </form>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+  $(document).ready(function() {
+    var chatMessagesContainer = document.getElementById('chat-messages');
+    var isUpdating = false; // Flag to prevent multiple simultaneous Ajax requests
+
+    function scrollToBottom() {
+      chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+    }
+
+    function updateChatMessages() {
+      if (isUpdating) {
+        return; // If an update is already in progress, exit the function
+      }
+
+      isUpdating = true; // Set the flag to indicate an update is in progress
+
+      $.ajax({
+        url: '{{ route("conversation", $uuid) }}',
+        type: 'GET',
+        success: function(data) {
+          $('#chat-messages').html($(data).find('#chat-messages').html());
+          isUpdating = false; // Reset the flag after the update is complete
+        },
+        error: function(xhr, status, error) {
+          console.error(xhr.responseText);
+          isUpdating = false; // Reset the flag on error as well
+        }
+      });
+    }
+
+    scrollToBottom();
+    updateChatMessages();
+    setInterval(updateChatMessages, 1000);
+  });
+</script>
+
 
 @endsection

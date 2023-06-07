@@ -69,6 +69,11 @@ class User extends Authenticatable
         return $this->hasOne('Modules\Ewp\Entities\Assign', 'officer_id');
     }
 
+    public function chat()
+    {
+        return $this->hasOne('Modules\Ewp\Entities\Chat', 'id');
+    }
+
     public function profile()
     {
         return $this->hasOne(Profile::class, 'user_id');
