@@ -104,6 +104,7 @@ Route::prefix('chat')->group(function () {
     Route::get('/c/{receiver_id}', 'ChatController@auth')->name('auth');
     Route::get('/c/conversation/{uuid}', 'ChatController@conversation')->name('conversation');
     Route::post('/c/conversation/{uuid}/send', 'ChatController@send')->name('conversation.send');
+    Route::post('/c/conversation/{uuid}/update', 'ChatController@update')->name('conversation.update');
 });
 
 Route::prefix('select2')->group(function () {

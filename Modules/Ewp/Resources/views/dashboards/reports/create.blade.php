@@ -4,7 +4,7 @@
 <div class="card">
     <div class="card-body">
         <div class="row mb-3">
-            <div class="col-sm-2 text-bold">Session :</div>
+            <div class="col-sm-2 text-bold">{{__('Session')}} :</div>
             <div class="col-sm-4">
 
                 <p class="text-bold text-secondary"> {{ $schedules['session'] }} </p>
@@ -19,21 +19,21 @@
         </div>
 
         <div class="row mb-3">
-            <div class="col-sm-2 text-bold">Name :</div>
+            <div class="col-sm-2 text-bold">{{__('Name')}} :</div>
             <div class="col-sm-4">
                 <p class="text-bold text-secondary"> {{ $users['name'] }} </p>
             </div>
     
             <div class="col-sm-1 text-bold"></div>
 
-            <div class="col-sm-2 text-bold">Gender :</div>
+            <div class="col-sm-2 text-bold">{{__('Gender')}} :</div>
             <div class="col-sm-2">
                 <p class="text-bold text-secondary"> {{ $meta['gender'] }} </p>
             </div>
         </div>
 
         <div class="row mb-3">
-            <div class="col-sm-2 text-bold">Email :</div>
+            <div class="col-sm-2 text-bold">{{__('Email')}} :</div>
             {{-- <div class="col-sm-1 text-bold"> :</div>     --}}
             <div class="col-sm-4">
                 <p class="text-bold text-secondary"> {{ $users['email'] }} </p>
@@ -41,7 +41,7 @@
 
             <div class="col-sm-1 text-bold"></div>
             
-            <div class="col-sm-2 text-bold">Matric Number :</div>
+            <div class="col-sm-2 text-bold">{{__('Matric Number')}} :</div>
             <div class="col-sm-2">
 
                 <p class="text-bold text-secondary"> {{ $profiles['profile_no'] }} </p>
@@ -49,14 +49,14 @@
         </div>
 
         <div class="row mb-3">
-            <div class="col-sm-2 text-bold">Faculty :</div>
+            <div class="col-sm-2 text-bold">{{__('Faculty')}} :</div>
             <div class="col-sm-4">
                 <p class="text-bold text-secondary"> {{ $jsonb_ptj['code'] . ' - ' . $jsonb_ptj['desc'] }} </p>
             </div>
    
             <div class="col-sm-1 text-bold"></div>
             
-            <div class="col-sm-2 text-bold">Course :</div>
+            <div class="col-sm-2 text-bold">{{__('Programme')}} :</div>
             <div class="col-sm-3">
                 <p class="text-bold text-secondary"> {{$jsonb_department['code'] . ' - ' . $jsonb_department['desc'] }} </p>
             </div>
@@ -66,12 +66,12 @@
 
         {{-- <input type="text" value="{{ $schedules['id'] }}" name="idschedule"> --}}
         
-        <label class="text-primary"><i> Enter your alternate informations for contact reasons </i></label>
+        <label class="text-primary"><i> {{__('Enter your alternate information for contact reason')}} </i></label>
         <br><br>
         <div class="row mb-3">
-            <div class="col-sm-2 text-bold">Email<span style="color: red">*</span></div>
+            <div class="col-sm-2 text-bold">{{__('Email')}}<span style="color: red">*</span></div>
             <div class="col-sm-4">
-                {!! Form::text('alt_email', null, [
+                {!! Form::email('alt_email', null, [
                     'class'       => 'form-control',
                     'placeholder' => 'Enter email',
                     'required'    => 'required',
@@ -79,9 +79,9 @@
             </div>
         </div>
         <div class="row mb-3">
-            <div class="col-sm-2 text-bold">Phone<span style="color: red">*</span></div>
+            <div class="col-sm-2 text-bold">{{__('Phone')}}<span style="color: red">*</span></div>
             <div class="col-sm-4"> 
-                {!! Form::text('alt_phone', null, [
+                {!! Form::tel('alt_phone', null, [
                     'class'       => 'form-control',
                     'placeholder' => 'Enter phone contact',
                     'required'    => 'required',
@@ -93,8 +93,8 @@
 
 <hr>
 <center>
-    <a class="btn btn-default" data-dismiss="modal" aria-label="Close">Cancel</a>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <a class="btn btn-default" data-dismiss="modal" aria-label="Close">{{__('Cancel')}}</a>
+    <button type="submit" class="btn btn-primary">{{__('Submit')}}</button>
 </center>
 
 {!! Form::close() !!}

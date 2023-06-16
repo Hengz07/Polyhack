@@ -143,9 +143,9 @@
 
     function submitformSwal(datas,ids){
         swal.fire({
-                title: "Simpan",
-                text: "Maklumat yang diberikan adalah sulit",
-                icon: "warning",
+                title: "Terima kasih kerana mengisi saringan ini.",
+                html: ": Normal<br>! : Intervensi khusus<br><br>Dimaklumkan bahawa ini hanya saringan awal untuk kegunaan pihak Bahagian Kaunseling & Pemerkasaan OKU sebagai panduan intervensi awal. Pelajar/staf dijemput untuk mengikuti tips pengurusan kesejahteraan emosi melalui pautan: <a href='http://surl.li/bjxac'>MENTAL HEALTH TOOLS KIT@CCDE</a><br><br>Untuk maklumat lanjut mengenai keputusan saringan, pelajar/staf boleh berhubung terus dengan Pegawai Psikologi di:<br>Bahagian Kaunseling & Pemerkasaan OKU,<br>Blok D Aras 1, Kompleks Perdanasiswa Universiti Malaya.<br>Tel : 03-79673244/3322.<br>Email : kaunseling@um.edu.my",
+                icon: "success",
                 buttons: true,
                 closeOnConfirm: true,
                 })
@@ -163,7 +163,6 @@
                             },
                         success: function(data){   
                             $("#formsubmit")[0].reset();
-                            swal.fire('Terima Kasih ,Maklumat Disimpan');
                             readProducts();
                         }
                     });

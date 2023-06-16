@@ -54,8 +54,8 @@ class CreateAdminUserSeeder extends Seeder
             //STAFF 1
             
             $userstaff1 = User::create([
-                'name' => 'MUHAMMAD HABIEL WAFI BIN ZAIRI',
-                'email' => 'habiel@um.edu.my',
+                'name' => 'MUHAMMAD SAHIF AS SANI',
+                'email' => 'sahif@um.edu.my',
                 'password' => bcrypt('abcd1234'),
                 'user_type' => 'staff',
             ]);

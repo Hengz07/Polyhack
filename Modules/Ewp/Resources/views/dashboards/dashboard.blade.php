@@ -157,12 +157,12 @@
 </style>
 
 <div class="d-flex">
-    <div class="mr-auto p-3 ml-5"><h1>UM Dashboard</h1></div>
+    <div class="mr-auto p-3 ml-5"><h1>{{__('UM Dashboard')}}</h1></div>
         <div class="p-3 mr-5">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('ewp.dashboards.index') }}">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                    <li class="breadcrumb-item"><a href="{{ route('ewp.dashboards.index') }}">{{__('Home')}}</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{__('Dashboard')}}</li>
                 </ol>
             </nav>
         </div>
@@ -171,84 +171,76 @@
 
 @section('content')
 
-@php
-
-    if(app()->currentLocale() == 'ms-my')
-    {
-        $sessem = 'Semester';
-        $year   = 'Tahun Akademik';
-
-        $date   = 'Tarikh Penilaian';
-        $status   = 'Status';
-
-        $teststart = 'Penilaian EWP';
-        $action = 'Tindakan';
-    }
-    
-    elseif(app()->currentLocale() == 'en')
-    {
-        $sessem = 'Semester';
-        $year   = 'Academic Year';
-
-        $date   = 'Assessment Date';
-        $status   = 'Status';
-
-        $teststart = 'EWP Assessment';
-        $action = 'Action';
-    }
-
-@endphp
-
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12 pl-5 pr-5 my-4"> 
             <div class="card card-body m-0 p-2 py-3">
                 <div class="row m-0 p-0">
-                    <div class="col-sm-3 card-body my-auto">
-                        <button id="chatButton" class="btn btn-primary p-3 w-100" data-toggle="modal" data-target="#chatModal">Chat with Caunsellor</button>
+                    <div class="col-sm-3 card-body my-auto" id="chatbtn">
+                        <button id="chatButton" class="btn btn-primary p-3 w-100" data-toggle="modal" data-target="#chatModal">
+                            @if(auth()->user()->hasRole([5]))
+                                {{__('Incoming Chat')}}
+                            @else
+                                {{__('Chat with Counsellor')}}
+                            @endif
+                            
+                                @foreach ($userchat as $uchat)
+                                    @php
+                                        $lastMessage = $uchat->chat;
+                                        $unread = 0;
+                                    @endphp
+                                    @if($lastMessage != null)
+                                        @if(auth()->user()->hasRole([5]))
+                                            @foreach ($lastMessage as $key => $lmess)
+                                                @php
+                                                    if (strpos($key, 'sender') === 0 && $lmess['status'] === null) {
+                                                        $unread++;
+                                                    }
+                                                @endphp
+                                            @endforeach
+                                            @if ($unread != 0)
+                                                <i class="fas fa-circle" style="color: red; position: absolute; top: 2vh; right: 2vh; font-size:20px;"></i>
+                                            @endif
+                                        @else
+                                            @foreach ($lastMessage as $key => $lmess)
+                                                @php
+                                                    if (strpos($key, 'receiver') === 0 && $lmess['status'] === null) {
+                                                        $unread++;
+                                                    }
+                                                @endphp
+                                            @endforeach
+                                            @if ($unread != 0)
+                                                <i class="fas fa-circle" style="color: red; position: absolute; top: 2vh; right: 2vh; font-size:20px;"></i>
+                                            @endif
+                                        @endif
+                                    @endif
+                                @endforeach
+                        </button>
                     </div>
 
                     <div class="col-sm-3 card-body my-auto">
-                        @if(app()->currentLocale() == 'ms-my')
-                                <table>
-                                    <tr>
-                                        <td><i class="las la-university pr-3" style="font-size: 40px;"></i></td>
-                                        <td class="mr-2">Seksyen Pengurusan Psikologi & Kaunseling</td>
-                                    </tr>
-                                </table>
-                        @elseif(app()->currentLocale() == 'en')
-                                <table>
-                                    <tr>
-                                        <td><i class="las la-university pr-3" style="font-size: 40px;"></i></td>
-                                        <td>Section of Psychology Management & Counseling</td>
-                                    </tr>
-                                </table>
-                        @endif
+                        <table>
+                            <tr>
+                                <td><i class="las la-university pr-3" style="font-size: 40px;"></i></td>
+                                <td>{{__('Division of Counseling & Disability Empowerment')}}</td>
+                            </tr>
+                        </table>
                     </div>
 
                     <div class="col-sm-3 card-body my-auto">
-                        @if(app()->currentLocale() == 'ms-my')
-                                <table>
-                                    <tr>
-                                        <td><i class="las la-map-marker-alt pr-3" style="font-size: 40px;"></i></td>
-                                        <td>Blok D Aras 1, Kompleks Peradanasiswa Universiti Malaya.</td>
-                                    </tr>
-                                </table>
-                        @elseif(app()->currentLocale() == 'en')
-                                <table>
-                                    <tr>
-                                        <td><i class="las la-map-marker-alt pr-3" style="font-size: 40px;"></i></td>
-                                        <td>Level 1, Block D, Kompleks Perdanasiswa, Universiti Malaya.</td>
-                                    </tr>
-                                </table>
-                        @endif
+                        <table>
+                            <tr>
+                                <td><i class="las la-map-marker-alt pr-3" style="font-size: 40px;"></i></td>
+                                <td>{{__('Level 1 Block D, Perdanasiswa Complex, Universiti Malaya.')}}</td>
+                            </tr>
+                        </table>
                     </div>
 
                     <div class="col-sm-3 card-body my-auto">
                         <table>
                             <tr>
                                 <td><i class="las la-phone pr-3" style="font-size: 40px;"></i></td>
-                                <td>03-79673244</br>03-79673322</td>
+                                <td>03-79673244</br>03-79673322</br>kaunseling@um.edu.my</td>
                             </tr>
                         </table>
                     </div>
@@ -258,16 +250,16 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title">Chat Session</h5>
+                                <h5 class="modal-title">{{__('Chat Session')}}</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <div class="modal-body">
+                            <div class="modal-body" id="chatlist">
                                 <!-- Add your chat session content here -->
                                 <div class="card card-body mr-1">
                                     @if(auth()->user()->hasRole([5]))
-                                        <span class="text">Inbox</span>
+                                        <span class="text">{{__('Inbox')}}</span>
                                         <div class="users-list" style="margin-top: 1em;">
                                             @foreach ($userchat as $uchat)
                                                 @php
@@ -300,36 +292,43 @@
                                             @endforeach
                                         </div>
                                     @else
-                                        <span class="text">Select an officer to chat</span>
+                                        <span class="text">{{__('Select an officer to chat')}}</span>
                                         <div class="users-list" style="margin-top: 1em;">
                                             @foreach ($user as $ewpofficer)
-                                            @php
-                                                $unread = 0;
-                                            @endphp
+                                                @php
+                                                    $unread = 0;
+                                                @endphp
                                                 <a href="{{ route('chat', ['receiver_id' => $ewpofficer->id]) }}" class="">
                                                     <div class="content" id="content-{{ $ewpofficer->id }}">
                                                         <i class="icon-user fas fa-user"></i>
                                                         <div class="details">
                                                             <span>{{$ewpofficer->name}}</span>
+                                                            @php
+                                                                $lastMessage = null;
+                                                                $foundUserChat = false;
+                                                            @endphp
                                                             @foreach ($userchat as $uchat)
                                                                 @if ($uchat->receiver_userid == $ewpofficer->id)
                                                                     @php
                                                                         $lastMessage = $uchat->chat;
+                                                                        $foundUserChat = true;
                                                                     @endphp
-                                                                    @break
+                                                                    @if (isset($lastMessage))
+                                                                        @foreach ($lastMessage as $key => $lmess)
+                                                                            @php
+                                                                                if (strpos($key, 'receiver') === 0 && $lmess['status'] === null) {
+                                                                                    $unread++;
+                                                                                }
+                                                                            @endphp
+                                                                        @endforeach
+                                                                        <p>{{ $lmess['message'] }}</p>
+                                                                    @else
+                                                                        <p>{{__('Click to chat')}}</p>
+                                                                    @endif
                                                                 @endif
                                                             @endforeach
-                                                            @if (isset($lastMessage))
-                                                                @foreach ($lastMessage as $key => $lmess)
-                                                                     @php
-                                                                        if (strpos($key, 'receiver') === 0 && $lmess['status'] === null) {
-                                                                            $unread++;
-                                                                        }
-                                                                    @endphp
-                                                                @endforeach
-                                                                <p>{{ $lmess['message'] }}</p>
-                                                            @else
-                                                                <p>Click to chat</p>
+                                                            @if (!$foundUserChat)
+                                                                <p>{{ __('Click to chat') }}</p>
                                                             @endif
                                                         </div>
                                                     </div>
@@ -345,7 +344,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Close')}}</button>
                             </div>
                         </div>
                     </div>
@@ -377,7 +376,7 @@
         <div class="col-sm-12 pl-5 pr-5 my-4">
             <div class="card">
                 <div class="card-header" style="cursor: move; background: #E3E6EB; color:#001f3f;">
-                <h3 class="card-title p-2 text-bold">Emotional-Wellbeing Profiling Record</h3>
+                <h3 class="card-title p-2 text-bold">{{__('Emotional-Wellbeing Profiling Record')}}</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body table-responsive px-5 py-4">
@@ -393,7 +392,7 @@
                                 @if(isset($schedules))
                                 
                                     @if(!isset($rep) || $rep['status'] != 'C' || $rep['session'] != $schedules['session'] || $rep['sem'] != $schedules['semester'])
-                                        <a type="button" class="btn btn-primary showReport float-right mb-2 p-3 text-wrap" style="width:12rem;" data-route="ewp/dashboards/reports" id="btn2" data-title="Report" data-toggle="modal" title="Save">{{ $teststart }}</a>
+                                        <a type="button" class="btn btn-primary showReport float-right mb-2 p-3 text-wrap" style="width:12rem;" data-route="ewp/dashboards/reports" id="btn2" data-title="Report" data-toggle="modal" title="Save">{{__('EWP Assessment')}}</a>
                                     @endif
                                 @endif
                             </td>
@@ -403,16 +402,16 @@
                     <thead>
                         <tr>
                             <th> </th>
-                            <th> {{ $year }} </th>
-                            <th> {{ $sessem }} </th>
-                            <th> {{ $date }} </th>
-                            <th> {{ $status }} </th>
-                            <th><div class="float-right"> {{ $action }} </div></th>
+                            <th> {{__('Academic Year')}} </th>
+                            <th> Semester </th>
+                            <th> {{__('Assessment Date')}} </th>
+                            <th> Status </th>
+                            <th><div class="float-right"> {{__('Action')}} </div></th>
                         </tr>
                     </thead>
                     <tbody>
                         @if (count($reports) == 0)
-                            <td style="text-align: center" colspan="6">No data availables</td>
+                            <td style="text-align: center" colspan="6">{{__('No data availables')}}</td>
                         @else
                         
                             @foreach ($reports as $report => $rep)
@@ -420,7 +419,7 @@
                                     <td>{{ ++$i }}</td>
                                     <td>{{ $rep['session'] }}</td>
                                     @if(auth()->user()->user_type == 'student')
-                                        <td>{{ $sessem }} {{ $rep['sem'] }}</td>
+                                        <td>Semester {{ $rep['sem'] }}</td>
                                     @else
                                         <td> ~ </td>
                                     @endif
@@ -430,7 +429,7 @@
                                         @if($rep['status'] != 'C')
                                             Scheduled
                                         @else
-                                            Done
+                                            {{__('Done')}}
                                         @endif
                                     </td>
                                     <td>
@@ -453,7 +452,7 @@
         <div class="col-sm-12 pl-5 pr-5 my-4">
             <div class="card">
                 <div class="card-header" style="cursor: move; background: #E3E6EB; color:#001f3f;">
-                <h3 class="card-title p-2 text-bold">Emotional-Wellbeing Profiling Result</h3>
+                <h3 class="card-title p-2 text-bold">{{__('Emotional-Wellbeing Profiling Result')}}</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body table-responsive px-5 py-4">
@@ -485,6 +484,7 @@
 
 <button id="scrollToTopButton" class="btn btn-primary float-right"><i class="las la-angle-up"></i></button>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
     const scrollToTopButton = document.getElementById('scrollToTopButton');
@@ -499,6 +499,64 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     });
+
+    $(document).ready(function() {
+    var chatMessagesContainer = document.getElementById('chatbtn');
+    var isUpdating = false; // Flag to prevent multiple simultaneous Ajax requests
+
+    function updateChatMessages() {
+      if (isUpdating) {
+        return; // If an update is already in progress, exit the function
+      }
+
+      isUpdating = true; // Set the flag to indicate an update is in progress
+
+      $.ajax({
+        url: '{{ route("ewp.dashboards.index") }}',
+        type: 'GET',
+        success: function(data) {
+          $('#chatbtn').html($(data).find('#chatbtn').html());
+          isUpdating = false; // Reset the flag after the update is complete
+        },
+        error: function(xhr, status, error) {
+          console.error(xhr.responseText);
+          isUpdating = false; // Reset the flag on error as well
+        }
+      });
+    }
+
+    updateChatMessages();
+    setInterval(updateChatMessages, 1000);
+  });
+
+  $(document).ready(function() {
+    var chatMessagesContainer = document.getElementById('chatlist');
+    var isUpdating = false; // Flag to prevent multiple simultaneous Ajax requests
+
+    function updateChatMessages() {
+      if (isUpdating) {
+        return; // If an update is already in progress, exit the function
+      }
+
+      isUpdating = true; // Set the flag to indicate an update is in progress
+
+      $.ajax({
+        url: '{{ route("ewp.dashboards.index") }}',
+        type: 'GET',
+        success: function(data) {
+          $('#chatlist').html($(data).find('#chatlist').html());
+          isUpdating = false; // Reset the flag after the update is complete
+        },
+        error: function(xhr, status, error) {
+          console.error(xhr.responseText);
+          isUpdating = false; // Reset the flag on error as well
+        }
+      });
+    }
+
+    updateChatMessages();
+    setInterval(updateChatMessages, 1000);
+  });
 </script>
 
 @include('layouts.delete')

@@ -27,9 +27,9 @@ class EwpController extends Controller
         $authen = auth()->user();
 
         if($authen->hasRole([5])){
-            $userchat = Chat::where('receiver_userid', auth()->user()->id)->with('user')->get();
+            $userchat = Chat::where('receiver_userid', auth()->user()->id)->where('status', null)->with('user')->get();
         }else{
-            $userchat = Chat::where('sender_userid', auth()->user()->id)->with('user')->get();
+            $userchat = Chat::where('sender_userid', auth()->user()->id)->where('status', null)->with('user')->get();
         }
 
         $limit = 10;

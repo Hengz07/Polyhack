@@ -25,6 +25,7 @@ class ChatController extends Controller
             // Find the existing chat session between the sender and receiver
             $chat = Chat::where('receiver_userid', $sender_id)
                 ->where('sender_userid', $receiver_id)
+                ->where('status', null)
                 ->first();
         }else{
             // Retrieve the authenticated user
@@ -33,6 +34,7 @@ class ChatController extends Controller
             // Find the existing chat session between the sender and receiver
             $chat = Chat::where('sender_userid', $sender_id)
                 ->where('receiver_userid', $receiver_id)
+                ->where('status', null)
                 ->first();
 
             // If no existing chat session, create a new one
@@ -41,6 +43,7 @@ class ChatController extends Controller
                 $chat->sender_userid = $sender_id;
                 $chat->receiver_userid = $receiver_id;
                 $chat->chat = null;
+                $chat->status = null;
                 $chat->save();
             }
         }
@@ -59,6 +62,7 @@ class ChatController extends Controller
             // Find the existing chat session between the sender and receiver
             $chat = Chat::where('receiver_userid', $sender_id)
                 ->where('sender_userid', $receiver_id)
+                ->where('status', null)
                 ->first();
         } else {
             // Retrieve the authenticated user
@@ -67,6 +71,7 @@ class ChatController extends Controller
             // Find the existing chat session between the sender and receiver
             $chat = Chat::where('sender_userid', $sender_id)
                 ->where('receiver_userid', $receiver_id)
+                ->where('status', null)
                 ->first();
         }
 
@@ -77,21 +82,20 @@ class ChatController extends Controller
     {
         $authen = auth()->user();
 
-        $validation = Chat::where('uuid', $uuid)->first();
+        $chat = Chat::where('uuid', $uuid)->where('status', null)->first();
+
+        if(!$chat){
+            return redirect()->route('ewp.dashboards.index')->with('toast_success', 'Chat Session Ended');
+        }
 
         if ($authen->hasRole([5])) {
             // Retrieve the authenticated user
             $sender_id = auth()->id();
 
-            $receiver_id = $validation->sender_userid;
+            $receiver_id = $chat->sender_userid;
 
             // Find the receiver user
             $receiver = User::findOrFail($receiver_id);
-
-            // Find the existing chat session between the sender and receiver
-            $chat = Chat::where('receiver_userid', $sender_id)
-                ->where('sender_userid', $receiver_id)
-                ->first();
 
             $status = $chat->chat;
             foreach ($status as $key => $chatData) {
@@ -111,24 +115,10 @@ class ChatController extends Controller
             // Retrieve the authenticated user
             $sender_id = auth()->id();
 
-            $receiver_id = $validation->receiver_userid;
+            $receiver_id = $chat->receiver_userid;
 
             // Find the receiver user
             $receiver = User::findOrFail($receiver_id);
-
-            // Find the existing chat session between the sender and receiver
-            $chat = Chat::where('sender_userid', $sender_id)
-                ->where('receiver_userid', $receiver_id)
-                ->first();
-
-            // If no existing chat session, create a new one
-            if (!$chat) {
-                $chat = new Chat();
-                $chat->sender_userid = $sender_id;
-                $chat->receiver_userid = $receiver_id;
-                $chat->chat = null;
-                $chat->save();
-            }
 
             $status = $chat->chat;
             if($status != null){
@@ -155,15 +145,9 @@ class ChatController extends Controller
     {
         $authen = auth()->user();
 
-        $validation = Chat::where('uuid', $uuid)->first();
+        $chat = Chat::where('uuid', $uuid)->where('status', null)->first();
 
         if ($authen->hasRole([5])) {
-
-            $receiver_id = $validation->sender_userid;
-
-            $chat = Chat::where('receiver_userid', auth()->id())
-                ->where('sender_userid', $receiver_id)
-                ->first();
 
             // Retrieve the chat data as an array
             $chatData = $chat->chat;
@@ -187,12 +171,6 @@ class ChatController extends Controller
             $chat->chat = $chatData;
             $chat->save();
         }else{
-
-            $receiver_id = $validation->receiver_userid;
-
-            $chat = Chat::where('sender_userid', auth()->id())
-                ->where('receiver_userid', $receiver_id)
-                ->first();
 
             // Retrieve the chat data as an array
             $chatData = $chat->chat;
@@ -223,6 +201,19 @@ class ChatController extends Controller
         }
 
         return redirect()->route('conversation', ['uuid' => $uuid])->with('toast_success', 'Message sent successfully');
+    }
+
+    public function update($uuid)
+    {
+
+        $chat = Chat::where('uuid', $uuid)->first();
+        
+        $session = 'Ended';
+
+        $chat->status = $session;
+        $chat->save();
+
+        return redirect()->route('ewp.dashboards.index')->with('toast_success', 'Chat Session Ended');
     }
 
 }

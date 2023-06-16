@@ -76,7 +76,7 @@
                     </thead>
                     
                     <tbody>
-                    @if (auth()->user()->hasRole(['Superadmin', 'ModuleAdmin']))
+                    @if (auth()->user()->hasRole(['Superadmin','SiteAdmin']))
                         @if (count($reportss) == 0)
                             <td style="text-align: center" colspan="11">No data availables</td>
                         @else
@@ -158,6 +158,7 @@
 
                                             <button type="button" class="btn btn-sm {{ config('adminlte.btn_default') }} bg-danger">
                                                 <i class="fa fa-file"></i></button> 
+                                                {{-- consideration  --}}
                                             
                                             <a class="{{ config("adminlte.btn_default") }} btn-sm showSummary bg-warning"
                                                 data-route="ewp/assign" data-title="Summary" 

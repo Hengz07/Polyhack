@@ -256,21 +256,45 @@
 .timestamp{
   margin-left: 10px;
 }
+
+.btn-primary{
+    color: #fff;
+    background-color: #1D3456;
+    border-color: #1D3456;
+}
+.btn-primary:hover{
+    color: #fff;
+    background-color: #346FB3;
+    border-color: #346FB3;
+    box-shadow: rgb(23 24 25 / 50%) -2px 2px 6px 0px, rgb(28 29 30 / 50%) 0px 0px 0px 0px;
+}
 </style>
         
 <div class="col-sm-12">
     <div class="card card-body p-0">
         <header class="chat-head" style="background: #E3E6EB">
             <div class="row">
-                <div class="ml-5 align-self-center">
-                    <i class="fas fa-user"></i>
+                <div class="col-sm-1 my-auto">
+                    <i class="fas fa-user ml-4"></i>
                 </div>
-                <div class="col ml-5" style="margin-top: 10px;">
+                <div class="col-sm-9" style="margin-top: 10px;">
                     <div class="details">
                     <span>{{$receiver->name}}</span>
                     <p>Online</p>
                     </div>
                 </div>
+                
+                {{-- last sini --}}
+                @if(auth()->user()->hasRole([5]))
+                    <div class="col-sm-2 my-auto w-75">
+                      <form class="form-inline d-flex justify-content-center" id="submitstatus" action="{{ route('conversation.update', ['uuid' => $uuid]) }}" method="POST">
+                          @csrf
+                          <button type="button" class="btn btn-primary" id="endSessionBtn">
+                              {{__('End Session')}}
+                          </button>
+                      </form>
+                    </div>
+                @endif
             </div>
         </header>
         <div class="chat-box" id="chat-messages">
@@ -360,6 +384,37 @@
     updateChatMessages();
     setInterval(updateChatMessages, 1000);
   });
+
+  $(document).ready(function() {
+    // Confirm dialog on button click
+    $('#endSessionBtn').on('click', function() {
+        swal.fire({
+            title: "Confirmation",
+            text: "Are you sure you want to end the session?",
+            icon: "warning",
+            buttons: {
+                cancel: {
+                    text: "Cancel",
+                    value: false,
+                    className: "swal-cancel-button",
+                },
+                confirm: {
+                    text: "End Session",
+                    value: true,
+                    className: "swal-confirm-button",
+                },
+            },
+            closeOnConfirm: true,
+            closeOnCancel: true,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Proceed with form submission
+                $('#submitstatus').submit();
+            }
+        });
+    });
+});
+
 </script>
 
 

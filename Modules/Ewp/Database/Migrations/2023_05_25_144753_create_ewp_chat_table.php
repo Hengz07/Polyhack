@@ -19,6 +19,7 @@ class CreateEwpChatTable extends Migration
             $table->integer('sender_userid');
             $table->integer('receiver_userid');
             $table->json('chat')->nullable();
+            $table->string('status', 255)->nullable();
             $table->timestamps();
         });
     }
