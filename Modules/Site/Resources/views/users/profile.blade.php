@@ -26,12 +26,12 @@
                         <a href="{{ route('site.users.edit_profile') }}" class="{{ config('adminlte.btn_edit') }}">Edit <i class="fa fa-edit"></i></a>
                     </p>
                     <p class="card-text">
-                        <img src="https://portal.um.edu.my/ihris/gambar_staff/{{ $user->profile->profile_no }}.jpg" alt="" style="width:120px;">
+                        <i class="fas fa-user"></i>
                         <h2>{{ $user->name }}</h2>
                         <div><i class="fa fa-envelope"></i> {{ $user->email }}</div>
-                        <div><i class="fa fa-phone"></i> {{ $user->profile->meta['office_no']}}</div>
-                        @if ($user->profile->meta['hp_no'])
-                        <div><i class="fa fa-phone"></i> {{ $user->profile->meta['hp_no'] }}</div>    
+                        <div><i class="fa fa-phone"></i> {{ $user->profile->meta['office_no'] ?? ''}}</div>
+                        @if ($user->profile->meta['hp_no'] ?? '')
+                        <div><i class="fa fa-phone"></i> {{ $user->profile->meta['hp_no'] ?? ''}}</div>    
                         @endif
                         
                         {{-- Get role names --}}
@@ -46,8 +46,8 @@
                         <hr>
 
                         {{-- {{dd($user);}} --}}
-                        <h3>{{ $user->profile->ptj['desc'] }}</h3>
-                        <h5 class="text-muted">{{ $user->profile->department['desc'] }}</h5>
+                        <h3>{{ $user->profile->ptj['desc'] ?? ''}}</h3>
+                        <h5 class="text-muted">{{ $user->profile->department['desc'] ?? ''}}</h5>
                     </p>
                 </div>
             </div>

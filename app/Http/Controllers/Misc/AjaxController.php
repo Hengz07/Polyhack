@@ -20,7 +20,7 @@ class AjaxController extends Controller
     public function getStaff(Request $request)
     {
         $id = $request->id;
-        $ldap = ldap($id, 'um.edu.my');
+        $ldap = ldap($id, 'polyhack2023.com');
 
         if ($ldap['status'] == true) {
             $ldapBody = $ldap['body'];

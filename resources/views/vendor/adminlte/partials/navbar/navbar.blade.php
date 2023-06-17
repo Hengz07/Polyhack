@@ -19,11 +19,6 @@
         {{-- Custom right links --}}
         @yield('content_top_nav_right')
 
-        {{-- Configured right links --}}
-        @each('adminlte::partials.navbar.menu-item', $adminlte->menu('navbar-right'), 'item')
-
-        @include('widgets._language_switcher')
-
         {{-- User menu link --}}
         @if (!Auth::guest() || Cas::isAuthenticated())
             @if (config('adminlte.usermenu_enabled'))

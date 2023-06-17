@@ -30,7 +30,10 @@ class AddUuidExtension extends Migration
         DB::statement('ALTER TABLE ewp_answer ALTER COLUMN uuid DROP DEFAULT, ALTER COLUMN uuid TYPE uuid USING (uuid_generate_v4()), ALTER COLUMN uuid SET DEFAULT uuid_generate_v4();');
 
         //ewp_overall_report
-        DB::statement('ALTER TABLE ewp_overall_report ALTER COLUMN uuid DROP DEFAULT, ALTER COLUMN uuid TYPE uuid USING (uuid_generate_v4()), ALTER COLUMN uuid SET DEFAULT uuid_generate_v4();'); 
+        DB::statement('ALTER TABLE ewp_overall_report ALTER COLUMN uuid DROP DEFAULT, ALTER COLUMN uuid TYPE uuid USING (uuid_generate_v4()), ALTER COLUMN uuid SET DEFAULT uuid_generate_v4();');
+
+        //ewp_chat
+        DB::statement('ALTER TABLE ewp_chat ALTER COLUMN uuid DROP DEFAULT, ALTER COLUMN uuid TYPE uuid USING (uuid_generate_v4()), ALTER COLUMN uuid SET DEFAULT uuid_generate_v4();'); 
     }
 
     public function down()

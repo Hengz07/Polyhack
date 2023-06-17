@@ -15,7 +15,7 @@ class CreateModuleOwnerRoleSeeder extends Seeder
      */
     public function run()
     {
-        $role = Role::findByName('SiteAdmin');
+        $role = Role::findByName('EwpOfficer');
         $role2 = Role::findByName('Superadmin');
 
         ## create permission for module "module"

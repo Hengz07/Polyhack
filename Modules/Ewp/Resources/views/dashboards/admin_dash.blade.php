@@ -149,13 +149,12 @@
         $total = 'Jumlah';
 
         $title3 = 'Maklumat Saringan';
-        $label = 'Institusi Pengajian';
         $yaxistext = 'Jumlah Pelajar';
     }
     
     elseif(app()->currentLocale() == 'en')
     {
-        $title = 'UM Dashboard';
+        $title = 'Admin Dashboard';
         $tsurvey = 'Total Survey';
         $tuser = 'Total User';
         $tvisitor = 'Total Special<br>Intervention';
@@ -171,7 +170,6 @@
         $total = 'Total';
 
         $title3 = 'Screening Information';
-        $label = 'Institution';
         $yaxistext = 'Total Student';
     }
 

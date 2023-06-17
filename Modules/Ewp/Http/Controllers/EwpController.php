@@ -59,7 +59,7 @@ class EwpController extends Controller
             }
         })
         ->with('profile.user')->with('assign')
-        ->where('profile_id', $profiles['id'])
+        ->where('profile_id', auth()->user()->id)
         ->orderBy('id', 'asc')
         ->paginate($limit);
 

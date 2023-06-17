@@ -157,7 +157,7 @@
 </style>
 
 <div class="d-flex">
-    <div class="mr-auto p-3 ml-5"><h1>{{__('UM Dashboard')}}</h1></div>
+    <div class="mr-auto p-3 ml-5"><h1>{{__('Dashboard')}}</h1></div>
         <div class="p-3 mr-5">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -231,7 +231,7 @@
                         <table>
                             <tr>
                                 <td><i class="las la-map-marker-alt pr-3" style="font-size: 40px;"></i></td>
-                                <td>{{__('Level 1 Block D, Perdanasiswa Complex, Universiti Malaya.')}}</td>
+                                <td>{{__('The Hong Kong Polytechnic University')}}</td>
                             </tr>
                         </table>
                     </div>
@@ -240,7 +240,7 @@
                         <table>
                             <tr>
                                 <td><i class="las la-phone pr-3" style="font-size: 40px;"></i></td>
-                                <td>03-79673244</br>03-79673322</br>kaunseling@um.edu.my</td>
+                                <td>+601133651650</br>hello@polyhack2023.com</td>
                             </tr>
                         </table>
                     </div>
@@ -376,7 +376,7 @@
         <div class="col-sm-12 pl-5 pr-5 my-4">
             <div class="card">
                 <div class="card-header" style="cursor: move; background: #E3E6EB; color:#001f3f;">
-                <h3 class="card-title p-2 text-bold">{{__('Emotional-Wellbeing Profiling Record')}}</h3>
+                <h3 class="card-title p-2 text-bold">{{__('PolyHealth Record')}}</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body table-responsive px-5 py-4">
@@ -452,7 +452,7 @@
         <div class="col-sm-12 pl-5 pr-5 my-4">
             <div class="card">
                 <div class="card-header" style="cursor: move; background: #E3E6EB; color:#001f3f;">
-                <h3 class="card-title p-2 text-bold">{{__('Emotional-Wellbeing Profiling Result')}}</h3>
+                <h3 class="card-title p-2 text-bold">{{__('PolyHealth Result')}}</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body table-responsive px-5 py-4">
@@ -460,7 +460,7 @@
                     <div class="row">
 
                         <div class="col-sm-4 my-auto">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                            A spiderweb chart shows the test results of the PolyHealth test that has been answered by users.
                         </div>
                         
                         <div class="col-sm-8 my-auto">
