@@ -154,6 +154,7 @@
       CardRefresh._jQueryInterface.call($__default['default'](this));
     });
   });
+  
   /**
    * jQuery API
    * ====================================================

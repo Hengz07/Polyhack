@@ -185,6 +185,7 @@ class ModuleController extends Controller
      * @param  Module  $module
      * @return \Illuminate\Http\Response
      */
+    
     public function updateOwner(Request $request, Module $module)
     {
         $input = $request->all();

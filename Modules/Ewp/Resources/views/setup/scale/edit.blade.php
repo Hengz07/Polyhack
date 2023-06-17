@@ -53,4 +53,3 @@
 </center>
 
 {!! Form::close() !!}
-

@@ -6,7 +6,6 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Carbon\Carbon;
-
 use Modules\Ewp\Entities\Schedules;
 
 class SchedulesController extends Controller

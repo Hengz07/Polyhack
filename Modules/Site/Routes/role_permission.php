@@ -17,3 +17,4 @@ use Modules\Site\Http\Controllers\RoleController;
 Route::resource('roles', 'RoleController', ['as' => 'site'])->middleware('can:role-list');
 Route::resource('permissions', 'PermissionController', ['as' => 'site'])->middleware('can:role-list');
 Route::get('getAjaxRole', [RoleController::class, 'requestAjax'])->name('site.roles.requestAjax')->middleware('can:roles-edit');
+

@@ -8,7 +8,6 @@ use Illuminate\Routing\Controller;
 use Auth;
 use Facade\FlareClient\Report;
 use Spatie\Permission\Models\Role;
-
 use Modules\Ewp\Entities\{Reports, Schedules, Answers, Assign, Chat};
 use Modules\Site\Entities\{Profile, User};
 use Illuminate\Support\Facades\DB;

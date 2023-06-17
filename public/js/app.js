@@ -451,7 +451,6 @@ CancelToken.source = function source() {
 
 module.exports = CancelToken;
 
-
 /***/ }),
 
 /***/ "./node_modules/axios/lib/cancel/isCancel.js":

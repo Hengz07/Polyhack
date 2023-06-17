@@ -22,4 +22,3 @@
 </center>
 
 {!! Form::close() !!}
-

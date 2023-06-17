@@ -28,7 +28,6 @@
     </div>
 </div>
 
-
 @push('js')
 <script>
     $(function() {

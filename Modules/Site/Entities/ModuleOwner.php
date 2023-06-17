@@ -47,6 +47,7 @@ class ModuleOwner extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
+    
     public function module(): BelongsTo
     {
         return $this->belongsTo(Module::class);

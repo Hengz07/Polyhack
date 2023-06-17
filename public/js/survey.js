@@ -63,3 +63,4 @@ $(document).ready(function(){
                 function readProducts(){
                 window.location.href="/ewp/dashboards/staff_dash";	
                 }
+                

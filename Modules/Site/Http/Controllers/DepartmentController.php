@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Spatie\Permission\Models\Role;
 
-
 class DepartmentController extends Controller
 {
     protected $baseView = 'modules.systems.org_structures.departments';

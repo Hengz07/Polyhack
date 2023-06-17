@@ -35,4 +35,3 @@ class Reports extends Model
         return $this->hasOne(Answers::class, 'report_id');
     }
 }
-

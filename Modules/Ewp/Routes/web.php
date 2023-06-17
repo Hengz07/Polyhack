@@ -13,7 +13,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-
 Route::prefix('ewp')->group(function() {
     Route::group(['middleware' => 'auth'], function() {
         foreach (glob(__DIR__. '/*') as $router_files){

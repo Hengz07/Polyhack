@@ -9,7 +9,6 @@ use App\Models\Permission;
 
 use Modules\Ewp\Entities\{Lookups, Reports, Schedules, Answers};
 use Modules\Site\Entities\{Modules, Profile, User};
-
 use Illuminate\Http\Request;
 
 class SelectController extends Controller
