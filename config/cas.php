@@ -95,7 +95,7 @@ return [
     | Empty is fine
      */
     // 'cas_login_url' => env('CAS_LOGIN_URL', ''),
-    'cas_login_url' => env('CAS_LOGIN_URL','https://sso.um.edu.my/cas/loginAllType?service=' . env('APP_URL') . '/login'),
+    'cas_login_url' => env('CAS_LOGIN_URL','' . env('APP_URL') . '/login'),
         /*
     |--------------------------------------------------------------------------
     | CAS Logout URI

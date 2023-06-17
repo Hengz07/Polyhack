@@ -20,8 +20,7 @@
     {{-- User menu toggler --}}
     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
         @if (config('adminlte.usermenu_image'))
-            <img src="https://portal.um.edu.my/ihris/gambar_staff/{{ auth()->user()->profile->profile_no }}.jpg"
-                class="user-image img-circle elevation-2" alt="">
+            <i class="fa fa-fw fa-user"></i>
         @endif
         <span @if (config('adminlte.usermenu_image')) class="d-none d-md-inline" @endif>
             {{ isset(Auth::user()->name) ? Auth::user()->name : Cas::getUser() }}
@@ -36,8 +35,7 @@
             <li
                 class="user-header {{ config('adminlte.usermenu_header_class', 'bg-primary') }} @if (!config('adminlte.usermenu_image')) h-auto @endif">
                 @if (config('adminlte.usermenu_image'))
-                    <img src="https://portal.um.edu.my/ihris/gambar_staff/{{ auth()->user()->profile->profile_no }}.jpg"
-                        class="img-circle elevation-2" alt="{{ Auth::user()->name }}">
+                    <i class="fa fa-fw fa-user"></i>
                 @endif
                 <p class="@if (!config('adminlte.usermenu_image')) mt-0 @endif">
                     {{ isset(Auth::user()->name) ? Auth::user()->name : Cas::getUser() }}
