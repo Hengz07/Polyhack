@@ -7,5 +7,4 @@ use Spatie\Permission\Models\Role;
 
 trait FleetTrait
 {
-    
 }
