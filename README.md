@@ -58,15 +58,6 @@ class Example extends Model
 }
 ```
 
-### reference 
-https://kim-jangwook.medium.com/use-uuid-as-primary-key-of-laravel-eloquent-orm-82e3db36cb62
-
-# SweetAlert
-- https://realrashid.github.io/sweet-alert/install
-
-# AdminLTE
-- https://github.com/jeroennoten/Laravel-AdminLTE/wiki
-
 
 # CODE
 

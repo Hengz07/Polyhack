@@ -112,4 +112,3 @@ Route::get('/cas/login', function() {
     }
     return Cas::authenticate();
 })->name('cas');
-
