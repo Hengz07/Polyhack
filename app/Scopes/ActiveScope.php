@@ -8,8 +8,7 @@ use Illuminate\Database\Eloquent\Scope;
 
 class ActiveScope implements Scope
 {
-    /**
-     * Apply the scope to a given Eloquent query builder.
+    /* Apply the scope to a given Eloquent query builder.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $builder
      * @param  \Illuminate\Database\Eloquent\Model  $model

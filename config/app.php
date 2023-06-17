@@ -12,11 +12,11 @@ return [
     | any other location as required by the application or its packages.
     |
      */
-    'domain' => env('APP_UM_DOMAIN', '@um.edu.my'),
+    'domain' => env('APP_DOMAIN', '@gmail.com'),
     
-    'name' => env('APP_NAME', 'LaravelCAS'),
+    'name' => env('APP_NAME', 'Laravel'),
 
-    'developer' => env('DEVELOPER', 'haezal@um.edu.my'),
+    'developer' => env('DEVELOPER', 'msahif02@gmail.com'),
 
     'google_calendar' => env('GOOGLE_CALENDAR', false),
 

@@ -639,4 +639,3 @@ class LookupSeeder extends Seeder
         }
     }
 }
-

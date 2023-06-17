@@ -1,7 +1,6 @@
 <?php
 
 return [
-    'staff_img' => 'https://portal.um.edu.my/ihris/gambar_staff/',
 
     /**
      * ROLE MANAGEMENT
