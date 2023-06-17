@@ -76,34 +76,5 @@
     </form>
 
     <hr>
-    @if (env('HAS_CAS'))
-        <div class="text-center">
-            {{ __('or') }}
-        </div>
-        <br>
-        <div class="text-center">
-            <a href="{{ route('cas') }}" class="btn btn-dark">{{ __('Login with CAS') }}</a>
-        </div>
-    @endif
 
-@stop
-
-@section('auth_footer')
-    {{-- Password reset link --}}
-    @if ($password_reset_url)
-        <p class="my-0">
-            <a href="{{ $password_reset_url }}">
-                {{ __('I forgot my password') }}
-            </a>
-        </p>
-    @endif
-
-    {{-- Register link --}}
-    @if ($register_url)
-        <p class="my-0">
-            <a href="{{ $register_url }}">
-                {{ __('Register new account') }}
-            </a>
-        </p>
-    @endif
 @stop
