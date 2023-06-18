@@ -64,15 +64,13 @@
                         <tr class="text-center">
                             <th style="width: 7%"> # </th>
                             <th style="width: 10%"> Session </th>
-                            <th style="width: "> ID </th>
                             <th style="width: "> Name </th>
-                            <th style="width: "> Faculty </th>
                             <th class="text-center" style="width: "> {{ $D = 'D' }} </th>
                             <th class="text-center" style="width: "> {{ $A = 'A' }} </th>
                             <th class="text-center" style="width: "> {{ $S = 'S' }} </th>
                             <th style="width: "> Status </th>
                             <th style="width: "> Date </th>
-                            <th style="width: 8%"> Officer </th>
+                            <th style="width: 8%"> Admin Officer </th>
                             <th style="width: "> 
                                 <div class="d-inline-flex input-group justify-content-center">
                                     <label class="icheck-primary icheck-inline">
@@ -113,10 +111,8 @@
 
                                 <tr>
                                     <td class="text-center"> {{ ++$i }} </td>
-                                    <td class="text-center"> {{ $rep['session'] }} - {{ $rep['sem'] }} </td> 
-                                    <td class="text-center"> {{ $profile['profile_no'] }} </td> 
+                                    <td class="text-center"> {{ $rep['session'] }} - {{ $rep['sem'] }} </td>
                                     <td class="text-center w-50"> {{ $user['name'] }} </td>
-                                    <td class="text-center"> {{$profile['ptj']['desc']}}</td> 
                                     
                                     
 
@@ -155,12 +151,12 @@
                                                 $scale['D']['status']['intervention'] == 'INTERVENSI KHUSUS' || 
                                                 $scale['S']['status']['intervention'] == 'INTERVENSI KHUSUS')
                                             {
-                                                $intervention = 'INTERVENSI KHUSUS';
+                                                $intervention = 'Special Intervention';
                                             }
                                             
                                             else
                                             {
-                                                $intervention = 'INTERVENSI UMUM';
+                                                $intervention = 'Normal';
                                             }  
                                         @endphp
                                         {{ $intervention }}
@@ -182,12 +178,12 @@
                                     </td>
                                     <td class="text-center">
 
-                                            @if (!isset($assign['officer_id']) && $intervention == 'INTERVENSI KHUSUS')
+                                            @if (!isset($assign['officer_id']) && $intervention == 'Special Intervention')
                                                 <div class="icheck-primary icheck-inline">
                                                     <input type="checkbox" class="chk_box_sub" id="{{ $rep['id'] }}" value="{{ $rep['id'] }}" />
                                                     <label for="{{ $rep['id'] }}"></label>
                                                 </div>
-                                            @elseif(isset($assign['officer_id']) && $assign['meta'] == null && $intervention == 'INTERVENSI KHUSUS')
+                                            @elseif(isset($assign['officer_id']) && $assign['meta'] == null && $intervention == 'Special Intervention')
                                                 <div class="icheck-primary icheck-inline">
                                                     <input type="checkbox" class="chk_box_sub" id="{{ $rep['id'] }}" value="{{ $rep['id'] }}" />
                                                     <label for="{{ $rep['id'] }}"></label>

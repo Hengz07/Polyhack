@@ -373,6 +373,7 @@
             });
         </script>
         
+        @if(auth()->user()->user_type == 'student')
         <div class="col-sm-12 pl-5 pr-5 my-4">
             <div class="card">
                 <div class="card-header" style="cursor: move; background: #E3E6EB; color:#001f3f;">
@@ -479,6 +480,7 @@
             </div>
             <!-- /.card -->
         </div>
+        @endif
     </div>
 </div>
 

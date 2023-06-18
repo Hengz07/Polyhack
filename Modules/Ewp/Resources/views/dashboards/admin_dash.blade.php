@@ -159,10 +159,10 @@
         $tuser = 'Total User';
         $tvisitor = 'Total Special<br>Intervention';
 
-        $stff = 'Staff';
-        $stdnt = 'Student';
+        $stff = 'Admin';
+        $stdnt = 'User';
 
-        $title2 = 'Number of Students by Counselor';
+        $title2 = 'Number of User by Counselor';
         $name = 'Name';
         $complete = 'Complete';
         $reference = 'Reference';
@@ -209,119 +209,6 @@
               </div>
               {{-- @if($selectedYear == date('Y')) --}}
               <div class="col-md-20" style="display: inline-flexbox;">
-                <div class="row">
-                    <div class="col-md-4 col-15">
-                      <!-- small card -->
-                      <div id="mo" class="small-box shadow p-3 mb-5  rounded">
-                        <div class="inner">
-                          <h1 style="font-weight:bold;">
-                            {{ $overallsurvey }}
-                          </h1>
-                          <p class="mb-5" style="font-weight:bold; font-size:20px; display:block;">{{$tsurvey}}</p>
-                        </div>
-                        <div class="icon">
-                          <i class='fas fa-file-alt' style='font-size:86px; color:#001f3f;'></i>
-                        </div>
-                        <div class="card-footer" style="background: transparent;">
-                          <div class="row">
-                            <div class="col-sm-6 border-right">
-                              <div class="description-block">
-                                <h5 id="focy" class="description-header" style="font-weight:bold;">
-                                  {{$staffsurvey}}
-                                </h5>
-                                <span class="description-text" style="font-weight:bold; ">{{$stff}}</span>
-                              </div>
-                              <!-- /.description-block -->
-                            </div>
-                            <!-- /.col -->
-                            <div class="col-sm-6">
-                              <div class="description-block">
-                                <h5 id="focy" class="description-header" style="font-weight:bold;">
-                                  {{$studentsurvey}}
-                                </h5>
-                                <span class="description-text" style="font-weight:bold;">{{$stdnt}}</span>
-                              </div>
-                              <!-- /.description-block -->
-                            </div>
-                            <!-- /.col -->
-                          </div>
-                          <!-- /.row -->
-                        </div>
-                      </div>
-                    </div>
-                        
-                          <div class="col-md-4 col-15">
-                            <!-- small card -->
-                            <div id="mo2" class="small-box shadow p-3 mb-5 rounded" style="">
-                              <div class="inner">
-                                <h1 style="font-weight:bold;">{{$data['total_user']}}</h1>
-
-                                <p class="mb-5"style="font-weight:bold; font-size:20px; display:block;">{{$tuser}}</p>
-                              </div>
-                              <div class="icon">
-                                {{-- <i class="fas fa-user-tie"></i> --}}
-                                <i class='far fa-user-circle' style='color:#001f3f; font-size:86px;'></i>
-                              </div>
-                              <div class="card-footer" style="background: transparent;">
-                                <div class="row">
-                                  <div class="col-sm-6 border-right">
-                                    <div class="description-block">
-                                      <h5 id="focy" class="description-header" style="font-weight:bold; display:block;">{{ $data['total_student'] }}</h5>
-                                      <span class="description-text" style="font-weight:bold;">{{$stff}}</span>
-                                    </div>
-                                    <!-- /.description-block -->
-                                  </div>
-                                  <!-- /.col -->
-                                  <div class="col-sm-6">
-                                    <div class="description-block">
-                                      <h5 id="focy" class="description-header" style="font-weight:bold;">{{ $data['total_staff'] }}</h5>
-                                      <span class="description-text" style="font-weight:bold;">{{$stdnt}}</span>
-                                    </div>
-                                    <!-- /.description-block -->
-                                  </div>
-                                  <!-- /.col -->
-                                </div>
-                                <!-- /.row -->
-                              </div>
-                            </div>
-                          </div>
-                          
-                          <div class="col-md-4 col-15">
-                            <!-- small card -->
-                            <div id="mo3" class="small-box shadow p-3 mb-5  rounded" style="">
-                              <div class="inner">
-                                <h1 style="font-weight:bold;">{{$results + $results2}}</h1>
-                                <p class="mb-3" style="font-weight:bold; font-size:20.7px; text-align:;">{!! $tvisitor !!}</p>
-                            </div>
-                              <div class="icon">
-                                <i class="fa fa-comment-medical" style="font-size:86px; color:#001f3f;"></i>
-                              </div>
-                                <div class="card-footer" style="background: transparent;">
-                                  <div class="row">
-                                    <div class="col-sm-6 border-right">
-                                      <div class="description-block">
-                                        <h5 id="focy" class="description-header" style="font-weight:bold;">{{$results}}</h5>
-                                        <span class="description-text" style="font-weight:bold;">{{$stff}}</span>
-                                      </div>
-                                      <!-- /.description-block -->
-                                    </div>
-                                    <!-- /.col -->
-                                    <div class="col-sm-6">
-                                      <div class="description-block">
-                                        <h5 id="focy" class="description-header" style="font-weight:bold;">{{$results2}}</h5>
-                                        <span class="description-text" style="font-weight:bold;">{{$stdnt}}</span>
-                                      </div>
-                                      <!-- /.description-block -->
-                                    </div>
-                                <!-- /.col -->
-                              </div>
-                              <!-- /.row -->
-                            </div>
-                          </div>
-                        </div>
-                      
-                    </div>
-                </div>
 
                 {{-- <button id="scrollToTopButton" class="btn btn-primary float-right"><i class="fas fa-angle-up"></i></button> --}}
                 <button id="scrollToTopButton" class="btn btn-primary float-right"><i class="fas fa-angle-up"></i></button>
@@ -437,16 +324,9 @@
   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
   datasets: [
     {
-      label: 'Students',
+      label: 'User',
       data: <?php echo json_encode($student_counts); ?>,
       backgroundColor: ['rgba(53, 111, 179, 0.7)'],
-      borderWidth: 1,
-      borderRadius: 7,
-    },
-    {
-      label: 'Staff',
-      data: <?php echo json_encode($staff_counts); ?>,
-      backgroundColor: ['rgba(99, 138, 211, 0.5)'],
       borderWidth: 1,
       borderRadius: 7,
     },

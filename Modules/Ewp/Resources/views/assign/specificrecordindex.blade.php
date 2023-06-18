@@ -63,9 +63,7 @@
                         <tr class="text-center">
                             <th style="width: 3%"> # </th>
                             <th style="width: 7%"> Session </th>
-                            <th style="width: 7%"> ID </th>
                             <th style="width: 14%"> Name </th>
-                            <th style="width: 14%"> Faculty </th>
                             <th style="width: 7%"> D </th>
                             <th style="width: 7%"> A </th>
                             <th style="width: 7%"> S </th>
@@ -93,10 +91,8 @@
                                 @if ($scale['A']['status']['intervention'] == 'INTERVENSI KHUSUS' || $scale['D']['status']['intervention'] == 'INTERVENSI KHUSUS' || $scale['S']['status']['intervention'] == 'INTERVENSI KHUSUS')
                                     <tr>
                                         <td class="text-center"> {{ ++$i }} </td>
-                                        <td class="text-center"> {{ $rep['session'] }} - {{ $rep['sem'] }} </td> 
-                                        <td class="text-center"> {{ $profile['profile_no'] }} </td> 
-                                        <td class="text-center"> {{ $user['name'] }} </td> 
-                                        <td class="text-center"> {{ $profile['ptj']['desc'] }} </td> 
+                                        <td class="text-center"> {{ $rep['session'] }} - {{ $rep['sem'] }} </td>
+                                        <td class="text-center"> {{ $user['name'] }} </td>
                                         @foreach($minmax as $mm)
 
                                         @php
@@ -126,12 +122,12 @@
                                                     $scale['D']['status']['intervention'] == 'INTERVENSI KHUSUS' || 
                                                     $scale['S']['status']['intervention'] == 'INTERVENSI KHUSUS')
                                                 {
-                                                    $intervention = 'INTERVENSI KHUSUS';
+                                                    $intervention = 'Special Intervention';
                                                 }
                                                 
                                                 else
                                                 {
-                                                    $intervention = 'INTERVENSI UMUM';
+                                                    $intervention = 'Normal';
                                                 }  
                                             @endphp
                                             {{ $intervention }}
@@ -186,10 +182,8 @@
                                 @if ($scale['A']['status']['intervention'] == 'INTERVENSI KHUSUS' || $scale['D']['status']['intervention'] == 'INTERVENSI KHUSUS' || $scale['S']['status']['intervention'] == 'INTERVENSI KHUSUS')
                                     <tr>
                                         <td class="text-center"> {{ ++$i }} </td>
-                                        <td class="text-center"> {{ $rep['session'] }} - {{ $rep['sem'] }} </td> 
-                                        <td class="text-center"> {{ $profile['profile_no'] }} </td> 
+                                        <td class="text-center"> {{ $rep['session'] }} - {{ $rep['sem'] }} </td>
                                         <td class="text-center"> {{ $user['name'] }} </td> 
-                                        <td class="text-center"> {{ $profile['ptj']['desc'] }} </td> 
                                         @foreach($minmax as $mm)
 
                                         @php
@@ -219,12 +213,12 @@
                                                     $scale['D']['status']['intervention'] == 'INTERVENSI KHUSUS' || 
                                                     $scale['S']['status']['intervention'] == 'INTERVENSI KHUSUS')
                                                 {
-                                                    $intervention = 'INTERVENSI KHUSUS';
+                                                    $intervention = 'Special Intervention';
                                                 }
                                                 
                                                 else
                                                 {
-                                                    $intervention = 'INTERVENSI UMUM';
+                                                    $intervention = 'Normal';
                                                 }  
                                             @endphp
                                             {{ $intervention }}

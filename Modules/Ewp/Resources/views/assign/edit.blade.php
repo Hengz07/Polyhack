@@ -4,7 +4,7 @@
 {{-- @include('setup.question.form') --}}
 <div class="card">
     <div class="card-body">
-        <label class='text-primary'> Isu / Permasalahan </label> 
+        <label class='text-primary'> Issues </label> 
         
         <div class="row mb-3"> 
             @foreach($issue as $isu) 
@@ -50,7 +50,7 @@
         </div> 
 
         <div id="statcat" style="display: none;">
-            <label class='text-primary'> Kategori </label> 
+            <label class='text-primary'> Category </label> 
 
             <div class="row mb-3"> 
                 @foreach($refer as $ref) 
@@ -74,7 +74,7 @@
             </div> 
         </div>
 
-        <label class='text-primary'> Ulasan </label>
+        <label class='text-primary'> Summary </label>
 
         @php
 
@@ -91,7 +91,7 @@
             <div class="col-sm-12"> 
                 {!! Form::textarea('comment', $comment, [
                     'class'       => 'form-control',
-                    'placeholder' => 'Sila berikan ulasan',
+                    'placeholder' => 'Comment',
                     'required'    => 'required',
                 ]) !!}
             </div>

@@ -43,7 +43,7 @@ $(document).ready(function() {
 
     $(function(){
         $(".selFilterSession").select2({ 
-            placeholder: "- Pilih Sesi -",     
+            placeholder: "- Select Session -",     
             ajax: { 
                 url: "/ewp/select2/session", 
                 type: "post", 
@@ -72,7 +72,7 @@ $(document).ready(function() {
         })
 
         $(".selFilterSemester").select2({ 
-            placeholder: "- Pilih Semester -", 
+            placeholder: "- Select Phase -", 
             ajax: {
                 url: "/ewp/select2/semester",
                 type: "post",
@@ -127,7 +127,7 @@ $(document).ready(function() {
         })
 
         $(".selFilterStatus").select2({
-            placeholder: "- Pilih Status -",     
+            placeholder: "- Select Status -",     
             ajax: {
                 url: "/ewp/select2/status",
                 type: "post",
@@ -154,7 +154,7 @@ $(document).ready(function() {
         })
 
         $(".selFilterOfficer").select2({
-            placeholder: "- Pilih Pegawai -",     
+            placeholder: "- Select Admin Officer -",     
             ajax: {
                 url: "/ewp/select2/officer",
                 type: "post",
