@@ -18,33 +18,16 @@ Create your database
  - Edit .env file and change database configuration username, password and database name
 
 ## Artisan Migration
- -- Change your superadmin account to your user
 
  - php artisan migrate --seed
 
-## Refresh Database
- - php artisan migrate:refresh --seed
-
 ## Dump autoload
-Untuk load helper customization
  - composer dump-autoload
- 
- # How to use UUID as primary key
 
- ### migration file
+### Default user
 
-```php
- Schema::create('example', function (Blueprint $table) {
-    $table->uuid('id')->primary();
-    $table->string('name');
-    $table->timestamps();
-});
-```
-
-### Default superadmin user
-
-Username : admin@gmail.com
-Password : admin@123
+Username : admin1@polyhack2023.com
+Password : abcd1234
 
 ### model
 ```php
