@@ -29,48 +29,11 @@ Create your database
 Username : admin1@polyhack2023.com
 Password : abcd1234
 
-### model
-```php
-use GoldSpecDigital\LaravelEloquentUUID\Database\Eloquent\Uuid;
-class Example extends Model
-{
-    use Uuid;
-    protected $keyType = 'string';
-    public $incrementing = false;
-    protected $guarded = [];
-}
-```
+Username : admin2@polyhack2023.com
+Password : abcd1234
 
+Username : user1@polyhack2023.com
+Password : abcd1234
 
-# CODE
-
-### create function 
-```php
-protected $baseView = '';
-
-/**
- * Display a booking setup page.
- * 
- * @return Renderable
- */
-public function functionname() {
-    return $this->view([$this->baseView, 'viewfile'])->with('title', __('page.title'));
-}
-```
-
-### Template when create new blade file
-```php
-@extends('adminlte::page')
-
-@section('title', $title)
-
-@section('content_header')
-<div class="d-flex">
-    <div class="mr-auto p-2"><h1>{{ $title }}</h1></div>
-</div>
-@stop
-
-@section('content')
-<div class="container-fluid"></div>
-@endsection
-```
+Username : user2@polyhack2023.com
+Password : abcd1234
