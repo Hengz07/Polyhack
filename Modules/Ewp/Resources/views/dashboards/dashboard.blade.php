@@ -392,7 +392,7 @@
                                 @if(isset($schedules))
                                 
                                     @if(!isset($rep) || $rep['status'] != 'C' || $rep['session'] != $schedules['session'] || $rep['sem'] != $schedules['semester'])
-                                        <a type="button" class="btn btn-primary showReport float-right mb-2 p-3 text-wrap" style="width:12rem;" data-route="ewp/dashboards/reports" id="btn2" data-title="Report" data-toggle="modal" title="Save">{{__('EWP Assessment')}}</a>
+                                        <a type="button" class="btn btn-primary showReport float-right mb-2 p-3 text-wrap" style="width:12rem;" data-route="ewp/dashboards/reports" id="btn2" data-title="Report" data-toggle="modal" title="Save">{{__('PolyHealth Assessment')}}</a>
                                     @endif
                                 @endif
                             </td>
@@ -402,8 +402,8 @@
                     <thead>
                         <tr>
                             <th> </th>
-                            <th> {{__('Academic Year')}} </th>
-                            <th> Semester </th>
+                            <th> {{__('Year')}} </th>
+                            <th> Phase </th>
                             <th> {{__('Assessment Date')}} </th>
                             <th> Status </th>
                             <th><div class="float-right"> {{__('Action')}} </div></th>
@@ -484,7 +484,7 @@
 
 <button id="scrollToTopButton" class="btn btn-primary float-right"><i class="las la-angle-up"></i></button>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
 <script>
     document.addEventListener('DOMContentLoaded', function() {
     const scrollToTopButton = document.getElementById('scrollToTopButton');

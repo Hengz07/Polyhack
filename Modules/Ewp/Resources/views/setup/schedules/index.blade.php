@@ -40,7 +40,7 @@
                 elseif(app()->currentLocale() == 'en')
                 {
                     $session    = 'Session';
-                    $semester = 'Semester';
+                    $semester = 'Phase';
                     $category = 'Category';
                     $sdate = 'Start Date';
                     $edate  = 'End Date';
@@ -82,7 +82,6 @@
                             <th style="width:5%" class="text-center"> # </th>
                             <th style="width:17.6%" class="text-center"> {{ $session }} </th>
                             <th style="width:17.6%" class="text-center"> {{ $semester }} </th>
-                            <th style="width:17.6%" class="text-center"> {{ $category }} </th>
                             <th style="width:17.6%" class="text-center"> {{ $sdate }} </th>
                             <th style="width:17.6%" class="text-center"> {{ $edate }} </th>
                             <th style="width:7%" class="text-center"> {{ $action }} </th>
@@ -98,7 +97,6 @@
                                     <td class="text-center">{{ ++$i }}</td>
                                     <td class="text-center">{{ $sch['session'] }}</td>
                                     <td class="text-center">{{ $sch['semester'] }}</td>
-                                    <td class="text-center">{{ $sch['category'] }}</td>
                                     <td class="text-center">{{ date('d/m/Y', strtotime($sch['start_date'])) }}</td>  
                                     <td class="text-center">{{ date('d/m/Y', strtotime($sch['end_date'])) }}</td>
                                     <td class="text-center">

@@ -12,7 +12,7 @@
 
             <div class="col-sm-1 text-bold"></div>
         
-            <div class="col-sm-2 text-bold">Semester :</div>
+            <div class="col-sm-2 text-bold">Phase :</div>
             <div class="col-sm-2">
                 <p class="text-bold text-secondary"> {{ $schedules['semester'] }} </p>
             </div>
@@ -26,39 +26,9 @@
     
             <div class="col-sm-1 text-bold"></div>
 
-            <div class="col-sm-2 text-bold">{{__('Gender')}} :</div>
-            <div class="col-sm-2">
-                <p class="text-bold text-secondary"> {{ $meta['gender'] }} </p>
-            </div>
-        </div>
-
-        <div class="row mb-3">
             <div class="col-sm-2 text-bold">{{__('Email')}} :</div>
-            {{-- <div class="col-sm-1 text-bold"> :</div>     --}}
-            <div class="col-sm-4">
-                <p class="text-bold text-secondary"> {{ $users['email'] }} </p>
-            </div>
-
-            <div class="col-sm-1 text-bold"></div>
-            
-            <div class="col-sm-2 text-bold">{{__('Matric Number')}} :</div>
             <div class="col-sm-2">
-
-                <p class="text-bold text-secondary"> {{ $profiles['profile_no'] }} </p>
-            </div>
-        </div>
-
-        <div class="row mb-3">
-            <div class="col-sm-2 text-bold">{{__('Faculty')}} :</div>
-            <div class="col-sm-4">
-                <p class="text-bold text-secondary"> {{ $jsonb_ptj['code'] . ' - ' . $jsonb_ptj['desc'] }} </p>
-            </div>
-   
-            <div class="col-sm-1 text-bold"></div>
-            
-            <div class="col-sm-2 text-bold">{{__('Programme')}} :</div>
-            <div class="col-sm-3">
-                <p class="text-bold text-secondary"> {{$jsonb_department['code'] . ' - ' . $jsonb_department['desc'] }} </p>
+                <p class="text-bold text-secondary"> {{ $users['email'] }} </p>
             </div>
         </div>
 

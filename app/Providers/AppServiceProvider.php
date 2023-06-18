@@ -93,27 +93,6 @@ class AppServiceProvider extends ServiceProvider
                                 ]
                             ]
                     ],
-                    // [
-                    //     'text' => __('Questions'),
-                    //     'icon' => 'fas fa-question-circle',
-                    //     'route' => 'ewp.setup.questions',
-                    //     'active' => [],
-                    //     'can' => ['ewp-question'],
-                    // ],
-                    // [
-                    //     'text' => __('Scales'),
-                    //     'icon' => 'fas fa-balance-scale',
-                    //     'route' => 'setup.scale',
-                    //     'active' => [],
-                    //     'can' => ['ewp-scale'],
-                    // ],
-                    // [
-                    //     'text' => __('Schedules'),
-                    //     'icon' => 'fas fa-calendar',
-                    //     'route' => 'ewp.setup.schedules',
-                    //     'active' => [],
-                    //     'can' => ['ewp-schedule'],
-                    // ],
                     [
                         'text' => __('Screening Record'),
                         'icon' => 'fas fa-file-archive',

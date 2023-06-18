@@ -143,8 +143,8 @@
 
     function submitformSwal(datas,ids){
         swal.fire({
-                title: "Terima kasih kerana mengisi saringan ini.",
-                html: ": Normal<br>! : Intervensi khusus<br><br>Dimaklumkan bahawa ini hanya saringan awal untuk kegunaan pihak Bahagian Kaunseling & Pemerkasaan OKU sebagai panduan intervensi awal. Pelajar/staf dijemput untuk mengikuti tips pengurusan kesejahteraan emosi melalui pautan: <a href='http://surl.li/bjxac'>MENTAL HEALTH TOOLS KIT@CCDE</a><br><br>Untuk maklumat lanjut mengenai keputusan saringan, pelajar/staf boleh berhubung terus dengan Pegawai Psikologi di:<br>Bahagian Kaunseling & Pemerkasaan OKU,<br>Blok D Aras 1, Kompleks Perdanasiswa Universiti Malaya.<br>Tel : 03-79673244/3322.<br>Email : kaunseling@um.edu.my",
+                title: "Thank you for participating in this screening test.",
+                html: ": Normal<br>! : Special Intervention<br><br>Kindly be informed that this only a preliminary test used by Division of Counselling & Disability Empowerment to determine early intervention. Students/staff are invited to follow emotional wellness management tips via: <a href='#'><br>MENTAL HEALTH TOOLS KIT@CCDE</a><br><br>For more information on the results, please contact the psychology officers at:<br>Division of Counseling & Disability Empowerment,<br>The Hong Kong Polytechnic University.<br>Tel : +601133651650.<br>Email : hello@polyhack2023.com",
                 icon: "success",
                 buttons: true,
                 closeOnConfirm: true,

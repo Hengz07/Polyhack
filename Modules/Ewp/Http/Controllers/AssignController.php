@@ -137,7 +137,7 @@ class AssignController extends Controller
                 }
             })
         ->whereHas('assign', function ($query) use ($profiles) {
-            $query->where('officer_id', $profiles->id);
+            $query->where('officer_id', auth()->user()->id);
         })
         ->orderBy('profile_id', 'asc')
         ->orderBy('session', 'asc')

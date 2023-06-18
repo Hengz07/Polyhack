@@ -25,7 +25,7 @@ class SurveysController extends Controller
 
         $profiles  = Profile::where('user_id', auth()->user()->id)->where('status', '"AK"')->first();
         
-        $check = Reports::where('uuid', $id)->where('profile_id', $profiles['id'])->first();
+        $check = Reports::where('uuid', $id)->where('profile_id', auth()->user()->id)->first();
         
         if(!empty($check)){
 
@@ -77,7 +77,7 @@ class SurveysController extends Controller
         };
         //
 
-        $reports   = Reports::where('profile_id', $profiles['id'])->where('session', $schedules['session'])->where('sem', $schedules['semester'])->first();
+        $reports   = Reports::where('profile_id', auth()->user()->id)->where('session', $schedules['session'])->where('sem', $schedules['semester'])->first();
 
         $survey = $request->input();
 

@@ -15,7 +15,7 @@
                 </select>
             </div>
 
-            <div class="col-sm-2 text-bold">Semester<span style="color: red">*</span></div>
+            <div class="col-sm-2 text-bold">Phase<span style="color: red">*</span></div>
             <div class="col-sm-1 text-bold"> :</div>
             <div class="col-sm-3">
                 <select class="form-control" name="semester">
@@ -51,31 +51,16 @@
         <div class="row mb-3">
             <div class="col-sm-2 text-bold">Category<span style="color: red">*</span></div>
             <div class="col-sm-1 text-bold"> :</div>
-            
-            <div class="col-sm-4 icheck-primary icheck-inline"> 
-                <input type="checkbox" name="category[]" value="PASUM" id="pasum" {{ str_contains($schedules['category'], 'PASUM') ? 'checked' : '' }}></input>
-                <label for="pasum"> PASUM - FOUNDATION </label>
-            </div>
 
-            <span class="col-sm-1 text-bold"></span>
             <div class="col-sm-4 icheck-primary icheck-inline"> 
-                <input type="checkbox" name="category[]" value="UG" id="ug" {{ str_contains($schedules['category'], 'UG') ? 'checked' : '' }}></input>
-                <label for="ug"> UG - UNDERGRADUATE </label>
-            </div>
-        </div>
-        
-        <div class="row mb-3">
-            <span class="col-sm-2 text-bold"></span>
-            <span class="col-sm-1 text-bold"></span>
-            
-            <div class="col-sm-4 icheck-primary icheck-inline"> 
-                <input type="checkbox" name="category[]" value="PG" id="pg" {{ str_contains($schedules['category'], 'PG') ? 'checked' : '' }}></input>
-                <label for="pg"> PG - POSTGRADUATE </label>
-            </div>
-            <span class="col-sm-1 text-bold"></span>
-            <div class="col-sm-4 icheck-primary icheck-inline"> 
-                <input type="checkbox" name="category[]" value="ST" id="st" {{ str_contains($schedules['category'], 'ST') ? 'checked' : '' }}></input>
-                <label for="st"> ST - STAFF </label>
+                {!! Form::checkbox('category[]', 'PG', true,
+                    array(
+                        'id' => 'PG',
+                    )
+                ) !!}
+                <label for="PG">
+                    USR - User
+                </label>
             </div>
         </div>
     </div>

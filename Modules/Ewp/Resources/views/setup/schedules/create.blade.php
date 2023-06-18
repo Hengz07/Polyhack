@@ -14,7 +14,7 @@
                 </select>
             </div>
             
-            <div class="col-sm-2 text-bold">Semester<span style="color: red">*</span></div>
+            <div class="col-sm-2 text-bold">Phase<span style="color: red">*</span></div>
             <div class="col-sm-1 text-bold"> :</div>
             <div class="col-sm-3">
                 <select class="form-control" name="semester">
@@ -52,50 +52,13 @@
             <div class="col-sm-1 text-bold"> :</div>
 
             <div class="col-sm-4 icheck-primary icheck-inline"> 
-                {!! Form::checkbox('category[]', 'PASUM', false,
-                    array(
-                        'id' => 'PASUM',
-                    )
-                )!!}
-                <label for="PASUM">
-                    PASUM - FOUNDATION
-                </label>
-            </div>
-            <span class="col-sm-1"></span>
-            <div class="col-sm-4 icheck-primary icheck-inline"> 
-                {!! Form::checkbox('category[]', 'UG', false,
-                    array(
-                        'id' => 'UG',
-                    )
-                ) !!}
-                <label for="UG">
-                    UG - UNDERGRADUATE
-                </label>
-            </div>
-        </div>
-        
-        <div class="row mb-3">
-            <span class="col-sm-2 text-bold"></span>
-            <span class="col-sm-1 text-bold"></span>
-            <div class="col-sm-4 icheck-primary icheck-inline"> 
-                {!! Form::checkbox('category[]', 'PG', false,
+                {!! Form::checkbox('category[]', 'PG', true,
                     array(
                         'id' => 'PG',
                     )
                 ) !!}
                 <label for="PG">
-                    PG - POSTGRADUATE
-                </label>
-            </div>
-            <span class="col-sm-1 text-bold"></span>
-            <div class="col-sm-4 icheck-primary icheck-inline"> 
-                {!! Form::checkbox('category[]', 'ST', false,
-                    array(
-                        'id' => 'ST',
-                    )
-                ) !!}
-                <label for="ST">
-                    ST - STAFF
+                    USR - User
                 </label>
             </div>
         </div>

@@ -45,7 +45,7 @@ class ReportsController extends Controller
     {
         //SESSION AND SEM REFER TO USER'S TYPE
         $profiles  = Profile::where('user_id', auth()->user()->id)->where('status', '"AK"')->first();
-        $users     = User::where('id' , $profiles['user_id'])->first();
+        $users     = User::where('id' , auth()->user()->id)->first();
 
         //SCHEDULES RETRIEVE
         $usertype = auth()->user()->user_type;
@@ -62,31 +62,8 @@ class ReportsController extends Controller
                                                                                                     ->first();
         };
 
-        //RETRIEVE JSON/JSONB DATA
-        // dd($jsonb_ptj);
-        if($profiles['ptj'] != null){
-            $jsonb_ptj = $profiles['ptj'];
-        }
-        else{
-            $json_ptj = null;
-        }
 
-        if($profiles['department'] != null){
-            $jsonb_department = $profiles['department'];
-        }
-        else{
-            $json_department = null;
-        }
-
-        if($profiles['meta'] != null){
-            $meta = $profiles['meta'];
-        }
-        else{
-            $meta = null;
-        }
-        //
-
-        return view('ewp::dashboards.reports.create', compact('schedules', 'users', 'profiles', 'jsonb_ptj', 'jsonb_department', 'meta'));
+        return view('ewp::dashboards.reports.create', compact('schedules', 'users', 'profiles'));
     }
 
     /**
@@ -98,7 +75,7 @@ class ReportsController extends Controller
     {
         //OTHER TABLES
         $profiles  = Profile::where('user_id', auth()->user()->id)->where('status', '"AK"')->first();
-        $users     = User::where('id' , $profiles['user_id'])->first();
+        $users     = User::where('id' , auth()->user()->id)->first();
 
         //SCHEDULES RETRIEVE
         $usertype = auth()->user()->user_type;
@@ -129,9 +106,9 @@ class ReportsController extends Controller
         $session    = $schedules['session'];
         $sem        = $schedules['semester'];
         
-        $profile_id = $profiles['id'];
+        $profile_id = auth()->user()->id;
 
-        $reports = Reports::where('profile_id', $profiles['id'])->where('session', $schedules['session'])->where('sem', $schedules['semester'])->first();
+        $reports = Reports::where('profile_id', auth()->user()->id)->where('session', $schedules['session'])->where('sem', $schedules['semester'])->first();
 
             if(!isset($reports) || $reports['status'] == '' || $reports['status'] == null)
                 $status = 'V';
@@ -202,12 +179,12 @@ class ReportsController extends Controller
         $search = $request->search;
         
         if ($search == '') {
-            $reports = Reports::where('profile_id', $profiles['id'])
+            $reports = Reports::where('profile_id', auth()->user()->id)
                             ->orderBy('id', 'asc')
                             ->get();
         } 
         else {
-            $reports = Reports::where('profile_id', $profiles['id'])
+            $reports = Reports::where('profile_id', auth()->user()->id)
                             ->where('session', 'ilike', '%' . $search . '%')->orWhere('sem', 'ilike', '%' . $search . '%')
                             ->orderBy('id', 'asc')
                             ->get();
