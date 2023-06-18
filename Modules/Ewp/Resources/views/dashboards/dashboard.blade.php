@@ -294,6 +294,15 @@
                                     @else
                                         <span class="text">{{__('Select an officer to chat')}}</span>
                                         <div class="users-list" style="margin-top: 1em;">
+                                            <a href="{{ route('chatbot') }}" class="">
+                                                <div class="content" id="content-{{ 99 }}">
+                                                    <i class="icon-user fas fa-user"></i>
+                                                    <div class="details">
+                                                        <span>ChatBot</span>
+                                                        <p>{{__('Click to chat')}}</p>
+                                                    </div>
+                                                </div>
+                                            </a>
                                             @foreach ($user as $ewpofficer)
                                                 @php
                                                     $unread = 0;

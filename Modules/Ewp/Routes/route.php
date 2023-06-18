@@ -120,3 +120,7 @@ Route::prefix('select2')->group(function () {
     
     Route::post('/modalOfficer', 'SelectController@getModalOfficer')->name('select2.modalOfficer');
 });
+
+Route::prefix('chatbot')->group(function () {
+    Route::get('/', 'ChatbotController@chat')->name('chatbot');
+});
